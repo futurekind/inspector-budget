@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import 'normalize.css/normalize.css';
 
+import Navigation from './common/Navigation';
+
 const View = styled.div`
     width: 100%;
     height: 100vh;
@@ -11,7 +13,6 @@ const View = styled.div`
 const Aside = styled.aside`
     width: 90px;
     height: 100%;
-    background: red;
 `
 
 const Main = styled.main`
@@ -23,7 +24,11 @@ class App extends Component {
     render () {
         return (
             <View>
-                <Aside></Aside>
+                <Aside>
+                    <Navigation
+                        activeIndex={ 0 }
+                    ></Navigation>
+                </Aside>
                 <Main></Main>
             </View>
         )

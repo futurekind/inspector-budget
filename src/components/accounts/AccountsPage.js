@@ -4,20 +4,19 @@ import styled from 'styled-components';
 import Sidebar from '../common/Sidebar'
 
 const View = styled.div`
-    display: flex;
-    height: 100%;
 `
 
 class AccountsPage extends Component {
     render () {
         return (
             <View>
-                <Sidebar />
+                <h2>Sidebar</h2>
             </View>
         )
     }
 }
 
 export default createPageHandler(AccountsPage, {
-    navIndex: 0
+    navIndex: 0,
+    sidebar: Sidebar
 })

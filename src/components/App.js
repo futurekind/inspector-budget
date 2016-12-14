@@ -26,6 +26,10 @@ const Main = styled.main`
     flex: 1;
 `
 
+const TransitionHelper = styled.div`
+    flex: 1;
+`
+
 class App extends Component {
 
     constructor(props) {
@@ -62,7 +66,7 @@ class App extends Component {
                 </Aside>
                 <Main>
                     <ReactCSSTransitionGroup
-                        component="div" 
+                        component={ TransitionHelper } 
                         transitionName="page"
                         transitionEnterTimeout={500} 
                         transitionLeaveTimeout={500}

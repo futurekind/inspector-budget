@@ -3,5 +3,6 @@ import rootReducer from '../reducers';
 
 
 export default createStore(
-    rootReducer
+    rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

@@ -1,22 +1,26 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors, sizes, fonts } from '../../utils/styles';
+import { colors, sizes, fonts, rgba } from '../../utils/styles';
 
 const Button = styled.button`
     width: 100%;
     height: ${sizes.navigationWidth}px;
     border: none;
-    border-top: 1px solid ${colors.dark};
-    border-bottom: 1px solid ${colors.light};
+    border-bottom: 1px solid ${colors.dark};
+    border-top: 1px solid ${colors.light};
     display: block;
     position: relative;
-    color: ${props => props.active ? 'red' : '#fff'};
-    background: none;
+    color: #fff;
+    background: ${props => props.active ? rgba(colors.primary, .4) : 'none'};
     font-family: ${fonts.primary};
     cursor: pointer;
+    transition: background .2s;
 
     &:focus { outline: none; }
+
+    &:first-child { border-top: none; }
+    &:last-child { border-bottom: none; }
 `
 
 const Label = styled.span`

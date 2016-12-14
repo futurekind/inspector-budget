@@ -7,6 +7,7 @@ const activeIndicatorFactor = sizes.navigationWidth / 2;
 
 const View = styled.nav`
     height: 100%;
+    border-radius: 3px;
     position: relative;
     background-color: ${colors.dark};
     ${noise()}
@@ -15,10 +16,10 @@ const View = styled.nav`
         content: "";
         marginTop: -10px;
         border: 10px solid transparent;
-        border-left-color: ${colors.dark};
+        border-right-color: #fff;
         position: absolute;
         top: 0;
-        right: -20px;
+        right: 0;
         transform: translateY(${(props) => 
             activeIndicatorFactor + (props.activeIndex * sizes.navigationWidth)}px);
         transition: transform .2s;

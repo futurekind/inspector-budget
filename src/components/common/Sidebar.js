@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { colors, noise } from '../../utils/styles';
 
 const View = styled.nav`
-    width: 250px;
+    width: 200px;
     background-color: ${colors.highlight__quite};
     ${noise()}
 `

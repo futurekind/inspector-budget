@@ -23,8 +23,8 @@ export const createPageHandler = (Comp, props = {}) => {
         }
 
         componentWillUnmount () {
-            // const { dispatch } = this.props;
-            // dispatch(setNavIndex(-1))
+            const { dispatch } = this.props;
+            dispatch(setNavIndex(-1))
         }
         
 

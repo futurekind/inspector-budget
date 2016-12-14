@@ -57,6 +57,7 @@ const NavigationBtn = ({
 }
 
 NavigationBtn.propTypes = {
+    to: PropTypes.string.isRequired,
     children: PropTypes.any,
     icon: PropTypes.string,
     active: PropTypes.bool,

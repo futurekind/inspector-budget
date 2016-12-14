@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { withRouter } from 'react-router';
 
 import * as applicationSelectors from '../redux/selectors/application';
-import { setNavIndex } from '../redux/actions/application';
 import 'normalize.css/normalize.css';
 import Navigation from './common/Navigation';
 import NavigationBtn from './common/NavigationBtn';
@@ -37,8 +37,8 @@ class App extends Component {
     }
     
     render () {
-        const { activeNavigationIndex } = this.props;
-
+        const { activeNavigationIndex, children } = this.props;
+        
         return (
             <View>
                 <Aside>
@@ -46,29 +46,25 @@ class App extends Component {
                         activeIndex={ activeNavigationIndex }
                         onItemClick={ this.handleNavigationItemClick }
                     >
-                        <NavigationBtn 
-                            icon="face" 
+                        <NavigationBtn
+                            to="/accounts" 
+                            icon="store" 
                             active={ activeNavigationIndex === 0 }
-                        >
-                            One
-                        </NavigationBtn>
-                        <NavigationBtn 
-                            icon="face" 
-                            active={ activeNavigationIndex === 1 }
-                        >
-                            Two
-                        </NavigationBtn>
+                        >Accounts</NavigationBtn>
                     </Navigation>
                 </Aside>
-                <Main></Main>
+                <Main>
+                    { children }
+                </Main>
             </View>
         )
     }
 
-    handleNavigationItemClick(index) {
-        const { dispatch } = this.props;
+    handleNavigationItemClick(index, props) {
+        const { to } = props;
+        const { router } = this.props;
 
-        dispatch(setNavIndex(index))
+        router.push(to);
     }
 
 }
@@ -79,4 +75,4 @@ const mapState = state => {
     }
 }
 
-export default connect(mapState)(App)
+export default withRouter(connect(mapState)(App))

@@ -5,7 +5,9 @@ import styled from 'styled-components';
 import { setNavIndex } from '../../redux/actions/application';
 
 const View = styled.section`
-    padding: 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
 
     &.page-enter {
         transform: translateY(-100%);

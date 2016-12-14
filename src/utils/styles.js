@@ -3,3 +3,7 @@ export const colors = {
     dark: '#333',
     light: '#888'
 }
+
+export const sizes = {
+    navigationWidth: 90
+}

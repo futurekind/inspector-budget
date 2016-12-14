@@ -26,10 +26,14 @@ const View = styled.nav`
     }
 `;
 
-const composeChildren = (_children, props) => {
-    return _children.map((child, i) => 
-        <child.type key={i} {...child.props} onClick={() => props.onItemClick(i)} />
-    );
+const composeChildren = (children, props) => {
+    const Component = (comp, props, key) => <comp.type key={key} {...comp.props} onClick={() => props.onItemClick(key)} />
+    
+    if(children.map)
+        return children.map((child, i) => Component(child, props, i))
+        
+    return Component(children, props, 0);
+
 }
 
 const Navigation = ({

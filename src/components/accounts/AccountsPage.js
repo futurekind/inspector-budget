@@ -9,7 +9,7 @@ const View = styled.div`
 class AccountsPage extends Component {
     render () {
         return (
-            <View><h1>Budgets</h1></View>
+            <View><h1>Accounts</h1></View>
         )
     }
 }

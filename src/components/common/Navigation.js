@@ -20,22 +20,37 @@ const View = styled.nav`
         right: -20px;
         transform: translateY(${(props) => 
             activeIndicatorFactor + (props.activeIndex * sizes.navigationWidth)}px);
+        transition: transform .2s;
     }
 `;
 
+const composeChildren = (_children, props) => {
+    return _children.map((child, i) => 
+        <child.type key={i} {...child.props} onClick={() => props.onItemClick(i)} />
+    );
+}
+
 const Navigation = ({
     activeIndex,
-    children
+    children,
+    onItemClick
 }) => {
     return (
         <View activeIndex={ activeIndex }>
-            { children }
+            { composeChildren(children, {
+                onItemClick
+            }) }
         </View>
     )
 }
 
+Navigation.defaultProps = {
+    onItemClick: (index) => console.log(index)
+}
+
 Navigation.propTypes = {
-    activeIndex: PropTypes.number.isRequired
+    activeIndex: PropTypes.number.isRequired,
+    onItemClick: PropTypes.func,
 }
 
 export default Navigation

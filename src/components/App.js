@@ -22,13 +22,26 @@ const Main = styled.main`
 `
 
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            activeNavigationIndex: 0
+        }
+
+        this.handleNavigationItemClick = this.handleNavigationItemClick.bind(this);
+    }
     
     render () {
+        const { activeNavigationIndex } = this.state;
+
         return (
             <View>
                 <Aside>
                     <Navigation
-                        activeIndex={ 0 }
+                        activeIndex={ activeNavigationIndex }
+                        onItemClick={ this.handleNavigationItemClick }
                     >
                         <NavigationBtn>One</NavigationBtn>
                         <NavigationBtn>Two</NavigationBtn>
@@ -39,7 +52,14 @@ class App extends Component {
             </View>
         )
     }
-    
+
+    handleNavigationItemClick(index) {
+        console.log('Navigation: ', index);
+        this.setState({
+            activeNavigationIndex: index
+        })
+    }
+
 }
 
 export default App

@@ -34,13 +34,8 @@ const NavigationBtn = ({
     )
 }
 
-NavigationBtn.defaultProps = {
-    onClick: () => {}
-}
-
 NavigationBtn.propTypes = {
     children: PropTypes.any,
-    onClick: PropTypes.func,
     icon: PropTypes.string,
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import * as applicationSelectors from '../redux/selectors/application';
 import 'normalize.css/normalize.css';
@@ -39,7 +40,7 @@ class App extends Component {
     }
     
     render () {
-        const { activeNavigationIndex, children } = this.props;
+        const { activeNavigationIndex, children, location } = this.props;
         
         return (
             <View>
@@ -61,7 +62,14 @@ class App extends Component {
                     </Navigation>
                 </Aside>
                 <Main>
-                    { children }
+                    <ReactCSSTransitionGroup
+                        component="div" 
+                        transitionName="page"
+                        transitionEnterTimeout={500} 
+                        transitionLeaveTimeout={500}
+                    >
+                        { React.cloneElement(children, { key: location.pathname }) }
+                    </ReactCSSTransitionGroup>
                 </Main>
             </View>
         )

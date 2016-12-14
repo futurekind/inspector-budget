@@ -6,6 +6,31 @@ import { setNavIndex } from '../../redux/actions/application';
 
 const View = styled.section`
     padding: 24px;
+
+    &.page-enter {
+        transform: translateY(-100%);
+        position: absolute;
+        top: 0;
+        opacity: 0;
+    }
+
+    &.page-enter-active {
+        transform: none;
+        position: relative;
+        opacity: 1;
+        transition: all .5s ease-out;
+    }
+
+    &.page-leave {
+        position: absolute;
+        top: 0;
+    }
+
+    &.page-leave-active {
+        opacity: 0
+        transform: translateY(-100%);
+        transition: all .2s ease-in;
+    }
 `;
 
 const mapState = state => {
@@ -20,11 +45,6 @@ export const createPageHandler = (Comp, props = {}) => {
             const { dispatch } = this.props;
 
             dispatch(setNavIndex(navIndex))
-        }
-
-        componentWillUnmount () {
-            const { dispatch } = this.props;
-            dispatch(setNavIndex(-1))
         }
         
 

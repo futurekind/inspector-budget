@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import * as applicationSelectors from '../redux/selectors/application';
 import 'normalize.css/normalize.css';
@@ -54,20 +53,15 @@ class App extends Component {
                             icon="store" 
                             active={ activeNavigationIndex === 0 }
                         >Accounts</NavigationBtn>
+                        <NavigationBtn
+                            to="/budgets" 
+                            icon="store" 
+                            active={ activeNavigationIndex === 1 }
+                        >Budgets</NavigationBtn>
                     </Navigation>
                 </Aside>
                 <Main>
-                    <ReactCSSTransitionGroup
-                        transitionName="page"
-                        transitionAppear={true}
-                        transitionEnter={true}
-                        transitionLeave={true}
-                        transitionAppearTimeout={500}
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}
-                    >
-                        { children }
-                    </ReactCSSTransitionGroup>
+                    { children }
                 </Main>
             </View>
         )

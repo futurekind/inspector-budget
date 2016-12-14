@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors, sizes } from '../../utils/styles';
+import { colors, sizes, fonts } from '../../utils/styles';
 
 const Button = styled.button`
     width: 100%;
@@ -11,25 +11,43 @@ const Button = styled.button`
     border-bottom: 1px solid ${colors.light};
     display: block;
     position: relative;
-    color: #fff;
+    color: ${props => props.active ? 'red' : '#fff'};
     background: none;
+    font-family: ${fonts.primary};
+    cursor: pointer;
 
-    span {
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+    &:focus { outline: none; }
+`
+
+const Label = styled.span`
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+`
+
+const Icon = styled.i`
+    margin-bottom: 12px;
+    display: block;
+    font-size: 32px;
 `
 
 const NavigationBtn = ({
     children,
-    onClick
+    onClick,
+    icon,
+    active
 }) => {
     return (
-        <Button onClick={ onClick }>
-            <span>{ children }</span>
+        <Button onClick={ onClick } active={active}>
+            <Label>
+                {icon &&
+                <Icon className="material-icons">{icon}</Icon>
+                }
+                { children }
+            </Label>
         </Button>
     )
 }
@@ -37,6 +55,7 @@ const NavigationBtn = ({
 NavigationBtn.propTypes = {
     children: PropTypes.any,
     icon: PropTypes.string,
+    active: PropTypes.bool,
 }
 
 export default NavigationBtn

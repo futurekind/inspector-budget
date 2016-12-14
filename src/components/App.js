@@ -46,9 +46,18 @@ class App extends Component {
                         activeIndex={ activeNavigationIndex }
                         onItemClick={ this.handleNavigationItemClick }
                     >
-                        <NavigationBtn>One</NavigationBtn>
-                        <NavigationBtn>Two</NavigationBtn>
-                        <NavigationBtn>Three</NavigationBtn>
+                        <NavigationBtn 
+                            icon="face" 
+                            active={ activeNavigationIndex === 0 }
+                        >
+                            One
+                        </NavigationBtn>
+                        <NavigationBtn 
+                            icon="face" 
+                            active={ activeNavigationIndex === 1 }
+                        >
+                            Two
+                        </NavigationBtn>
                     </Navigation>
                 </Aside>
                 <Main></Main>

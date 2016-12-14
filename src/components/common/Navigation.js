@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors, sizes } from '../../utils/styles';
+import { colors, sizes, noise } from '../../utils/styles';
 
 const activeIndicatorFactor = sizes.navigationWidth / 2;
 
@@ -9,6 +9,7 @@ const View = styled.nav`
     height: 100%;
     position: relative;
     background-color: ${colors.dark};
+    ${noise()}
 
     &:after {
         content: "";

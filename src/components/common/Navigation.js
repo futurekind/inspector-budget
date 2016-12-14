@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors } from '../../utils/styles';
+import { colors, sizes } from '../../utils/styles';
+
+const activeIndicatorFactor = sizes.navigationWidth / 2;
 
 const View = styled.nav`
     height: 100%;
@@ -10,17 +12,20 @@ const View = styled.nav`
 
     &:after {
         content: "";
+        marginTop: -10px;
         border: 10px solid transparent;
         border-left-color: ${colors.dark};
         position: absolute;
-        top: 50px;
+        top: 0;
         right: -20px;
+        transform: translateY(${(props) => 
+            activeIndicatorFactor + (props.activeIndex * sizes.navigationWidth)}px);
     }
 `;
 
 const Button = styled.button`
     width: 100%;
-    padding-bottom: 100%;
+    height: ${sizes.navigationWidth}px;
     border: none;
     border-top: 1px solid ${colors.dark};
     border-bottom: 1px solid ${colors.light};
@@ -38,9 +43,11 @@ const Button = styled.button`
     }
 `
 
-const Navigation = () => {
+const Navigation = ({
+    activeIndex
+}) => {
     return (
-        <View>
+        <View activeIndex={ activeIndex }>
             <Button><span>1</span></Button>
             <Button><span>2</span></Button>
             <Button><span>3</span></Button>

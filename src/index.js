@@ -5,12 +5,15 @@ import { Router, Route, hashHistory } from 'react-router';
 
 import './index.css';
 import App from './components/App';
+import AccountsPage from './components/accounts/AccountsPage';
 import store from './redux/store';
 
 render((
         <Provider store={ store }>
             <Router history={ hashHistory }>
-                <Route path="/" component={ App }></Route>
+                <Route path="/" component={ App }>
+                    <Route path="accounts" component={ AccountsPage }></Route>
+                </Route>
             </Router>
         </Provider>
     ),

@@ -21,6 +21,7 @@ const Aside = styled.aside`
 
 const Main = styled.main`
     height: 100%;
+    flex: 1;
     overflow-y: auto;
 `
 

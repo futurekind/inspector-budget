@@ -3,9 +3,11 @@ import { Map } from 'immutable';
 
 describe('Application Selectors', () => {
 
-    const state = Map({
-        selectedNavIndex: 5
-    })
+    const state = {
+        application: Map({
+          selectedNavIndex: 5
+        })
+    }
 
     describe('getNavIndex()', () => {
         const { getNavIndex } = selectors;

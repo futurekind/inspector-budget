@@ -1,1 +1,1 @@
-export const getNavIndex = (state) => state.get('selectedNavIndex')
+export const getNavIndex = (state) => state.application.get('selectedNavIndex')

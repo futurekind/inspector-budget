@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import 'normalize.css/normalize.css';
 
+import * as applicationSelectors from '../redux/selectors/application';
+import { setNavIndex } from '../redux/actions/application';
+import 'normalize.css/normalize.css';
 import Navigation from './common/Navigation';
 import NavigationBtn from './common/NavigationBtn';
 
@@ -34,7 +37,7 @@ class App extends Component {
     }
     
     render () {
-        const { activeNavigationIndex } = this.state;
+        const { activeNavigationIndex } = this.props;
 
         return (
             <View>
@@ -54,12 +57,17 @@ class App extends Component {
     }
 
     handleNavigationItemClick(index) {
-        console.log('Navigation: ', index);
-        this.setState({
-            activeNavigationIndex: index
-        })
+        const { dispatch } = this.props;
+
+        dispatch(setNavIndex(index))
     }
 
 }
 
-export default App
+const mapState = state => {
+    return {
+        activeNavigationIndex: applicationSelectors.getNavIndex(state)
+    }
+}
+
+export default connect(mapState)(App)

@@ -28,7 +28,7 @@ const View = styled.section`
 
     &.page-leave-active {
         opacity: 0
-        transform: translateY(-100%);
+        transform: translateY(50%);
         transition: all .2s ease-in;
     }
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import 'normalize.css/normalize.css';
 
 import Navigation from './common/Navigation';
+import NavigationBtn from './common/NavigationBtn';
 
 const View = styled.div`
     width: 100%;
@@ -21,18 +22,24 @@ const Main = styled.main`
 `
 
 class App extends Component {
+    
     render () {
         return (
             <View>
                 <Aside>
                     <Navigation
                         activeIndex={ 0 }
-                    ></Navigation>
+                    >
+                        <NavigationBtn>One</NavigationBtn>
+                        <NavigationBtn>Two</NavigationBtn>
+                        <NavigationBtn>Three</NavigationBtn>
+                    </Navigation>
                 </Aside>
                 <Main></Main>
             </View>
         )
     }
+    
 }
 
 export default App

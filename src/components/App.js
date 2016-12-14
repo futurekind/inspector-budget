@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import * as applicationSelectors from '../redux/selectors/application';
 import 'normalize.css/normalize.css';
@@ -23,6 +24,7 @@ const Main = styled.main`
     height: 100%;
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
 `
 
 class App extends Component {
@@ -55,7 +57,17 @@ class App extends Component {
                     </Navigation>
                 </Aside>
                 <Main>
-                    { children }
+                    <ReactCSSTransitionGroup
+                        transitionName="page"
+                        transitionAppear={true}
+                        transitionEnter={true}
+                        transitionLeave={true}
+                        transitionAppearTimeout={500}
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={500}
+                    >
+                        { children }
+                    </ReactCSSTransitionGroup>
                 </Main>
             </View>
         )

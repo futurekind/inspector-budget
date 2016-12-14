@@ -6,6 +6,22 @@ import { setNavIndex } from '../../redux/actions/application';
 
 const View = styled.section`
     padding: 24px;
+
+    &.page-appear,
+    &.page-enter {
+        transform: translateX(100%);
+    }
+
+    &.page-leave-active {
+        transform: translateX(100%);
+        transition: transform .5s ease-in;
+    }
+
+    &.page-appear-active,
+    &.page-enter-active {
+        transform: none;
+        transition: transform .5s ease-out;
+    }
 `;
 
 const mapState = state => {

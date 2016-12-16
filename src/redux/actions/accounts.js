@@ -1,5 +1,5 @@
 import assign from 'lodash.assign';
-import unique from 'lodash.uniqueId';
+import unique from 'lodash.uniqueid';
 
 export const types = {
     ACCOUNT__CREATE: 'ACCOUNT__CREATE',

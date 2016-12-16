@@ -12,4 +12,9 @@ describe('Redux Store', () => {
         expect(state.application).toBeDefined();
     })
 
+    it('exposes an `accounts` field' , () => {
+        const state = store.getState();
+        expect(state.accounts).toBeDefined();
+    })
+
 })

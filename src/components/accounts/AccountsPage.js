@@ -10,9 +10,7 @@ const View = styled.div`
 class AccountsPage extends Component {
     render () {
         return (
-            <View>
-                <h2>Sidebar</h2>
-            </View>
+            <h1>Accounts</h1>
         )
     }
 }
@@ -23,6 +21,5 @@ const mapState = state => {
 
 export default createPageHandler(
     connect(mapState)(AccountsPage), {
-    navIndex: 0,
-    sidebar: Sidebar
+    navIndex: 0
 })

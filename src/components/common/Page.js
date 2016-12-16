@@ -35,12 +35,6 @@ const View = styled.section`
     }
 `;
 
-const Main = styled.div`
-    height: 100%;
-    padding: 24px;
-    flex: 1;
-`
-
 const mapState = state => {
     return {}
 }
@@ -59,10 +53,7 @@ export const createPageHandler = (Comp, props = {}) => {
         render () {
             return (
                 <View>
-                    {props.sidebar && <props.sidebar />}
-                    <Main>
-                        <Comp {...this.props} />
-                    </Main>
+                    <Comp {...this.props} />
                 </View>
             )
         }

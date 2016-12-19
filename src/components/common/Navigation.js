@@ -27,6 +27,8 @@ const View = styled.nav`
 `;
 
 const composeChildren = (children, props) => {
+    if(!children) return null;
+    
     const Component = (comp, props, key) => <comp.type key={key} {...comp.props} onClick={() => props.onItemClick(key, comp.props)} />
     
     if(children.map)

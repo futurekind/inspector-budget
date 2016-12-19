@@ -35,10 +35,6 @@ export class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            activeNavigationIndex: 0
-        }
-
         this.handleNavigationItemClick = this.handleNavigationItemClick.bind(this);
     }
     

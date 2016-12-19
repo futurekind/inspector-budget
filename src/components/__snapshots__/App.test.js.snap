@@ -1,0 +1,36 @@
+exports[`App renders correctly 1`] = `
+<styled.div>
+  <styled.aside>
+    <Navigation
+      activeIndex={-1}
+      onItemClick={[Function]}>
+      <NavigationBtn
+        active={false}
+        icon="store"
+        to="/accounts">
+        Accounts
+      </NavigationBtn>
+      <NavigationBtn
+        active={false}
+        icon="store"
+        to="/budgets">
+        Budgets
+      </NavigationBtn>
+    </Navigation>
+  </styled.aside>
+  <styled.main>
+    <ReactCSSTransitionGroup
+      component={[Function]}
+      transitionAppear={false}
+      transitionEnter={true}
+      transitionEnterTimeout={500}
+      transitionLeave={true}
+      transitionLeaveTimeout={500}
+      transitionName="page">
+      <h1>
+        Hallo
+      </h1>
+    </ReactCSSTransitionGroup>
+  </styled.main>
+</styled.div>
+`;

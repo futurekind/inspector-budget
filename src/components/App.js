@@ -30,7 +30,7 @@ const TransitionHelper = styled.div`
     flex: 1;
 `
 
-class App extends Component {
+export class App extends Component {
 
     constructor(props) {
         super(props);

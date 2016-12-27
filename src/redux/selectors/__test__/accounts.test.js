@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import { getAccounts, getAccountById } from './accounts'
+import { getAccounts, getAccountById } from '../accounts'
 
 describe('Accounts Selectors', () => {
 

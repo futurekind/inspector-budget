@@ -1,5 +1,5 @@
-import reducer, { initialState } from './accounts';
-import * as actions from '../actions/accounts';
+import reducer, { initialState } from '../accounts';
+import * as actions from '../../actions/accounts';
 
 describe('Accounts Reducer', () => {
 

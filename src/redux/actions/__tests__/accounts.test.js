@@ -1,4 +1,4 @@
-import * as actions from './accounts';
+import * as actions from '../accounts';
 
 describe('Account Actions', () => {
 

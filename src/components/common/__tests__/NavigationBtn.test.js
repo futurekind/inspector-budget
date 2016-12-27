@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import NavigationBtn from './NavigationBtn';
+import NavigationBtn from '../NavigationBtn';
 
 describe('NavigationBtn', () => {
 

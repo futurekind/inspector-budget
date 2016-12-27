@@ -1,4 +1,4 @@
-import * as selectors from './application';
+import * as selectors from '../application';
 import { Map } from 'immutable'; 
 
 describe('Application Selectors', () => {

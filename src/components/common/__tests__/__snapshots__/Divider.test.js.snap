@@ -1,0 +1,4 @@
+exports[`Divider renders without errors 1`] = `
+<styled.hr
+  color="#333" />
+`;

@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { createPageHandler } from '../common/Page';
 import styled from 'styled-components';
 
-const View = styled.div`
-`
+import PageHeading from '../common/PageHeading'
+
 
 class AccountsPage extends Component {
     render () {
         return (
-            <h1>Accounts</h1>
+            <PageHeading>Accounts</PageHeading>
         )
     }
 }

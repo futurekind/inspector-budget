@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
 import Button from '../common/Button';
+import Dialog from '../common/Dialog';
 
 const View = styled.section`
     width: 100%;
@@ -25,6 +26,18 @@ const TitleCol = styled.div`
 const ActionsCol = styled.div``
 
 class AccountsPage extends Component {
+    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dialogOpen: false
+        }
+
+        this.handleClickCreateAccount = this.handleClickCreateAccount.bind(this)
+        this.handleRequestCloseDialog = this.handleRequestCloseDialog.bind(this)
+    }
+
     render () {
         return (
             <View>
@@ -33,12 +46,34 @@ class AccountsPage extends Component {
                         <PageHeading>Accounts</PageHeading>
                     </TitleCol>
                     <ActionsCol>
-                        <Button icon="add_circle" type="plain">Create new Account</Button>
+                        <Button 
+                            onClick={ this.handleClickCreateAccount }
+                            icon="add_circle" 
+                            type="plain"
+                        >
+                            Create new Account
+                        </Button>
                     </ActionsCol>
                 </Header>
                 <Divider type="light" />
+                <Dialog 
+                    open={ this.state.dialogOpen }
+                    onRequestClose={ this.handleRequestCloseDialog }
+                ></Dialog>
             </View>
         )
+    }
+
+    handleClickCreateAccount() {
+        this.setState({
+            dialogOpen: true
+        })
+    }
+
+    handleRequestCloseDialog() {
+        this.setState({
+            dialogOpen: false
+        })
     }
 }
 

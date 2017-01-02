@@ -48,10 +48,12 @@ const Button = ({
     children,
     type,
     size,
-    icon
+    icon,
+    onClick
 }) => {
     return (
         <Btn 
+            onClick={ onClick }
             type={ type }
             size={ size }
         >

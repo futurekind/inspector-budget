@@ -5,6 +5,8 @@ import { colors } from '../../utils/styles'
 const Hr = styled.hr`
     width: 100%;
     height: 1px;
+    margin: 12px 0;
+    padding: 0;
     border: none;
     background-color: ${props => props.color}
 `

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
+import Button from '../common/Button';
 
 const View = styled.section`
     width: 100%;
@@ -13,16 +14,31 @@ const View = styled.section`
 
 const Header = styled.header`
     flex-basis: 100%;
+    display: flex;
+    align-items: flex-end;
 `;
+
+const TitleCol = styled.div`
+    flex: 1;
+`
+
+const ActionsCol = styled.div``
 
 class AccountsPage extends Component {
     render () {
         return (
             <View>
                 <Header>
-                    <PageHeading>Accounts</PageHeading>
-                    <Divider type="light" />
+                    <TitleCol>
+                        <PageHeading>Accounts</PageHeading>
+                    </TitleCol>
+                    <ActionsCol>
+                        <Button>Create new Account</Button>
+                    </ActionsCol>
                 </Header>
+                <Divider type="light" />
+                <Button type="plain">Create new Account</Button>
+                <Button type="primary">Create new Account</Button>
             </View>
         )
     }

@@ -3,7 +3,8 @@ import { types } from '../actions/accounts';
 
 export const initialState = Map({
     results: List(),
-    entities: Map() 
+    entities: Map(),
+    createDialogIsOpen: false
 })
 
 export default (state = initialState, action) => {
@@ -26,6 +27,9 @@ export default (state = initialState, action) => {
                 .deleteIn(['results', index])
                 .deleteIn(['entities', action.id])
             break;
+
+        case types.ACCOUNT__CREATE_DIALOG_OPEN:
+            return state.set('createDialogIsOpen', !state.get('createDialogIsOpen'))
 
         default:
             return state;

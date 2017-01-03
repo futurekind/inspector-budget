@@ -66,4 +66,18 @@ describe('Accounts Reducer', () => {
         expect(state.get('entities').get('account_1')).not.toBeDefined();
     })
 
+    it('sets createDialogIsOpen to true', () => {
+        const { toggleCreateDialog } = actions;
+        state = reducer(undefined, toggleCreateDialog());
+
+        expect(state.get('createDialogIsOpen')).toBe(true)
+    })
+
+    it('sets createDialogIsOpen to false', () => {
+        const { toggleCreateDialog } = actions;
+        state = reducer(state, toggleCreateDialog());
+
+        expect(state.get('createDialogIsOpen')).toBe(false)
+    })
+
 })

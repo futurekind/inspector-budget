@@ -2,7 +2,7 @@ export const colors = {
     black: '#000',
     dark: '#333',
     light: '#888',
-    highlight: '#9FCF80',
+    highlight: '#7bb556',
     highlight__quite: '#D1CD82',
     primary: '#009CD3'
 }

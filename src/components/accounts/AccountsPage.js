@@ -59,7 +59,10 @@ class AccountsPage extends Component {
                 <Dialog 
                     open={ this.state.dialogOpen }
                     onRequestClose={ this.handleRequestCloseDialog }
-                ></Dialog>
+                    title="Create new Account"
+                >
+                    When the router is ready to render a branch of route components, it will use this function to create the elements. You may want to take control of creating the elements when you're using some sort of data abstraction, like setting up subscriptions to stores, or passing in some sort of application module to each component via props.
+                </Dialog>
             </View>
         )
     }

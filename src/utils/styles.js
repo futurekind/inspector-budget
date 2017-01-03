@@ -8,7 +8,8 @@ export const colors = {
 }
 
 export const sizes = {
-    navigationWidth: 90
+    navigationWidth: 90,
+    spacer: 12
 }
 
 export const fonts = {

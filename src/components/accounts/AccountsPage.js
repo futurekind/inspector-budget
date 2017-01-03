@@ -9,6 +9,9 @@ import Button from '../common/Button';
 import Dialog from '../common/Dialog';
 import { Grid, GridCol } from '../common/Grid';
 
+import { toggleCreateDialog } from '../../redux/actions/accounts';
+import { getCreateDialogIsOpen } from '../../redux/selectors/accounts'
+
 const View = styled.section`
     width: 100%;
     height: 100%;
@@ -31,15 +34,13 @@ class AccountsPage extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            dialogOpen: false
-        }
-
         this.handleClickCreateAccount = this.handleClickCreateAccount.bind(this)
         this.handleRequestCloseDialog = this.handleRequestCloseDialog.bind(this)
     }
 
     render () {
+        const { createDialogOpen } = this.props;
+
         return (
             <View>
                 <Header>
@@ -58,7 +59,7 @@ class AccountsPage extends Component {
                 </Header>
                 <Divider type="light" />
                 <Dialog 
-                    open={ this.state.dialogOpen }
+                    open={ createDialogOpen }
                     onRequestClose={ this.handleRequestCloseDialog }
                     title="Create new Account"
                 >
@@ -77,20 +78,20 @@ class AccountsPage extends Component {
     }
 
     handleClickCreateAccount() {
-        this.setState({
-            dialogOpen: true
-        })
+        const { dispatch } = this.props;
+        dispatch(toggleCreateDialog());
     }
 
     handleRequestCloseDialog() {
-        this.setState({
-            dialogOpen: false
-        })
+        const { dispatch } = this.props;
+        dispatch(toggleCreateDialog());
     }
 }
 
 const mapState = state => {
-    return {}
+    return {
+        createDialogOpen: getCreateDialogIsOpen(state)
+    }
 }
 
 export default createPageHandler(

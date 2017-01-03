@@ -7,6 +7,7 @@ import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
 import Button from '../common/Button';
 import Dialog from '../common/Dialog';
+import { Grid, GridCol } from '../common/Grid';
 
 const View = styled.section`
     width: 100%;
@@ -61,7 +62,15 @@ class AccountsPage extends Component {
                     onRequestClose={ this.handleRequestCloseDialog }
                     title="Create new Account"
                 >
-                    When the router is ready to render a branch of route components, it will use this function to create the elements. You may want to take control of creating the elements when you're using some sort of data abstraction, like setting up subscriptions to stores, or passing in some sort of application module to each component via props.
+                    <Grid>
+                        <GridCol>Grid 1</GridCol>
+                        <GridCol>Grid 2</GridCol>
+                        <GridCol>Grid 3</GridCol>
+                        <GridCol>Grid 4</GridCol>
+                        <GridCol>Grid 5</GridCol>
+                        <GridCol>Grid 6</GridCol>
+                        <GridCol>Grid 7</GridCol>
+                    </Grid>
                 </Dialog>
             </View>
         )

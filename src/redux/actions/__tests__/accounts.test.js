@@ -50,4 +50,15 @@ describe('Account Actions', () => {
 
     })
 
+    describe('toggleCreateDialog()', () => {
+        
+        it('is a function', () => {
+            expect(typeof actions.toggleCreateDialog).toBe('function')
+        })
+
+        it('returns an action', () => {
+            expect(actions.toggleCreateDialog().type).toBe(actions.types.ACCOUNT__CREATE_DIALOG_OPEN)
+        })
+    })
+
 })

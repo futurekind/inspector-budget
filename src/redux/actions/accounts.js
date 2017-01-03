@@ -5,6 +5,7 @@ export const types = {
     ACCOUNT__CREATE: 'ACCOUNT__CREATE',
     ACCOUNT__UPDATE: 'ACCOUNT__UPDATE',
     ACCOUNT__DELETE: 'ACCOUNT__DELETE',
+    ACCOUNT__CREATE_DIALOG_OPEN: 'ACCOUNT__CREATE_DIALOG_OPEN'
 }
 
 export const createAccount = (data) => ({
@@ -23,4 +24,8 @@ export const updateAccount = (id = '', data = {}) => ({
 export const deleteAccount = id => ({
     type: types.ACCOUNT__DELETE,
     id
+})
+
+export const toggleCreateDialog = () => ({
+    type: types.ACCOUNT__CREATE_DIALOG_OPEN
 })

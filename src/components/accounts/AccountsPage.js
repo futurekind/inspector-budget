@@ -7,10 +7,11 @@ import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
 import Button from '../common/Button';
 import Dialog from '../common/Dialog';
+import Spacer from '../common/Spacer';
 import { Grid, GridCol } from '../common/Grid';
 
 import { toggleCreateDialog } from '../../redux/actions/accounts';
-import { getCreateDialogIsOpen } from '../../redux/selectors/accounts'
+import { getCreateDialogIsOpen, getAccounts } from '../../redux/selectors/accounts'
 
 const View = styled.section`
     width: 100%;
@@ -58,6 +59,9 @@ class AccountsPage extends Component {
                     </ActionsCol>
                 </Header>
                 <Divider type="light" />
+
+                { this.renderNoAccounts() }
+
                 <Dialog 
                     open={ createDialogOpen }
                     onRequestClose={ this.handleRequestCloseDialog }
@@ -77,6 +81,19 @@ class AccountsPage extends Component {
         )
     }
 
+    renderNoAccounts() {
+        const { accounts } = this.props;
+
+        if(accounts.length === 0) {
+            return (
+                <Spacer value={ 1 }>
+                    <p>You have no accounts.</p>
+                    <p><Button onClick={ this.handleClickCreateAccount }>Add account</Button></p>
+                </Spacer>
+            )
+        }
+    }
+
     handleClickCreateAccount() {
         const { dispatch } = this.props;
         dispatch(toggleCreateDialog());
@@ -90,7 +107,8 @@ class AccountsPage extends Component {
 
 const mapState = state => {
     return {
-        createDialogOpen: getCreateDialogIsOpen(state)
+        createDialogOpen: getCreateDialogIsOpen(state),
+        accounts: getAccounts(state)
     }
 }
 

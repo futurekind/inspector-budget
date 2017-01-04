@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
-import { colors, rgba } from '../../utils/styles'
+import { colors, rgba, fonts } from '../../utils/styles'
 
 const View = styled.div`
     margin-bottom: 24px;
@@ -10,7 +10,6 @@ const Label = styled.span`
     margin-bottom: 10px;
     display: block;
     font-size: 14px;
-    text-transform: uppercase;
     font-weight: bold;
 `;
 
@@ -22,11 +21,12 @@ const Field = styled.input`
     border-radius: 3px;
     background: ${rgba(colors.light, .1)};
     font-size: 16px;
-    color: ${colors.dark}
+    color: ${colors.dark};
+    font-family: ${fonts.primary};
 
     &:focus {
         outline: none;
-        border-bottom-color: ${colors.highlight}
+        border-bottom-color: ${colors.highlight};
     }
 `;
 

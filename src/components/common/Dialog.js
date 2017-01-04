@@ -23,9 +23,13 @@ const Backdrop = styled.div`
 const Content = styled.div`
     width: 100%;
     max-width: 800px;
-    height: 80vh;
+    max-height: 80vh;
     display: flex;
+    box-shadow: ${rgba('#000', .4)} 0 0 15px;
     overflow: hidden;
+    opacity: ${({open}) => 
+        open ? 1 : 0
+    };
     flex-direction: column;
     position: fixed;
     top: 0;

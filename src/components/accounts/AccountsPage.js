@@ -8,6 +8,7 @@ import Divider from '../common/Divider';
 import Button from '../common/Button';
 import Dialog from '../common/Dialog';
 import Spacer from '../common/Spacer';
+import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
 
 import { toggleCreateDialog } from '../../redux/actions/accounts';
@@ -68,14 +69,24 @@ class AccountsPage extends Component {
                     title="Create new Account"
                 >
                     <Grid>
-                        <GridCol>Grid 1</GridCol>
-                        <GridCol>Grid 2</GridCol>
-                        <GridCol>Grid 3</GridCol>
-                        <GridCol>Grid 4</GridCol>
-                        <GridCol>Grid 5</GridCol>
-                        <GridCol>Grid 6</GridCol>
-                        <GridCol>Grid 7</GridCol>
+                        <GridCol>
+                            <Input
+                                name="account__name"
+                                label="Name"
+                            />
+                        </GridCol>
+                        <GridCol>
+                            <Input
+                                name="account__balance"
+                                label="Current balance"
+                                type="number"
+                            />
+                        </GridCol>
                     </Grid>
+                    <Spacer value={1}>
+                        <Button type="plain">Cancel</Button>
+                        <Button type="primary">Create Account</Button>
+                    </Spacer>
                 </Dialog>
             </View>
         )

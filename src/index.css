@@ -5,6 +5,7 @@ html {
 
 body {
     font-family: 'Roboto', sans-serif;
+    color: #333;
 }
 
 *, *:before, *:after { box-sizing: inherit; }

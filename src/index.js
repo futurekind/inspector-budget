@@ -9,6 +9,7 @@ import App from './components/App';
 import AccountsPage from './components/accounts/AccountsPage';
 import BudgetsPage from './components/budgets/BudgetsPage';
 import store from './redux/store';
+import { load } from './redux/actions/api';
 
 import { shouldGetAccessToken, authorize, getAccessTokenInHashFragment, setAccessToken } from './utils/dropbox';
 
@@ -23,6 +24,7 @@ if(accessTokenFromHash) {
 if(shouldGetAccessToken()) {
     authorize();
 } else {
+    store.dispatch(load());
     render((
             <Provider store={ store }>
                 <Router history={ hashHistory }>

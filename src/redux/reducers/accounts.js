@@ -1,5 +1,7 @@
 import { Map, List, fromJS } from 'immutable';
 import { types } from '../actions/accounts';
+import { types as apiActionTypes } from '../actions/api';
+import { handle } from 'redux-pack';
 
 export const initialState = Map({
     results: List(),
@@ -27,6 +29,16 @@ export default (state = initialState, action) => {
 
         case types.ACCOUNT__CREATE_DIALOG_OPEN:
             return state.set('createDialogIsOpen', !state.get('createDialogIsOpen'))
+
+        case apiActionTypes.API__LOAD:
+            return handle(state, action, {
+                success: state => {
+                    const data = JSON.parse(action.payload);
+                    return state
+                            .set('results', fromJS(data.accounts.results))
+                            .set('entities', fromJS(data.accounts.entities))
+                }
+            })
 
         default:
             return state;

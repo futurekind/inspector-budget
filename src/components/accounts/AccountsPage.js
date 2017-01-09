@@ -98,7 +98,13 @@ class AccountsPage extends Component {
                     </Grid>
                     <Spacer value={1}>
                         <Button type="plain" onClick={ this.handleRequestCloseDialog }>Cancel</Button>
-                        <Button type="primary" onClick={ this.handleCreateAccount }>Create Account</Button>
+                        <Button 
+                            type="primary" 
+                            onClick={ this.handleCreateAccount }
+                            disabled={
+                                !this.state.form.name || !this.state.form.balance
+                            }
+                        >Create Account</Button>
                     </Spacer>
                 </Dialog>
             </View>

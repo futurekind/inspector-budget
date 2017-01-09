@@ -1,0 +1,1 @@
+export const getNavIndex = (state) => state.application.get('selectedNavIndex')

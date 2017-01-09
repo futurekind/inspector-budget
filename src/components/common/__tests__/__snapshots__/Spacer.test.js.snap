@@ -1,0 +1,23 @@
+exports[`Spacer renders as excepted 1`] = `
+<div
+  style={
+    Object {
+      "paddingBottom": 12,
+      "paddingTop": 12,
+    }
+  } />
+`;
+
+exports[`Spacer renders its children 1`] = `
+<div
+  style={
+    Object {
+      "paddingBottom": 12,
+      "paddingTop": 12,
+    }
+  }>
+  <p>
+    some text
+  </p>
+</div>
+`;

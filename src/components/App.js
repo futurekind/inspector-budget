@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import 'normalize.css/normalize.css';
+import { withRouter } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
+import * as applicationSelectors from '../redux/selectors/application';
+import 'normalize.css/normalize.css';
 import Navigation from './common/Navigation';
+import NavigationBtn from './common/NavigationBtn';
 
 const View = styled.div`
     width: 100%;
@@ -17,22 +22,71 @@ const Aside = styled.aside`
 
 const Main = styled.main`
     height: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex: 1;
 `
 
-class App extends Component {
+const TransitionHelper = styled.div`
+    flex: 1;
+`
+
+export class App extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleNavigationItemClick = this.handleNavigationItemClick.bind(this);
+    }
+    
     render () {
+        const { activeNavigationIndex, children, location } = this.props;
+        
         return (
             <View>
                 <Aside>
                     <Navigation
-                        activeIndex={ 0 }
-                    ></Navigation>
+                        activeIndex={ activeNavigationIndex }
+                        onItemClick={ this.handleNavigationItemClick }
+                    >
+                        <NavigationBtn
+                            to="/accounts" 
+                            icon="store" 
+                            active={ activeNavigationIndex === 0 }
+                        >Accounts</NavigationBtn>
+                        <NavigationBtn
+                            to="/budgets" 
+                            icon="store" 
+                            active={ activeNavigationIndex === 1 }
+                        >Budgets</NavigationBtn>
+                    </Navigation>
                 </Aside>
-                <Main></Main>
+                <Main>
+                    <ReactCSSTransitionGroup
+                        component={ TransitionHelper } 
+                        transitionName="page"
+                        transitionEnterTimeout={500} 
+                        transitionLeaveTimeout={500}
+                    >
+                        { React.cloneElement(children, { key: location.pathname }) }
+                    </ReactCSSTransitionGroup>
+                </Main>
             </View>
         )
     }
+
+    handleNavigationItemClick(index, props) {
+        const { to } = props;
+        const { router } = this.props;
+
+        router.push(to);
+    }
+
 }
 
-export default App
+const mapState = state => {
+    return {
+        activeNavigationIndex: applicationSelectors.getNavIndex(state)
+    }
+}
+
+export default withRouter(connect(mapState)(App))

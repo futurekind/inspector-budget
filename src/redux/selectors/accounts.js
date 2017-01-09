@@ -21,7 +21,13 @@ export const getAccountById = createSelector(
     entities,
     (state, props) => props,
 
-    (entities, id) => entities.get(id).toJS()
+    (entities, id) => {
+        if(entities.size > 0) {
+            return entities.get(id).toJS()
+        } else {
+            return {}
+        }
+    }
 )
 
 export const getCreateDialogIsOpen = createSelector(

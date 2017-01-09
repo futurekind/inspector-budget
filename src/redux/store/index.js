@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers';
 import { middleware as packMiddleware } from 'redux-pack';
+import dropboxMiddleware from './dropboxApiMiddleware';
 
 const composeEnhancers =
     process.env.NODE_ENV !== 'production' &&
@@ -11,7 +12,10 @@ const composeEnhancers =
         }) : compose;
 
 const enhancer = composeEnhancers(
-    applyMiddleware(packMiddleware),
+    applyMiddleware(
+        packMiddleware,
+        dropboxMiddleware
+    ),
 );
 
 export default createStore(

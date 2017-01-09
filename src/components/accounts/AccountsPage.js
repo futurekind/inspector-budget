@@ -74,6 +74,7 @@ class AccountsPage extends Component {
 
                 <Dialog 
                     open={ createDialogOpen }
+                    modal
                     onRequestClose={ this.handleRequestCloseDialog }
                     title="Create new Account"
                 >

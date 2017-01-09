@@ -60,11 +60,12 @@ const Dialog = ({
     open,
     onRequestClose,
     title,
-    children
+    children,
+    modal
 }) => {
     return (
         <View open={ open }>
-            <Backdrop open={ open } onClick={ onRequestClose } />
+            <Backdrop open={ open } onClick={ modal ? null : onRequestClose } />
             <Content open={ open }>
                 { title && <Title>{ title }</Title> }
                 <Body>{ children }</Body>
@@ -74,13 +75,15 @@ const Dialog = ({
 }
 
 Dialog.defaultProps = {
-    onRequestClose: () => {}
+    onRequestClose: () => {},
+    modal: false
 }
 
 Dialog.propTypes = {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func,
     title: PropTypes.string,
+    modal: PropTypes.bool,
 }
 
 export default Dialog

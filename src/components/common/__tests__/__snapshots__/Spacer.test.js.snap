@@ -2,8 +2,8 @@ exports[`Spacer renders as excepted 1`] = `
 <div
   style={
     Object {
-      "paddingBottom": 48,
-      "paddingTop": 48,
+      "paddingBottom": 12,
+      "paddingTop": 12,
     }
   } />
 `;
@@ -12,8 +12,8 @@ exports[`Spacer renders its children 1`] = `
 <div
   style={
     Object {
-      "paddingBottom": 48,
-      "paddingTop": 48,
+      "paddingBottom": 12,
+      "paddingTop": 12,
     }
   }>
   <p>

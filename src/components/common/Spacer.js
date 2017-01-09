@@ -3,11 +3,6 @@ import { sizes } from '../../utils/styles';
 
 const getStyle = props => {
     switch(props.type) {
-        case 'topbottom':
-            return {
-                paddingTop: props.value * sizes.spacer,
-                paddingBottom: props.value * sizes.spacer
-            }
 
         case 'top':
             return {
@@ -16,6 +11,13 @@ const getStyle = props => {
 
         case 'bottom':
             return {
+                paddingBottom: props.value * sizes.spacer
+            }
+        
+        case 'topbottom':
+        default:
+            return {
+                paddingTop: props.value * sizes.spacer,
                 paddingBottom: props.value * sizes.spacer
             }
     }
@@ -31,7 +33,7 @@ const Spacer = (props) => {
 
 Spacer.defaultProps = {
     type: 'topbottom',
-    value: 4
+    value: 1
 }
 
 Spacer.propTypes = {

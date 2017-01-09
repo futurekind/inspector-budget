@@ -11,6 +11,7 @@ import Dialog from '../common/Dialog';
 import Spacer from '../common/Spacer';
 import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
+import { Tabs, Tab } from '../common/Tabs';
 
 import { toggleCreateDialog, createAccount } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getAccountById } from '../../redux/selectors/accounts'
@@ -68,9 +69,9 @@ class AccountsPage extends Component {
                 </Header>
                 <Divider type="light" />
 
+                
+                { this.renderTabs() }
                 { this.renderNoAccounts() }
-
-                { this.renderAccounts() }
 
                 <Dialog 
                     open={ createDialogOpen }
@@ -125,14 +126,18 @@ class AccountsPage extends Component {
         }
     }
 
-    renderAccounts() {
+    renderTabs() {
         const { accounts } = this.props;
-        
+
         if(accounts.length === 0) return null;
 
-        return accounts.map(account => {
-            return <p key={ account.id }>{ account.name }</p>
-        })
+        return (
+            <Tabs>
+                { accounts.map(account => (
+                    <Tab key={ account.id }>{ account.name }</Tab>
+                )) }
+            </Tabs>
+        )
     }
 
     handleClickCreateAccount() {

@@ -51,7 +51,7 @@ const Title = styled.h1`
 `
 
 const Body = styled.div`
-    padding: 12px 24px;
+    padding: 24px;
     flex: 1;
     overflow-y: auto;
 `

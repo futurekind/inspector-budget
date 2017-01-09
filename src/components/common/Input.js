@@ -10,14 +10,13 @@ const Label = styled.span`
     margin-bottom: 10px;
     display: block;
     font-size: 14px;
-    font-weight: bold;
 `;
 
 const Field = styled.input`
     width: 100%;
     padding: 12px;
     border: none;
-    border-bottom: 2px solid ${colors.primary};
+    border-bottom: 2px solid ${colors.dark};
     border-radius: 3px;
     background: ${rgba(colors.light, .1)};
     font-size: 16px;

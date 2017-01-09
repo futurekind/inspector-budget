@@ -3,7 +3,7 @@ import * as actions from '../../actions/accounts';
 
 describe('Accounts Reducer', () => {
 
-    let state;
+    let state, acc1, acc2;
 
     it('returns a funtcion', () => {
         expect(typeof reducer).toBe('function');
@@ -20,50 +20,55 @@ describe('Accounts Reducer', () => {
         state = reducer(undefined, createAccount({
             name: 'Some new account',
             balance: 0.00,
-            createdAt: '2016-12-16T13:58:55.428Z'
         }))
 
         state = reducer(state, createAccount({
             name: 'Anther new account',
-            balance: 0.00,
-            createdAt: '2016-12-16T14:58:55.428Z'
+            balance: 987.65,
         }))
 
-        expect(state.get('results')).toContain('account_1');
-        expect(state.getIn(['entities', 'account_1']).toJS()).toEqual({
-            name: 'Some new account',
-            balance: 0.00,
-            id: 'account_1',
-            createdAt: '2016-12-16T13:58:55.428Z'
-        });
+        acc1 = state.getIn(['entities', 
+            state.getIn(['results', 0]),
+        ])
+        acc2 = state.getIn(['entities', 
+            state.getIn(['results', 1]),
+        ])
+
+        expect(state.get('results').size).toBe(2);
+        expect(acc1.get('name')).toBe('Some new account')
+        expect(acc1.get('balance')).toBe(0.00)
+        expect(acc1.get('id')).toBeDefined()
+        expect(acc1.get('createdAt')).toBeDefined()
+        expect(acc2.get('name')).toBe('Anther new account')
+        expect(acc2.get('balance')).toBe(987.65)
+        expect(acc2.get('id')).toBeDefined()
+        expect(acc2.get('createdAt')).toBeDefined()
+        
     })
 
     it('updates an account', () => {
         const { updateAccount } = actions;
-        state = reducer(state, updateAccount('account_1', {
+        
+        state = reducer(state, updateAccount(acc1.get('id'), {
             name: 'another name',
             foo: 'bar'
         }))
 
-        const account = state.getIn(['entities', 'account_1']).toJS();
+        const account = state.getIn(['entities', acc1.get('id')]).toJS();
 
         expect(state.get('results').size).toBe(2);
-        expect(account).toEqual({
-            name: 'another name',
-            balance: 0.00,
-            id: 'account_1',
-            createdAt: '2016-12-16T13:58:55.428Z',
-            foo: 'bar'
-        })
+        expect(account.name).toBe('another name')
+        expect(account.balance).toBe(0.00)
+        expect(account.foo).toBe('bar')
 
     })
 
     it('deletes an account', () => {
         const { deleteAccount } = actions;
-        state = reducer(state, deleteAccount('account_1'))
+        state = reducer(state, deleteAccount(acc1.get('id')))
 
-        expect(state.get('results').toJS()).not.toContain('account_1');
-        expect(state.get('entities').get('account_1')).not.toBeDefined();
+        expect(state.get('results').toJS()).not.toContain(acc1.get('id'));
+        expect(state.get('entities').get(acc1.get('id'))).not.toBeDefined();
     })
 
     it('sets createDialogIsOpen to true', () => {

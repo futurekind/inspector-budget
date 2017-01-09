@@ -1,5 +1,5 @@
 import assign from 'lodash.assign';
-import unique from 'lodash.uniqueid';
+import uuid from 'uuid';
 
 export const types = {
     ACCOUNT__CREATE: 'ACCOUNT__CREATE',
@@ -11,7 +11,8 @@ export const types = {
 export const createAccount = (data) => ({
     type: types.ACCOUNT__CREATE,
     data: assign({}, data, {
-        id: unique('account_')
+        id: uuid.v4(),
+        createdAt: new Date().toISOString()
     })
 })
 

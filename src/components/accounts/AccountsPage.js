@@ -84,7 +84,7 @@ class AccountsPage extends Component {
                         </GridCol>
                     </Grid>
                     <Spacer value={1}>
-                        <Button type="plain">Cancel</Button>
+                        <Button type="plain" onClick={ this.handleRequestCloseDialog }>Cancel</Button>
                         <Button type="primary">Create Account</Button>
                     </Spacer>
                 </Dialog>

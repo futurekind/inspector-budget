@@ -19,7 +19,7 @@ const Indicator = styled.span`
     position: absolute;
     bottom: 0;
     left: 0;
-    transition: left .25s;
+    transition: all .25s;
 `
 
 const Item = styled.li`

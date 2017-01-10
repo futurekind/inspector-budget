@@ -5,7 +5,8 @@ export const types = {
     ACCOUNT__CREATE: 'ACCOUNT__CREATE',
     ACCOUNT__UPDATE: 'ACCOUNT__UPDATE',
     ACCOUNT__DELETE: 'ACCOUNT__DELETE',
-    ACCOUNT__CREATE_DIALOG_OPEN: 'ACCOUNT__CREATE_DIALOG_OPEN'
+    ACCOUNT__CREATE_DIALOG_OPEN: 'ACCOUNT__CREATE_DIALOG_OPEN',
+    ACCOUNT__SET_TAB_INDEX: 'ACCOUNT__SET_TAB_INDEX'
 }
 
 export const createAccount = (data) => ({
@@ -29,4 +30,9 @@ export const deleteAccount = id => ({
 
 export const toggleCreateDialog = () => ({
     type: types.ACCOUNT__CREATE_DIALOG_OPEN
+})
+
+export const setTabIndex = index => ({
+    type: types.ACCOUNT__SET_TAB_INDEX,
+    index
 })

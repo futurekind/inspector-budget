@@ -61,4 +61,13 @@ describe('Account Actions', () => {
         })
     })
 
+    describe('setTabIndex()', () => {
+        it('returns an action', () => {
+            const action = actions.setTabIndex(2);
+
+            expect(action.type).toBe(actions.types.ACCOUNT__SET_TAB_INDEX);
+            expect(action.index).toBe(2);
+        })
+    })
+
 })

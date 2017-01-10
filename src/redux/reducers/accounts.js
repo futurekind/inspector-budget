@@ -7,6 +7,7 @@ export const initialState = Map({
     results: List(),
     entities: Map(),
     createDialogIsOpen: false,
+    editDialogIsOpen: false,
     tabIndex: 0
 })
 
@@ -30,6 +31,9 @@ export default (state = initialState, action) => {
 
         case types.ACCOUNT__CREATE_DIALOG_OPEN:
             return state.set('createDialogIsOpen', !state.get('createDialogIsOpen'))
+            
+        case types.ACCOUNT__EDIT_DIALOG_OPEN:
+            return state.set('editDialogIsOpen', !state.get('editDialogIsOpen'))
 
         case apiActionTypes.API__LOAD:
             return handle(state, action, {

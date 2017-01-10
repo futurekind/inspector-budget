@@ -92,4 +92,14 @@ describe('Accounts Reducer', () => {
         expect(state.get('tabIndex')).toBe(2)
     })
 
+    it('toggles editDialogIsOpen', () => {
+        const { toggleEditDialog } = actions;
+        state = reducer(undefined, toggleEditDialog())
+
+        expect(state.get('editDialogIsOpen')).toBe(true)
+
+        state = reducer(state, toggleEditDialog())
+        expect(state.get('editDialogIsOpen')).toBe(false)
+    })
+
 })

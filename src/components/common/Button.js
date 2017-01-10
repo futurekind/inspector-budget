@@ -2,6 +2,28 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components';
 import { fonts, colors, rgba } from '../../utils/styles';
 
+const getBackgroundColor = props => {
+    const { type, disabled } = props;
+
+    if(type === 'default') {
+        if(disabled) {
+            return colors.light
+        } else {
+            return colors.primary
+        }
+    }
+
+    if(type === 'primary') {
+        if(disabled) {
+            return colors.light
+        } else {
+            return colors.highlight
+        }
+    }
+
+    return 'none'
+}
+
 const Btn = styled.button`
     padding: ${({size}) =>
         size === 'large' ? '16px 18px' : 
@@ -11,10 +33,7 @@ const Btn = styled.button`
     border-radius: 3px;
     display: inline-flex;
     align-items: center;
-    background: ${({type}) => 
-        type === 'primary' ? colors.highlight : 
-        type === 'plain' ? 'none' : colors.primary
-    };
+    background: ${(props) => getBackgroundColor(props)};
     font-family: ${fonts.primary};
     color: ${({type}) => 
         type === 'plain' ? colors.dark : '#fff'
@@ -30,7 +49,7 @@ const Btn = styled.button`
         type === 'plain' ? 'none' : `${rgba('#000', .3)} 0 -1px 0`
     };
     text-decoration: none;
-    cursor: pointer;
+    cursor: ${({disabled}) => disabled ? 'default' : 'pointer'};
 
     & + & {
         margin-left: 12px;
@@ -49,13 +68,15 @@ const Button = ({
     type,
     size,
     icon,
-    onClick
+    onClick,
+    disabled
 }) => {
     return (
         <Btn 
             onClick={ onClick }
             type={ type }
             size={ size }
+            disabled={ disabled }
         >
             { icon && <BtnIcon className="material-icons">{ icon }</BtnIcon> }
             { children }
@@ -66,12 +87,14 @@ const Button = ({
 Button.defaultProps = {
     onClick: () => {},
     type: 'default',
-    size: 'default'
+    size: 'default',
+    disabled: false
 }
 
 Button.propTypes = {
     icon: PropTypes.string,
     onClick: PropTypes.func,
+    disabled: PropTypes.bool,
     type: PropTypes.oneOf([
         'default', 'plain', 'primary' 
     ]),

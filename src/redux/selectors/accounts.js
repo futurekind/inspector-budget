@@ -11,7 +11,7 @@ export const getAccounts = createSelector(
         const one = entities.get(a);
         const two = entities.get(b);
         
-        if (one.get('name') < two.get('name')) return -1
+        if (one.get('createdAt') < two.get('createdAt')) return -1
 
         return 1
     }).toJS()

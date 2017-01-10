@@ -1,22 +1,22 @@
 exports[`App renders correctly 1`] = `
 <styled.div>
   <styled.aside>
-    <Navigation
+    <Component
       activeIndex={-1}
       onItemClick={[Function]}>
-      <NavigationBtn
+      <Component
         active={false}
         icon="store"
         to="/accounts">
         Accounts
-      </NavigationBtn>
-      <NavigationBtn
+      </Component>
+      <Component
         active={false}
         icon="store"
         to="/budgets">
         Budgets
-      </NavigationBtn>
-    </Navigation>
+      </Component>
+    </Component>
   </styled.aside>
   <styled.main>
     <ReactCSSTransitionGroup

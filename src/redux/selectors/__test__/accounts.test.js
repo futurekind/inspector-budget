@@ -8,15 +8,18 @@ describe('Accounts Selectors', () => {
         entities: Map({
             acc_1: Map({
                 id: 'acc_1',
-                name: 'Z Account'
+                name: 'Z Account',
+                createdAt: '2017-01-01T22:05:53.580Z'
             }),
             acc_2: Map({
                 id: 'acc_2',
-                name: 'A Account'
+                name: 'A Account',
+                createdAt: '2017-01-08T22:05:53.580Z'
             }),
             acc_3: Map({
                 id: 'acc_3',
-                name: 'M Account'
+                name: 'M Account',
+                createdAt: '2017-01-07T22:05:53.580Z'
             })
         }),
         createDialogIsOpen: false
@@ -30,7 +33,7 @@ describe('Accounts Selectors', () => {
                 accounts: state
             })
             expect(results).toEqual([
-                'acc_2', 'acc_3', 'acc_1'
+                'acc_1', 'acc_3', 'acc_2'
             ])
 
         })

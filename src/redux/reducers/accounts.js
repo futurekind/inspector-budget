@@ -6,7 +6,8 @@ import { handle } from 'redux-pack';
 export const initialState = Map({
     results: List(),
     entities: Map(),
-    createDialogIsOpen: false
+    createDialogIsOpen: false,
+    tabIndex: -1
 })
 
 export default (state = initialState, action) => {
@@ -39,6 +40,9 @@ export default (state = initialState, action) => {
                             .set('entities', fromJS(data.accounts.entities))
                 }
             })
+
+        case types.ACCOUNT__SET_TAB_INDEX:
+            return state.set('tabIndex', action.index)
 
         default:
             return state;

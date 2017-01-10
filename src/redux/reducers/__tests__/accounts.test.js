@@ -85,4 +85,11 @@ describe('Accounts Reducer', () => {
         expect(state.get('createDialogIsOpen')).toBe(false)
     })
 
+    it('sets tabIndex', () => {
+        const { setTabIndex } = actions;
+        state = reducer(undefined, setTabIndex(2));
+
+        expect(state.get('tabIndex')).toBe(2)
+    })
+
 })

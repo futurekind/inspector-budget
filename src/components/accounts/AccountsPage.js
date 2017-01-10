@@ -8,10 +8,10 @@ import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
 import Button from '../common/Button';
 import Dialog from '../common/Dialog';
-import Spacer from '../common/Spacer';
 import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
 import { Tabs, Tab } from '../common/Tabs';
+import Section from '../common/Section'
 
 import { toggleCreateDialog, createAccount, setTabIndex } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex } from '../../redux/selectors/accounts'
@@ -99,7 +99,13 @@ class AccountsPage extends Component {
                             />
                         </GridCol>
                     </Grid>
-                    <Spacer value={1}>
+                    <Section
+                        textAlign="right"
+                        spacer={{
+                            type: 'top',
+                            value: 2
+                        }}
+                    >
                         <Button type="plain" onClick={ this.handleRequestCloseDialog }>Cancel</Button>
                         <Button 
                             type="primary" 
@@ -108,7 +114,7 @@ class AccountsPage extends Component {
                                 !this.state.form.name || !this.state.form.balance
                             }
                         >Create Account</Button>
-                    </Spacer>
+                    </Section>
                 </Dialog>
             </View>
         )
@@ -119,10 +125,12 @@ class AccountsPage extends Component {
 
         if(accounts.length === 0) {
             return (
-                <Spacer value={ 1 }>
+                <Section textAlign="center" spacer={{
+                    value: 2
+                }}>
                     <p>You have no accounts.</p>
                     <p><Button onClick={ this.handleClickCreateAccount }>Add account</Button></p>
-                </Spacer>
+                </Section>
             )
         }
     }
@@ -133,11 +141,17 @@ class AccountsPage extends Component {
         if(accounts.length === 0) return null;
         
         return (
-            <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
-                { accounts.map(account => (
-                    <Tab key={ account.id }>{ account.name }</Tab>
-                )) }
-            </Tabs>
+            <Section
+                spacer={{
+                    value: 2
+                }}
+            >
+                <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
+                    { accounts.map(account => (
+                        <Tab key={ account.id }>{ account.name }</Tab>
+                    )) }
+                </Tabs>
+            </Section>
         )
     }
 

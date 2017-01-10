@@ -11,7 +11,8 @@ import Dialog from '../common/Dialog';
 import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
 import { Tabs, Tab } from '../common/Tabs';
-import Section from '../common/Section'
+import Section from '../common/Section';
+import { Table } from '../common/Datatable';
 
 import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount, deleteAccount } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex, getEditDialogIsOpen } from '../../redux/selectors/accounts'
@@ -104,6 +105,7 @@ class AccountsPage extends Component {
                 
                 { this.renderTabs() }
                 { this.renderActions() }
+                { this.renderDatatable() }
 
                 { this.renderNoAccounts() }
 
@@ -255,6 +257,12 @@ class AccountsPage extends Component {
                     onClick={ this.handleDeleteAccount }
                 >Delete Account</Button>
             </Section>
+        )
+    }
+
+    renderDatatable() {
+        return (
+            <Table></Table>
         )
     }
 

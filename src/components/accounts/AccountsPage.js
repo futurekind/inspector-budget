@@ -13,7 +13,7 @@ import { Grid, GridCol } from '../common/Grid';
 import { Tabs, Tab } from '../common/Tabs';
 import Section from '../common/Section'
 
-import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount } from '../../redux/actions/accounts';
+import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount, deleteAccount } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex, getEditDialogIsOpen } from '../../redux/selectors/accounts'
 
 const View = styled.section`
@@ -51,6 +51,7 @@ class AccountsPage extends Component {
         this.handleEditAccount = this.handleEditAccount.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleTabClick = this.handleTabClick.bind(this)
+        this.handleDeleteAccount = this.handleDeleteAccount.bind(this)
     }
 
     componentDidMount () {
@@ -102,17 +103,10 @@ class AccountsPage extends Component {
                 <Divider type="light" />
                 
                 { this.renderTabs() }
-
-                <Section textAlign="right">
-                    <Button 
-                        icon="mode_edit" 
-                        type="plain" 
-                        size="small"
-                        onClick={ this.handleClickEditAccount }
-                    >Edit Account</Button>
-                </Section>
+                { this.renderActions() }
 
                 { this.renderNoAccounts() }
+
                 { this.renderCreateDialog() }
                 { this.renderEditDialog() }
 
@@ -242,6 +236,28 @@ class AccountsPage extends Component {
         )
     }
 
+    renderActions() {
+        const { accounts } = this.props;
+        if(accounts.length === 0) return null;
+
+        return (
+            <Section textAlign="right">
+                <Button 
+                    icon="mode_edit" 
+                    type="plain" 
+                    size="small"
+                    onClick={ this.handleClickEditAccount }
+                >Edit Account</Button>
+                <Button 
+                    icon="delete" 
+                    type="plain" 
+                    size="small"
+                    onClick={ this.handleDeleteAccount }
+                >Delete Account</Button>
+            </Section>
+        )
+    }
+
     handleClickCreateAccount() {
         const { dispatch } = this.props;
         dispatch(toggleCreateDialog());
@@ -295,6 +311,18 @@ class AccountsPage extends Component {
         this.setState({
             editForm: {}
         })
+    }
+
+    handleDeleteAccount() {
+        const { accounts, tabIndex, dispatch } = this.props;
+        const account = accounts[tabIndex];
+        const confirm = window.confirm(`Are you sure you want to delete the account "${account.name}"`)
+
+        if(confirm) {
+            dispatch(deleteAccount(account.id));
+            dispatch(setTabIndex(0))
+        }
+
     }
 
     handleTabClick(index) {

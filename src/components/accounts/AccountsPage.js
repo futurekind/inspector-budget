@@ -67,10 +67,10 @@ class AccountsPage extends Component {
 
     componentWillReceiveProps (nextProps) {
         const { tabIndex, accounts } = this.props;
-
+        
         if(tabIndex !== nextProps.tabIndex) {
             this.setState({
-                editForm: accounts[nextProps.tabIndex]
+                editForm: nextProps.accounts[nextProps.tabIndex]
             })
         }
 
@@ -320,7 +320,6 @@ class AccountsPage extends Component {
 
         if(confirm) {
             dispatch(deleteAccount(account.id));
-            dispatch(setTabIndex(0))
         }
 
     }

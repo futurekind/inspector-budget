@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import TransitionGroup from 'react-addons-css-transition-group';
 import styled from 'styled-components';
 import { sizes, colors, rgba } from '../../utils/styles';
 
@@ -29,6 +30,24 @@ const Item = styled.li`
     padding-bottom: ${sizes.spacer}px;
     display: inline-block;
     cursor: pointer;
+
+    &.tab-enter {
+        opacity: 0
+    }
+
+    &.tab-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-out;
+    }
+
+    &.tab-leave {
+        opacity: 1
+    }
+
+    &.tab-leave-active {
+        opacity: 0;
+        transition: opacity 300ms ease-in;
+    }
 `
 
 const getIndicatorStyle = (items, selectedIndex) => {
@@ -74,12 +93,20 @@ class Tabs extends React.Component {
     }
     
     componentWillReceiveProps (nextProps) {
-        const { selectedIndex } = this.props;
+        const { selectedIndex, children } = this.props;
 
         if(selectedIndex !== nextProps.selectedIndex) {
             this.setState({
                 indicatorStyle: getIndicatorStyle(this.items, nextProps.selectedIndex)
             })
+        }
+
+        if(children.length !== nextProps.children.length) {
+            setTimeout(() => {
+                this.setState({
+                    indicatorStyle: getIndicatorStyle(this.items, nextProps.selectedIndex)
+                })
+            }, 500)
         }
     }
     
@@ -89,16 +116,19 @@ class Tabs extends React.Component {
         
         return (
             <View>
-                { [...children].map((child, i) => {
-                    return <Item innerRef={
-                        item => {
-                            this.items = [
-                                ...this.items,
-                                item
-                            ]
-                        }
-                    } key={ i } onClick={ () => onItemClick(i) }>{ child }</Item>;
-                }) }
+                <TransitionGroup
+                    transitionName="tab"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}
+                >
+                    { [...children].map((child, i) => {
+                        return <Item innerRef={
+                            item => {
+                                this.items[i] = item;
+                            }
+                        } key={ i } onClick={ () => onItemClick(i) }>{ child }</Item>;
+                    }) }
+                </TransitionGroup>
                 <Indicator style={ indicatorStyle } />
             </View>
         )

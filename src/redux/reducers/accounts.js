@@ -17,7 +17,8 @@ export default (state = initialState, action) => {
         case types.ACCOUNT__CREATE:
             return state
                 .update('results', results => results.push(action.data.id))
-                .update('entities', entities => entities.set(action.data.id, fromJS(action.data)));
+                .update('entities', entities => entities.set(action.data.id, fromJS(action.data)))
+                .set('tabIndex', state.get('results').size);
 
         case types.ACCOUNT__UPDATE:
             return state.update('entities', 
@@ -28,6 +29,7 @@ export default (state = initialState, action) => {
             return state
                 .deleteIn(['results', index])
                 .deleteIn(['entities', action.id])
+                .set('tabIndex', 0)
 
         case types.ACCOUNT__CREATE_DIALOG_OPEN:
             return state.set('createDialogIsOpen', !state.get('createDialogIsOpen'))

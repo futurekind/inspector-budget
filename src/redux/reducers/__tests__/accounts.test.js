@@ -34,6 +34,8 @@ describe('Accounts Reducer', () => {
             state.getIn(['results', 1]),
         ])
 
+        const tabIndex = state.get('tabIndex')
+
         expect(state.get('results').size).toBe(2);
         expect(acc1.get('name')).toBe('Some new account')
         expect(acc1.get('balance')).toBe(0.00)
@@ -43,6 +45,7 @@ describe('Accounts Reducer', () => {
         expect(acc2.get('balance')).toBe(987.65)
         expect(acc2.get('id')).toBeDefined()
         expect(acc2.get('createdAt')).toBeDefined()
+        expect(tabIndex).toBe(state.get('results').size - 1)
         
     })
 
@@ -69,6 +72,7 @@ describe('Accounts Reducer', () => {
 
         expect(state.get('results').toJS()).not.toContain(acc1.get('id'));
         expect(state.get('entities').get(acc1.get('id'))).not.toBeDefined();
+        expect(state.get('tabIndex')).toBe(0)
     })
 
     it('sets createDialogIsOpen to true', () => {

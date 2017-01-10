@@ -30,6 +30,7 @@ export default store => next => action => {
     
     switch(action.type) {
         case accountActionTypes.ACCOUNT__CREATE:
+        case accountActionTypes.ACCOUNT__UPDATE:
             saveToDropbox(serializeState(store.getState()));
             break;
         default:

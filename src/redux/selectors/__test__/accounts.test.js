@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import { getAccounts, getAccountById, getCreateDialogIsOpen } from '../accounts'
+import { getAccounts, getAccountById, getCreateDialogIsOpen, getTabIndex } from '../accounts'
 
 describe('Accounts Selectors', () => {
 
@@ -22,7 +22,8 @@ describe('Accounts Selectors', () => {
                 createdAt: '2017-01-07T22:05:53.580Z'
             })
         }),
-        createDialogIsOpen: false
+        createDialogIsOpen: false,
+        tabIndex: 1
     })
 
     describe('getAccounts()', () => {
@@ -58,6 +59,16 @@ describe('Accounts Selectors', () => {
 
             expect(open).toBe(false)
         })
+    })
+
+    describe('getTabIndex()', () => {
+
+        it('returns tabIndex', () => {
+            expect(getTabIndex({
+                accounts: state
+            })).toBe(1)
+        })
+
     })
 
 })

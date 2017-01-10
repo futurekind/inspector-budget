@@ -34,3 +34,5 @@ export const getCreateDialogIsOpen = createSelector(
     createDialogIsOpen,
     open => open
 )
+
+export const getTabIndex = state => state.accounts.get('tabIndex')

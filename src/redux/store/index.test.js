@@ -17,4 +17,8 @@ describe('Redux Store', () => {
         expect(state.accounts).toBeDefined();
     })
 
+    it('exposes an `transactions` field', () => {
+        expect(store.getState().transactions).toBeDefined()
+    })
+
 })

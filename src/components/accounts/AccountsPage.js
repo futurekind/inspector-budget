@@ -53,6 +53,17 @@ class AccountsPage extends Component {
         this.handleTabClick = this.handleTabClick.bind(this)
     }
 
+    componentDidMount () {
+        const { tabIndex, accounts } = this.props;
+
+        if(accounts.length !== 0) {
+            this.setState({
+                editForm: accounts[tabIndex]
+            })
+        }
+    }
+    
+
     componentWillReceiveProps (nextProps) {
         const { tabIndex, accounts } = this.props;
 

@@ -13,8 +13,8 @@ import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
 import { Tabs, Tab } from '../common/Tabs';
 
-import { toggleCreateDialog, createAccount } from '../../redux/actions/accounts';
-import { getCreateDialogIsOpen, getAccounts, getAccountById } from '../../redux/selectors/accounts'
+import { toggleCreateDialog, createAccount, setTabIndex } from '../../redux/actions/accounts';
+import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex } from '../../redux/selectors/accounts'
 
 const View = styled.section`
     width: 100%;
@@ -39,8 +39,7 @@ class AccountsPage extends Component {
         super(props);
 
         this.state = {
-            form: {},
-            tabIndex: 0
+            form: {}
         }
 
         this.handleClickCreateAccount = this.handleClickCreateAccount.bind(this)
@@ -129,12 +128,12 @@ class AccountsPage extends Component {
     }
 
     renderTabs() {
-        const { accounts } = this.props;
+        const { accounts, tabIndex } = this.props;
 
         if(accounts.length === 0) return null;
         
         return (
-            <Tabs selectedIndex={ this.state.tabIndex } onItemClick={ this.handleTabClick }>
+            <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
                 { accounts.map(account => (
                     <Tab key={ account.id }>{ account.name }</Tab>
                 )) }
@@ -175,16 +174,16 @@ class AccountsPage extends Component {
     }
 
     handleTabClick(index) {
-        this.setState({
-            tabIndex: index
-        })
+        const { dispatch } = this.props;
+        dispatch(setTabIndex(index));
     }
 }
 
 const mapState = state => {
     return {
         createDialogOpen: getCreateDialogIsOpen(state),
-        accounts: getAccounts(state).map(id => getAccountById(state, id))
+        accounts: getAccounts(state).map(id => getAccountById(state, id)),
+        tabIndex: getTabIndex(state)
     }
 }
 

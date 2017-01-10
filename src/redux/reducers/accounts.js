@@ -7,7 +7,7 @@ export const initialState = Map({
     results: List(),
     entities: Map(),
     createDialogIsOpen: false,
-    tabIndex: -1
+    tabIndex: 0
 })
 
 export default (state = initialState, action) => {

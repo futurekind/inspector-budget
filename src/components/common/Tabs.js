@@ -19,6 +19,7 @@ const Indicator = styled.span`
     position: absolute;
     bottom: 0;
     left: 0;
+    transition: left .25s;
 `
 
 const Item = styled.li`
@@ -30,13 +31,26 @@ const Item = styled.li`
     cursor: pointer;
 `
 
-const getIndicatorStyle = (items, selecedIndex) => {
-    if(!items[selecedIndex]) return {};
+const getIndicatorStyle = (items, selectedIndex) => {
+    if(!items[selectedIndex]) return {};
 
-    const bcr = items[selecedIndex].getBoundingClientRect();
+    const bcr = items[selectedIndex].getBoundingClientRect();
     
+    const left = items.reduce((value, item, i) => {
+        
+        if(!item) return value;
+
+        const currentBcr = item.getBoundingClientRect();
+
+        if(i >= selectedIndex) return value
+
+        return value + currentBcr.width
+        
+    }, 0)
+
     return {
-        width: bcr.width
+        width: bcr.width,
+        left
     }
 }
 
@@ -52,18 +66,27 @@ class Tabs extends React.Component {
     }
 
     componentDidMount () {
-        const { selecedIndex } = this.props;
+        const { selectedIndex } = this.props;
 
         this.setState({
-            indicatorStyle: getIndicatorStyle(this.items, selecedIndex)
+            indicatorStyle: getIndicatorStyle(this.items, selectedIndex)
         })
     }
     
+    componentWillReceiveProps (nextProps) {
+        const { selectedIndex } = this.props;
 
+        if(selectedIndex !== nextProps.selectedIndex) {
+            this.setState({
+                indicatorStyle: getIndicatorStyle(this.items, nextProps.selectedIndex)
+            })
+        }
+    }
+    
     render() {
-        const { children } = this.props;
+        const { children, onItemClick } = this.props;
         const { indicatorStyle } = this.state;
-
+        
         return (
             <View>
                 { [...children].map((child, i) => {
@@ -74,7 +97,7 @@ class Tabs extends React.Component {
                                 item
                             ]
                         }
-                    } key={ i }>{ child }</Item>;
+                    } key={ i } onClick={ () => onItemClick(i) }>{ child }</Item>;
                 }) }
                 <Indicator style={ indicatorStyle } />
             </View>
@@ -89,11 +112,13 @@ const Tab = ({
 }
 
 Tabs.defaultProps = {
-    selecedIndex: 0
+    selectedIndex: 0,
+    onItemClick: () => {}
 }
 
 Tabs.propTypes = {
-    selecedIndex: PropTypes.number,
+    selectedIndex: PropTypes.number,
+    onItemClick: PropTypes.func,
 }
 
 export { Tabs, Tab }

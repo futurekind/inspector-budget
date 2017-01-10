@@ -39,13 +39,15 @@ class AccountsPage extends Component {
         super(props);
 
         this.state = {
-            form: {}
+            form: {},
+            tabIndex: 0
         }
 
         this.handleClickCreateAccount = this.handleClickCreateAccount.bind(this)
         this.handleRequestCloseDialog = this.handleRequestCloseDialog.bind(this)
         this.handleCreateAccount = this.handleCreateAccount.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleTabClick = this.handleTabClick.bind(this)
     }
 
     render () {
@@ -130,9 +132,9 @@ class AccountsPage extends Component {
         const { accounts } = this.props;
 
         if(accounts.length === 0) return null;
-
+        
         return (
-            <Tabs>
+            <Tabs selectedIndex={ this.state.tabIndex } onItemClick={ this.handleTabClick }>
                 { accounts.map(account => (
                     <Tab key={ account.id }>{ account.name }</Tab>
                 )) }
@@ -169,6 +171,12 @@ class AccountsPage extends Component {
 
         this.setState({
             form: {}
+        })
+    }
+
+    handleTabClick(index) {
+        this.setState({
+            tabIndex: index
         })
     }
 }

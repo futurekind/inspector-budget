@@ -70,4 +70,10 @@ describe('Account Actions', () => {
         })
     })
 
+    describe('toggleEditDialog()', () => {
+        it('returns an action', () => {
+            expect(actions.toggleEditDialog().type).toBe(actions.types.ACCOUNT__EDIT_DIALOG_OPEN)
+        })
+    })
+
 })

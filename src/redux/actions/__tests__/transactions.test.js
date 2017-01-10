@@ -5,14 +5,14 @@ describe('Transactions actions', () => {
     describe('createTransaction()', () => {
 
         it('returns action', () => {
-            expect(actions.createTransaction({
+            const action = actions.createTransaction({
                 foo: 'bar'
-            })).toEqual({
-                type: actions.types.TRANSACTIONS__CREATE,
-                data: {
-                    foo: 'bar'
-                }
             })
+
+            expect(action.type).toBe(actions.types.TRANSACTIONS__CREATE)
+            expect(action.data.foo).toBe('bar')
+            expect(action.data.id).toBeDefined()
+            expect(action.data.createdAt).toBeDefined()
         })
 
     })

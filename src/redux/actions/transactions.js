@@ -1,3 +1,6 @@
+import assign from 'lodash.assign';
+import uuid from 'uuid';
+
 export const types = {
     TRANSACTIONS__CREATE: 'TRANSACTIONS__CREATE', 
     TRANSACTIONS__UPDATE: 'TRANSACTIONS__UPDATE', 
@@ -6,7 +9,10 @@ export const types = {
 
 export const createTransaction = data => ({
     type: types.TRANSACTIONS__CREATE,
-    data
+    data: assign({}, data, {
+        id: uuid.v4(),
+        createdAt: new Date().toISOString()
+    })
 })
 
 export const updateTransaction = (id, data) => ({

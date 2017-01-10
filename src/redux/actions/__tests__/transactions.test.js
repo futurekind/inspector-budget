@@ -30,4 +30,13 @@ describe('Transactions actions', () => {
             })
         })
     })
+
+    describe('deleteTransaction()', () => {
+        it('returns action', () => {
+            expect(actions.deleteTransaction('abc')).toEqual({
+                type: actions.types.TRANSACTIONS__DELETE,
+                id: 'abc'
+            })
+        })
+    })
 })

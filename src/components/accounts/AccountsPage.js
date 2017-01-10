@@ -13,8 +13,8 @@ import { Grid, GridCol } from '../common/Grid';
 import { Tabs, Tab } from '../common/Tabs';
 import Section from '../common/Section'
 
-import { toggleCreateDialog, createAccount, setTabIndex } from '../../redux/actions/accounts';
-import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex } from '../../redux/selectors/accounts'
+import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount } from '../../redux/actions/accounts';
+import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex, getEditDialogIsOpen } from '../../redux/selectors/accounts'
 
 const View = styled.section`
     width: 100%;
@@ -39,19 +39,39 @@ class AccountsPage extends Component {
         super(props);
 
         this.state = {
-            form: {}
+            createForm: {},
+            editForm: {}
         }
 
         this.handleClickCreateAccount = this.handleClickCreateAccount.bind(this)
-        this.handleRequestCloseDialog = this.handleRequestCloseDialog.bind(this)
+        this.handleClickEditAccount = this.handleClickEditAccount.bind(this)
+        this.handleRequestCloseCreateDialog = this.handleRequestCloseCreateDialog.bind(this)
+        this.handleRequestCloseEditDialog = this.handleRequestCloseEditDialog.bind(this)
         this.handleCreateAccount = this.handleCreateAccount.bind(this)
+        this.handleEditAccount = this.handleEditAccount.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleTabClick = this.handleTabClick.bind(this)
     }
 
-    render () {
-        const { createDialogOpen } = this.props;
+    componentWillReceiveProps (nextProps) {
+        const { tabIndex, accounts } = this.props;
 
+        if(tabIndex !== nextProps.tabIndex) {
+            this.setState({
+                editForm: accounts[nextProps.tabIndex]
+            })
+        }
+
+        if(accounts.length !== nextProps.accounts.length) {
+            this.setState({
+                editForm: nextProps.accounts[nextProps.tabIndex]
+            })
+        }
+    }
+    
+
+    render () {
+        
         return (
             <View>
                 <Header>
@@ -69,53 +89,22 @@ class AccountsPage extends Component {
                     </ActionsCol>
                 </Header>
                 <Divider type="light" />
-
                 
                 { this.renderTabs() }
-                { this.renderNoAccounts() }
 
-                <Dialog 
-                    open={ createDialogOpen }
-                    modal
-                    onRequestClose={ this.handleRequestCloseDialog }
-                    title="Create new Account"
-                >
-                    <Grid>
-                        <GridCol>
-                            <Input
-                                name="name"
-                                label="Name"
-                                value={ this.state.form.name || '' }
-                                onChange={ this.handleInputChange }
-                            />
-                        </GridCol>
-                        <GridCol>
-                            <Input
-                                name="balance"
-                                label="Current balance"
-                                type="number"
-                                value={ this.state.form.balance || '' }
-                                onChange={ this.handleInputChange }
-                            />
-                        </GridCol>
-                    </Grid>
-                    <Section
-                        textAlign="right"
-                        spacer={{
-                            type: 'top',
-                            value: 2
-                        }}
-                    >
-                        <Button type="plain" onClick={ this.handleRequestCloseDialog }>Cancel</Button>
-                        <Button 
-                            type="primary" 
-                            onClick={ this.handleCreateAccount }
-                            disabled={
-                                !this.state.form.name || !this.state.form.balance
-                            }
-                        >Create Account</Button>
-                    </Section>
-                </Dialog>
+                <Section textAlign="right">
+                    <Button 
+                        icon="mode_edit" 
+                        type="plain" 
+                        size="small"
+                        onClick={ this.handleClickEditAccount }
+                    >Edit Account</Button>
+                </Section>
+
+                { this.renderNoAccounts() }
+                { this.renderCreateDialog() }
+                { this.renderEditDialog() }
+
             </View>
         )
     }
@@ -155,21 +144,118 @@ class AccountsPage extends Component {
         )
     }
 
+    renderCreateDialog() {
+        const { createDialogOpen } = this.props;
+
+        return (
+            <Dialog 
+                open={ createDialogOpen }
+                modal
+                onRequestClose={ this.handleRequestCloseCreateDialog }
+                title="Create new Account"
+            >
+                <Grid>
+                    <GridCol>
+                        <Input
+                            name="name"
+                            label="Name"
+                            value={ this.state.createForm.name || '' }
+                            onChange={ e => this.handleInputChange('createForm', e) }
+                        />
+                    </GridCol>
+                    <GridCol>
+                        <Input
+                            name="balance"
+                            label="Current balance"
+                            type="number"
+                            value={ this.state.createForm.balance || '' }
+                            onChange={  e => this.handleInputChange('createForm', e)  }
+                        />
+                    </GridCol>
+                </Grid>
+                <Section
+                    textAlign="right"
+                    spacer={{
+                        type: 'top',
+                        value: 2
+                    }}
+                >
+                    <Button type="plain" onClick={ this.handleRequestCloseCreateDialog }>Cancel</Button>
+                    <Button 
+                        type="primary" 
+                        onClick={ this.handleCreateAccount }
+                        disabled={
+                            !this.state.createForm.name || !this.state.createForm.balance
+                        }
+                    >Create Account</Button>
+                </Section>
+            </Dialog>
+        )
+    }
+
+    renderEditDialog() {
+        const { editDialogOpen } = this.props;
+
+        return (
+            <Dialog 
+                open={ editDialogOpen }
+                modal
+                onRequestClose={ this.handleRequestCloseEditDialog }
+                title="Edit Account"
+            >
+                <Grid>
+                    <GridCol>
+                        <Input
+                            name="name"
+                            label="Name"
+                            value={ this.state.editForm.name || '' }
+                            onChange={ e => this.handleInputChange('editForm', e) }
+                        />
+                    </GridCol>
+                    
+                </Grid>
+                <Section
+                    textAlign="right"
+                    spacer={{
+                        type: 'top',
+                        value: 2
+                    }}
+                >
+                    <Button type="plain" onClick={ this.handleRequestCloseEditDialog }>Cancel</Button>
+                    <Button 
+                        type="primary" 
+                        onClick={ this.handleEditAccount }
+                    >Save</Button>
+                </Section>
+            </Dialog>
+        )
+    }
+
     handleClickCreateAccount() {
         const { dispatch } = this.props;
         dispatch(toggleCreateDialog());
     }
 
-    handleRequestCloseDialog() {
+    handleClickEditAccount() {
+        const { dispatch } = this.props;
+        dispatch(toggleEditDialog());
+    }
+
+    handleRequestCloseCreateDialog() {
         const { dispatch } = this.props;
         dispatch(toggleCreateDialog());
     }
 
-    handleInputChange(e) {
-        const { name, value } = e.target;
+    handleRequestCloseEditDialog() {
+        const { dispatch } = this.props;
+        dispatch(toggleEditDialog());
+    }
 
+    handleInputChange(field, e) {
+        const { name, value } = e.target;
+        
         this.setState({
-            form: assign({}, this.state.form, {
+            [field]: assign({}, this.state[field], {
                 [name]: value
             })
         })
@@ -177,13 +263,26 @@ class AccountsPage extends Component {
 
     handleCreateAccount() {
         const { dispatch } = this.props;
-        const { form } = this.state;
+        const { createForm } = this.state;
 
-        dispatch(createAccount(form));
+        dispatch(createAccount(createForm));
         dispatch(toggleCreateDialog());
 
         this.setState({
-            form: {}
+            createForm: {}
+        })
+    }
+
+    handleEditAccount() {
+        const { dispatch, tabIndex, accounts } = this.props;
+        const { editForm } = this.state;
+        const id = accounts[tabIndex].id;
+
+        dispatch(updateAccount(id, editForm));
+        dispatch(toggleEditDialog());
+
+        this.setState({
+            editForm: {}
         })
     }
 
@@ -196,6 +295,7 @@ class AccountsPage extends Component {
 const mapState = state => {
     return {
         createDialogOpen: getCreateDialogIsOpen(state),
+        editDialogOpen: getEditDialogIsOpen(state),
         accounts: getAccounts(state).map(id => getAccountById(state, id)),
         tabIndex: getTabIndex(state)
     }

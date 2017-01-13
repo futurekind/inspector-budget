@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import { getAccounts, getAccountById, getCreateDialogIsOpen } from '../accounts'
+import { getAccounts, getAccountById, getCreateDialogIsOpen, getTabIndex, getEditDialogIsOpen } from '../accounts'
 
 describe('Accounts Selectors', () => {
 
@@ -22,7 +22,9 @@ describe('Accounts Selectors', () => {
                 createdAt: '2017-01-07T22:05:53.580Z'
             })
         }),
-        createDialogIsOpen: false
+        createDialogIsOpen: false,
+        editDialogIsOpen: false,
+        tabIndex: 1
     })
 
     describe('getAccounts()', () => {
@@ -53,6 +55,26 @@ describe('Accounts Selectors', () => {
     describe('getCreateDialogIsOpen()', () => {
         it('returns current toggle state', () => {
             const open = getCreateDialogIsOpen({
+                accounts: state
+            })
+
+            expect(open).toBe(false)
+        })
+    })
+
+    describe('getTabIndex()', () => {
+
+        it('returns tabIndex', () => {
+            expect(getTabIndex({
+                accounts: state
+            })).toBe(1)
+        })
+
+    })
+
+    describe('getEditDialogIsOpen()', () => {
+        it('returns current toggle state', () => {
+            const open = getEditDialogIsOpen({
                 accounts: state
             })
 

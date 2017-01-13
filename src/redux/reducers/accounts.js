@@ -6,7 +6,9 @@ import { handle } from 'redux-pack';
 export const initialState = Map({
     results: List(),
     entities: Map(),
-    createDialogIsOpen: false
+    createDialogIsOpen: false,
+    editDialogIsOpen: false,
+    tabIndex: 0
 })
 
 export default (state = initialState, action) => {
@@ -15,7 +17,8 @@ export default (state = initialState, action) => {
         case types.ACCOUNT__CREATE:
             return state
                 .update('results', results => results.push(action.data.id))
-                .update('entities', entities => entities.set(action.data.id, fromJS(action.data)));
+                .update('entities', entities => entities.set(action.data.id, fromJS(action.data)))
+                .set('tabIndex', state.get('results').size);
 
         case types.ACCOUNT__UPDATE:
             return state.update('entities', 
@@ -26,9 +29,13 @@ export default (state = initialState, action) => {
             return state
                 .deleteIn(['results', index])
                 .deleteIn(['entities', action.id])
+                .set('tabIndex', 0)
 
         case types.ACCOUNT__CREATE_DIALOG_OPEN:
             return state.set('createDialogIsOpen', !state.get('createDialogIsOpen'))
+            
+        case types.ACCOUNT__EDIT_DIALOG_OPEN:
+            return state.set('editDialogIsOpen', !state.get('editDialogIsOpen'))
 
         case apiActionTypes.API__LOAD:
             return handle(state, action, {
@@ -39,6 +46,9 @@ export default (state = initialState, action) => {
                             .set('entities', fromJS(data.accounts.entities))
                 }
             })
+
+        case types.ACCOUNT__SET_TAB_INDEX:
+            return state.set('tabIndex', action.index)
 
         default:
             return state;

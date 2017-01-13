@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import TransitionGroup from 'react-addons-css-transition-group';
 import styled from 'styled-components';
 import { sizes, colors, rgba } from '../../utils/styles';
 
@@ -19,6 +20,7 @@ const Indicator = styled.span`
     position: absolute;
     bottom: 0;
     left: 0;
+    transition: all .25s;
 `
 
 const Item = styled.li`
@@ -28,15 +30,46 @@ const Item = styled.li`
     padding-bottom: ${sizes.spacer}px;
     display: inline-block;
     cursor: pointer;
+
+    &.tab-enter {
+        opacity: 0
+    }
+
+    &.tab-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-out;
+    }
+
+    &.tab-leave {
+        opacity: 1
+    }
+
+    &.tab-leave-active {
+        opacity: 0;
+        transition: opacity 300ms ease-in;
+    }
 `
 
-const getIndicatorStyle = (items, selecedIndex) => {
-    if(!items[selecedIndex]) return {};
+const getIndicatorStyle = (items, selectedIndex) => {
+    if(!items[selectedIndex]) return {};
 
-    const bcr = items[selecedIndex].getBoundingClientRect();
+    const bcr = items[selectedIndex].getBoundingClientRect();
     
+    const left = items.reduce((value, item, i) => {
+        
+        if(!item) return value;
+
+        const currentBcr = item.getBoundingClientRect();
+
+        if(i >= selectedIndex) return value
+
+        return value + currentBcr.width
+        
+    }, 0)
+
     return {
-        width: bcr.width
+        width: bcr.width,
+        left
     }
 }
 
@@ -52,30 +85,50 @@ class Tabs extends React.Component {
     }
 
     componentDidMount () {
-        const { selecedIndex } = this.props;
+        const { selectedIndex } = this.props;
 
         this.setState({
-            indicatorStyle: getIndicatorStyle(this.items, selecedIndex)
+            indicatorStyle: getIndicatorStyle(this.items, selectedIndex)
         })
     }
     
+    componentWillReceiveProps (nextProps) {
+        const { selectedIndex, children } = this.props;
 
+        if(selectedIndex !== nextProps.selectedIndex) {
+            this.setState({
+                indicatorStyle: getIndicatorStyle(this.items, nextProps.selectedIndex)
+            })
+        }
+
+        if(children.length !== nextProps.children.length) {
+            setTimeout(() => {
+                this.setState({
+                    indicatorStyle: getIndicatorStyle(this.items, nextProps.selectedIndex)
+                })
+            }, 500)
+        }
+    }
+    
     render() {
-        const { children } = this.props;
+        const { children, onItemClick } = this.props;
         const { indicatorStyle } = this.state;
-
+        
         return (
             <View>
-                { [...children].map((child, i) => {
-                    return <Item innerRef={
-                        item => {
-                            this.items = [
-                                ...this.items,
-                                item
-                            ]
-                        }
-                    } key={ i }>{ child }</Item>;
-                }) }
+                <TransitionGroup
+                    transitionName="tab"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}
+                >
+                    { [...children].map((child, i) => {
+                        return <Item innerRef={
+                            item => {
+                                this.items[i] = item;
+                            }
+                        } key={ i } onClick={ () => onItemClick(i) }>{ child }</Item>;
+                    }) }
+                </TransitionGroup>
                 <Indicator style={ indicatorStyle } />
             </View>
         )
@@ -89,11 +142,13 @@ const Tab = ({
 }
 
 Tabs.defaultProps = {
-    selecedIndex: 0
+    selectedIndex: 0,
+    onItemClick: () => {}
 }
 
 Tabs.propTypes = {
-    selecedIndex: PropTypes.number,
+    selectedIndex: PropTypes.number,
+    onItemClick: PropTypes.func,
 }
 
 export { Tabs, Tab }

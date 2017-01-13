@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 
 const results = state => state.accounts.get('results');
 const entities = state => state.accounts.get('entities');
-const createDialogIsOpen = state => state.accounts.get('createDialogIsOpen');
 
 export const getAccounts = createSelector(
     results,
@@ -30,7 +29,7 @@ export const getAccountById = createSelector(
     }
 )
 
-export const getCreateDialogIsOpen = createSelector(
-    createDialogIsOpen,
-    open => open
-)
+export const getCreateDialogIsOpen = state => state.accounts.get('createDialogIsOpen');
+export const getEditDialogIsOpen = state => state.accounts.get('editDialogIsOpen');
+
+export const getTabIndex = state => state.accounts.get('tabIndex')

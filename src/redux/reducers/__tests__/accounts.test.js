@@ -1,9 +1,14 @@
 import reducer, { initialState } from '../accounts';
 import * as actions from '../../actions/accounts';
+import * as transactionsActions from '../../actions/transactions';
 
 describe('Accounts Reducer', () => {
 
     let state, acc1, acc2;
+
+    const stateForTransactions = reducer(undefined, actions.createAccount({
+        name: 'Testaccount', balance: 300.47
+    }))
 
     it('returns a funtcion', () => {
         expect(typeof reducer).toBe('function');
@@ -104,6 +109,78 @@ describe('Accounts Reducer', () => {
 
         state = reducer(state, toggleEditDialog())
         expect(state.get('editDialogIsOpen')).toBe(false)
+    })
+
+    it('handles TRANSACTIONS__CREATE with + amount', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.createTransaction({
+            account_id: id,
+            amount: 123
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(423.47)
+    })
+
+    it('handles TRANSACTIONS__CREATE with - amount', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.createTransaction({
+            account_id: id,
+            amount: -1.48
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(298.99)
+    })
+
+    it('handles TRANSACTIONS__UPDATE', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
+            account_id: id,
+            amount: 100
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(400.47)
+    })
+
+    it('handles TRANSACTIONS__DELETE with - amount', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.deleteTransaction('some_id', {
+            account_id: id,
+            amount: -100.53
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(401)
+    })
+
+    it('handles TRANSACTIONS__DELETE with + amount', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.deleteTransaction('some_id', {
+            account_id: id,
+            amount: 100
+        }))
+
+        expect(
+            parseInt(test.getIn(['entities', id, 'balance']), 10)
+        ).toBe(200)
+    })
+
+    it('does nothing when account_id isn\'t present', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
+            xaccount_id: id,
+            amount: 100
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(300.47)
+    })
+
+    it('does nothing when amount isn\'t present', () => {
+        const id = stateForTransactions.getIn(['results', 0])
+        const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
+            account_id: id,
+            xamount: 100
+        }))
+
+        expect(test.getIn(['entities', id, 'balance'])).toBe(300.47)
     })
 
 })

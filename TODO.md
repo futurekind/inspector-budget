@@ -1,5 +1,8 @@
 # Components
 [] DataGrid / Data/Table
 
+# Redux
+[] Transactions selectors
+
 # Utils
-[] numeral.js
+[x] numeral.js

@@ -20,7 +20,7 @@ export const updateTransaction = (id, data) => ({
     id, data
 })
 
-export const deleteTransaction = id => ({
+export const deleteTransaction = (id, data) => ({
     type: types.TRANSACTIONS__DELETE,
-    id
+    id, data
 })

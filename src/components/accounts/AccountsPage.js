@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createPageHandler } from '../common/Page';
 import styled from 'styled-components';
 import assign from 'lodash.assign';
+import { numeral } from '../../utils/numeral';
 
 import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
@@ -166,17 +167,14 @@ class AccountsPage extends Component {
                         <Input
                             name="name"
                             label="Name"
-                            value={ this.state.createForm.name || '' }
-                            onChange={ e => this.handleInputChange('createForm', e) }
+                            onBlur={ e => this.handleInputChange('createForm', e) }
                         />
                     </GridCol>
                     <GridCol>
                         <Input
                             name="balance"
                             label="Current balance"
-                            type="number"
-                            value={ this.state.createForm.balance || '' }
-                            onChange={  e => this.handleInputChange('createForm', e)  }
+                            onBlur={  e => this.handleInputChange('createForm', e)  }
                         />
                     </GridCol>
                 </Grid>
@@ -288,10 +286,20 @@ class AccountsPage extends Component {
 
     handleInputChange(field, e) {
         const { name, value } = e.target;
-        
+        let val;
+
+        switch(name) {
+            case 'balance':
+                val = numeral(value).value()
+                break;
+            default:
+                val = value;
+                break;
+        }
+
         this.setState({
             [field]: assign({}, this.state[field], {
-                [name]: value
+                [name]: val
             })
         })
     }

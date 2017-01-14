@@ -10,13 +10,13 @@ exports[`Section renders its children 1`] = `
 exports[`Section renders its children with Spacer component 1`] = `
 <styled.section
   textAlign="left">
-  <Spacer
+  <Component
     type="topbottom"
     value={4}>
     <p>
       Foo
     </p>
-  </Spacer>
+  </Component>
 </styled.section>
 `;
 

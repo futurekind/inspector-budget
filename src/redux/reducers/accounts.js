@@ -52,7 +52,6 @@ export default (state = initialState, action) => {
             return state.set('tabIndex', action.index)
 
         case transactionsTypes.TRANSACTIONS__CREATE:
-        case transactionsTypes.TRANSACTIONS__UPDATE:
         case transactionsTypes.TRANSACTIONS__DELETE:
             
             if(!action.data.account_id || !action.data.amount)
@@ -71,7 +70,8 @@ export default (state = initialState, action) => {
                     entities.setIn([action.data.account_id, 'balance'], newBalance)
                 )
 
-        
+        case transactionsTypes.TRANSACTIONS__UPDATE:
+            return state
 
         default:
             return state;

@@ -4,6 +4,14 @@ describe('Transactions actions', () => {
     
     describe('createTransaction()', () => {
 
+        it('throws error when amount or account_id are not present', () => {
+            expect(() => {
+                actions.createTransaction({
+                    foo: 'bar'
+                })
+            }).toThrow()
+        })
+
         it('returns action', () => {
             const action = actions.createTransaction({
                 foo: 'bar'

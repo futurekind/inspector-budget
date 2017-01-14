@@ -16,7 +16,7 @@ import Section from '../common/Section';
 import { Table } from '../common/Datatable';
 
 import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount, deleteAccount } from '../../redux/actions/accounts';
-import { getCreateDialogIsOpen, getAccounts, getAccountById, getTabIndex, getEditDialogIsOpen } from '../../redux/selectors/accounts'
+import { getCreateDialogIsOpen, getAccounts, getTabIndex, getEditDialogIsOpen, getAccountsEntities } from '../../redux/selectors/accounts'
 
 const View = styled.section`
     width: 100%;
@@ -57,11 +57,12 @@ class AccountsPage extends Component {
     }
 
     componentDidMount () {
-        const { tabIndex, accounts } = this.props;
+        const { tabIndex, accountsEntities, accounts } = this.props;
+        const editForm = accountsEntities[accounts[tabIndex]]
 
         if(accounts.length !== 0) {
             this.setState({
-                editForm: accounts[tabIndex]
+                editForm
             })
         }
     }
@@ -69,16 +70,17 @@ class AccountsPage extends Component {
 
     componentWillReceiveProps (nextProps) {
         const { tabIndex, accounts } = this.props;
-        
+        const editForm = nextProps.accountsEntities[nextProps.accounts[nextProps.tabIndex]]
+
         if(tabIndex !== nextProps.tabIndex) {
             this.setState({
-                editForm: nextProps.accounts[nextProps.tabIndex]
+                editForm
             })
         }
 
         if(accounts.length !== nextProps.accounts.length) {
             this.setState({
-                editForm: nextProps.accounts[nextProps.tabIndex]
+                editForm
             })
         }
     }
@@ -133,7 +135,7 @@ class AccountsPage extends Component {
     }
 
     renderTabs() {
-        const { accounts, tabIndex } = this.props;
+        const { accounts, accountsEntities, tabIndex } = this.props;
 
         if(accounts.length === 0) return null;
         
@@ -144,9 +146,10 @@ class AccountsPage extends Component {
                 }}
             >
                 <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
-                    { accounts.map(account => (
-                        <Tab key={ account.id }>{ account.name }</Tab>
-                    )) }
+                    { accounts.map(id => {
+                        const account = accountsEntities[id]
+                        return <Tab key={ account.id }>{ account.name }</Tab>
+                    }) }
                 </Tabs>
             </Section>
         )
@@ -200,7 +203,7 @@ class AccountsPage extends Component {
 
     renderEditDialog() {
         const { editDialogOpen } = this.props;
-
+        
         return (
             <Dialog 
                 open={ editDialogOpen }
@@ -317,9 +320,9 @@ class AccountsPage extends Component {
     }
 
     handleEditAccount() {
-        const { dispatch, tabIndex, accounts } = this.props;
+        const { dispatch, tabIndex, accountsEntities, accounts } = this.props;
         const { editForm } = this.state;
-        const id = accounts[tabIndex].id;
+        const id = accountsEntities[accounts[tabIndex]].id;
 
         dispatch(updateAccount(id, editForm));
         dispatch(toggleEditDialog());
@@ -330,8 +333,8 @@ class AccountsPage extends Component {
     }
 
     handleDeleteAccount() {
-        const { accounts, tabIndex, dispatch } = this.props;
-        const account = accounts[tabIndex];
+        const { accountsEntities, accounts, tabIndex, dispatch } = this.props;
+        const account = accountsEntities[accounts[tabIndex]];
         const confirm = window.confirm(`Are you sure you want to delete the account "${account.name}"`)
 
         if(confirm) {
@@ -350,7 +353,8 @@ const mapState = state => {
     return {
         createDialogOpen: getCreateDialogIsOpen(state),
         editDialogOpen: getEditDialogIsOpen(state),
-        accounts: getAccounts(state).map(id => getAccountById(state, id)),
+        accounts: getAccounts(state),
+        accountsEntities: getAccountsEntities(state),
         tabIndex: getTabIndex(state)
     }
 }

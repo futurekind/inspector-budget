@@ -7,3 +7,4 @@
 
 # Utils
 [x] numeral.js
+[ ] ggf. Batch-Updates zu Dropbox

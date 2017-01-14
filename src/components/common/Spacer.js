@@ -45,6 +45,4 @@ Spacer.propTypes = {
     ])
 }
 
-Spacer.displayName =  'Spacer';
-
 export default Spacer

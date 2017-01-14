@@ -2,7 +2,7 @@
 [ ] DataGrid / Data/Table
 
 # Redux
-[ ] Transactions selectors
+[x] Transactions selectors
 [x] Bei allen Transaktionen Actions => Accounts Reducer muss balance updaten
 
 # Utils

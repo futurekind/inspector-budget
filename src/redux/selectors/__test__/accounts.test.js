@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable';
-import { getAccounts, getAccountById, getCreateDialogIsOpen, getTabIndex, getEditDialogIsOpen } from '../accounts'
+import { getAccounts, getAccountById, getCreateDialogIsOpen, getTabIndex, getEditDialogIsOpen, getAccountsEntities } from '../accounts'
 
 describe('Accounts Selectors', () => {
 
@@ -40,6 +40,15 @@ describe('Accounts Selectors', () => {
 
         })
 
+    })
+
+    describe('getAccountsEntities()', () => {
+        it('returns entities object', () => {
+            expect(getAccountsEntities({
+                accounts: state
+            }))
+                .toEqual(state.get('entities').toJS())
+        })
     })
 
     describe('getAccountById()', () => {

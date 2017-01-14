@@ -1,7 +1,0 @@
-exports[`PageHeading renders correctly 1`] = `<styled.h1 />`;
-
-exports[`PageHeading renders its children 1`] = `
-<styled.h1>
-  Some Heading
-</styled.h1>
-`;

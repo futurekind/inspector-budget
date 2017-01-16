@@ -134,7 +134,7 @@ describe('Redux Store', () => {
         })
     })
 
-    it(`calculates correct account balance with ${ta.types.TRANSACTIONS__CREATE}`, () => {
+    it(`calculates correct account balance with ${ta.types.TRANSACTIONS__DELETE}`, () => {
         const taId = store.getState().transactions.getIn(['results', 0]);
         const account_id = store.getState().accounts.getIn(['results', 0])
 

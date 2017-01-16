@@ -131,17 +131,17 @@ describe('Accounts Reducer', () => {
         expect(test.getIn(['entities', id, 'balance'])).toBe(298.99)
     })
 
-    xit('handles TRANSACTIONS__UPDATE', () => {
+    it('handles TRANSACTIONS__UPDATE', () => {
         const id = stateForTransactions.getIn(['results', 0])
         const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
             account_id: id,
             amount: -100,
-            prev_amount: -300
+            prev_amount: 100
         }))
 
         expect(
             parseInt(test.getIn(['entities', id, 'balance']), 10)
-        ).toBe(200)
+        ).toBe(100)
     })
 
     it('handles TRANSACTIONS__DELETE with - amount', () => {

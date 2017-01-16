@@ -11,7 +11,7 @@ import Button from '../common/Button';
 import Dialog from '../common/Dialog';
 import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
-import { Tabs, Tab } from '../common/Tabs';
+import Tabs from './Tabs';
 import Section from '../common/Section';
 import Table from '../common/Datatable';
 
@@ -145,12 +145,12 @@ class AccountsPage extends Component {
                     value: 2
                 }}
             >
-                <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
-                    { accounts.map(id => {
-                        const account = accountsEntities[id]
-                        return <Tab key={ account.id }>{ account.name }</Tab>
-                    }) }
-                </Tabs>
+                <Tabs 
+                    accounts={ accounts }
+                    accountsEntities={ accountsEntities }
+                    tabIndex={ tabIndex }
+                    handleTabClick={ this.handleTabClick }
+                />
             </Section>
         )
     }
@@ -244,7 +244,10 @@ class AccountsPage extends Component {
         if(accounts.length === 0) return null;
 
         return (
-            <Section textAlign="right">
+            <Section textAlign="right" spacer={{
+                type: 'bottom',
+                value: 2
+            }}>
                 <Button 
                     icon="mode_edit" 
                     type="plain" 
@@ -271,6 +274,7 @@ class AccountsPage extends Component {
                 headerRow={[
                     { key: 'id', label: 'ID', size: 200 },
                     { key: 'payee', label: 'Payee' },
+                    { key: 'cat', label: 'Category' },
                     { key: 'amount', label: 'Amount', size: 120, align: 'right' },
                     { key: 'actions', label: 'Actions', align: 'right' },
                 ]}

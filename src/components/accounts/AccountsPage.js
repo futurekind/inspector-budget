@@ -111,6 +111,7 @@ class AccountsPage extends Component {
                 { this.renderTabs() }
                 { this.renderActions() }
                 { this.renderDatatable() }
+                { this.renderTransactionsActions() }
 
                 { this.renderNoAccounts() }
 
@@ -279,7 +280,6 @@ class AccountsPage extends Component {
                     { key: 'payee', label: 'Payee' },
                     { key: 'cat', label: 'Category' },
                     { key: 'amount', label: 'Amount', size: 120, align: 'right' },
-                    { key: 'actions', label: 'Actions', align: 'right' },
                 ]}
                 data={ transactions.map(id => {
                     const ta = transactionsEntities[id];
@@ -291,6 +291,23 @@ class AccountsPage extends Component {
                 }) }
                 onClickRow={(index) => console.log(index)}
             />
+        )
+    }
+
+    renderTransactionsActions() {
+        const { accounts } = this.props;
+
+        if(accounts.length === 0) return null;
+
+        return (
+            <Section spacer={{
+                type: 'top',
+                value: 1
+            }} textAlign="right">
+                <Button
+                    icon="add_circle"
+                >Create Transaction</Button>
+            </Section>
         )
     }
 

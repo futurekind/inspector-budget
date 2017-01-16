@@ -26,6 +26,20 @@ describe('Transactions Selectors', () => {
                     account_id: 'acc1'
                 })
             })
+        }),
+        accounts: Map({
+            results: List(['acc1', 'acc2']),
+            entities: Map({
+                acc1: Map({
+                    id: 'acc1',
+                    createdAt: '2017-01-02T18:45:26.504Z'
+                }),
+                acc2: Map({
+                    id: 'acc2',
+                    createdAt: '2017-01-01T18:45:26.504Z'
+                })
+            }),
+            tabIndex: 1
         })
     }
 
@@ -46,7 +60,7 @@ describe('Transactions Selectors', () => {
 
     describe('getTransactionsByAccount()', () => {
         it('returns results array', () => {
-            expect(selectors.getTransactionsByAccount(state, 'acc1'))
+            expect(selectors.getTransactionsByAccount(state))
                 .toEqual(['t02', 't03'])
         })
     })

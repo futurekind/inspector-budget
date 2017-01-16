@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import * as accountsSelectors from './accounts';
 
 const resultsSelector = state => state.transactions.get('results')
 const entitiesSelector = state => state.transactions.get('entities')
@@ -19,10 +20,12 @@ export const getTransactions = createSelector(
 export const getTransactionsByAccount = createSelector(
     getTransactions,
     entitiesSelector,
-    (state, props) => props,
+    accountsSelectors.getAccounts,
+    accountsSelectors.getTabIndex,
 
-    (transactions, entities, accountId) => transactions.filter( t => {
+    (transactions, entities, accounts, tabIndex) => transactions.filter( t => {
         const ta = entities.get(t);
+        const accountId = accounts[tabIndex];
         return ta.get('account_id') === accountId
     } )
 )

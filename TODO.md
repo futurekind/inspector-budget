@@ -1,5 +1,7 @@
 # Components
-[ ] DataGrid / Data/Table
+[x] DataGrid / Data/Table
+[ ] Fixed Header Datatable
+[ ] CRUD Transactions
 
 # Redux
 [x] Transactions selectors

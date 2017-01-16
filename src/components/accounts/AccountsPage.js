@@ -262,6 +262,10 @@ class AccountsPage extends Component {
     }
 
     renderDatatable() {
+        const { accounts } = this.props;
+
+        if(accounts.length === 0) return null;
+
         return (
             <Table
                 headerRow={[

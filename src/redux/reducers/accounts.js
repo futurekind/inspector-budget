@@ -72,9 +72,8 @@ export default (state = initialState, action) => {
                 'entities', action.data.account_id, 'balance'
             ])
 
-            const diff = action.data.prev_amount - action.data.amount;
-            const newBalance = oldBalance + diff;
-
+            const newBalance = oldBalance - action.data.prev_amount + action.data.amount;
+            
             return state
                 .update('entities', entities => 
                     entities.setIn([action.data.account_id, 'balance'], newBalance)

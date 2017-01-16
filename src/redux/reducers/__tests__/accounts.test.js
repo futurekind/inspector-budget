@@ -131,14 +131,17 @@ describe('Accounts Reducer', () => {
         expect(test.getIn(['entities', id, 'balance'])).toBe(298.99)
     })
 
-    xit('handles TRANSACTIONS__UPDATE', () => {
+    it('handles TRANSACTIONS__UPDATE', () => {
         const id = stateForTransactions.getIn(['results', 0])
         const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
             account_id: id,
-            amount: 100,
+            amount: -100,
+            prev_amount: 100
         }))
 
-        expect(test.getIn(['entities', id, 'balance'])).toBe(400.47)
+        expect(
+            parseInt(test.getIn(['entities', id, 'balance']), 10)
+        ).toBe(100)
     })
 
     it('handles TRANSACTIONS__DELETE with - amount', () => {
@@ -161,26 +164,6 @@ describe('Accounts Reducer', () => {
         expect(
             parseInt(test.getIn(['entities', id, 'balance']), 10)
         ).toBe(200)
-    })
-
-    it('does nothing when account_id isn\'t present', () => {
-        const id = stateForTransactions.getIn(['results', 0])
-        const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
-            xaccount_id: id,
-            amount: 100
-        }))
-
-        expect(test.getIn(['entities', id, 'balance'])).toBe(300.47)
-    })
-
-    it('does nothing when amount isn\'t present', () => {
-        const id = stateForTransactions.getIn(['results', 0])
-        const test = reducer(stateForTransactions, transactionsActions.updateTransaction('some_id', {
-            account_id: id,
-            xamount: 100
-        }))
-
-        expect(test.getIn(['entities', id, 'balance'])).toBe(300.47)
     })
 
 })

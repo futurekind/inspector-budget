@@ -8,7 +8,7 @@ export const types = {
 }
 
 export const createTransaction = data => {
-    if(!data.amount || !data.account__id) throw new Error('Please provide `account_id` and `amount` the payload object');
+    if(!data.amount || !data.account_id) throw new Error('Please provide `account_id` and `amount` in the data object');
 
     return {
         type: types.TRANSACTIONS__CREATE,
@@ -19,12 +19,20 @@ export const createTransaction = data => {
     }
 }
 
-export const updateTransaction = (id, data) => ({
-    type: types.TRANSACTIONS__UPDATE,
-    id, data
-})
+export const updateTransaction = (id, data) => {
+    if(!data.amount || !data.prev_amount || !data.account_id) throw new Error('Please provide `account_id`, `amount` and `prev_amount` in the data object');
 
-export const deleteTransaction = (id, data) => ({
-    type: types.TRANSACTIONS__DELETE,
-    id, data
-})
+    return {
+        type: types.TRANSACTIONS__UPDATE,
+        id, data
+    }
+}
+
+export const deleteTransaction = (id, data) => {
+    if(!data.amount || !data.account_id) throw new Error('Please provide `account_id` and `amount` in the data object');
+
+    return {
+        type: types.TRANSACTIONS__DELETE,
+        id, data
+    }
+}

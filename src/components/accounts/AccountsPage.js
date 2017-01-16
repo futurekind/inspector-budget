@@ -11,9 +11,9 @@ import Button from '../common/Button';
 import Dialog from '../common/Dialog';
 import Input from '../common/Input';
 import { Grid, GridCol } from '../common/Grid';
-import { Tabs, Tab } from '../common/Tabs';
+import Tabs from './Tabs';
 import Section from '../common/Section';
-import { Table } from '../common/Datatable';
+import Table from '../common/Datatable';
 
 import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount, deleteAccount } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getTabIndex, getEditDialogIsOpen, getAccountsEntities } from '../../redux/selectors/accounts'
@@ -21,12 +21,12 @@ import { getCreateDialogIsOpen, getAccounts, getTabIndex, getEditDialogIsOpen, g
 const View = styled.section`
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Header = styled.header`
-    flex-basis: 100%;
     display: flex;
-    align-items: flex-end;
 `;
 
 const TitleCol = styled.div`
@@ -145,12 +145,12 @@ class AccountsPage extends Component {
                     value: 2
                 }}
             >
-                <Tabs selectedIndex={ tabIndex } onItemClick={ this.handleTabClick }>
-                    { accounts.map(id => {
-                        const account = accountsEntities[id]
-                        return <Tab key={ account.id }>{ account.name }</Tab>
-                    }) }
-                </Tabs>
+                <Tabs 
+                    accounts={ accounts }
+                    accountsEntities={ accountsEntities }
+                    tabIndex={ tabIndex }
+                    handleTabClick={ this.handleTabClick }
+                />
             </Section>
         )
     }
@@ -244,7 +244,10 @@ class AccountsPage extends Component {
         if(accounts.length === 0) return null;
 
         return (
-            <Section textAlign="right">
+            <Section textAlign="right" spacer={{
+                type: 'bottom',
+                value: 2
+            }}>
                 <Button 
                     icon="mode_edit" 
                     type="plain" 
@@ -262,8 +265,41 @@ class AccountsPage extends Component {
     }
 
     renderDatatable() {
+        const { accounts } = this.props;
+
+        if(accounts.length === 0) return null;
+
         return (
-            <Table></Table>
+            <Table
+                headerRow={[
+                    { key: 'id', label: 'ID', size: 200 },
+                    { key: 'payee', label: 'Payee' },
+                    { key: 'cat', label: 'Category' },
+                    { key: 'amount', label: 'Amount', size: 120, align: 'right' },
+                    { key: 'actions', label: 'Actions', align: 'right' },
+                ]}
+                data={[
+                    { id: '12lökjsdf', payee: 'Strom', amount: -123 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                    { id: '09324ihg', payee: 'Auto', amount: -800 },
+                ]}
+                onClickRow={(index) => console.log(index)}
+            />
         )
     }
 

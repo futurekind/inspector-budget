@@ -54,9 +54,6 @@ export default (state = initialState, action) => {
         case transactionsTypes.TRANSACTIONS__CREATE:
         case transactionsTypes.TRANSACTIONS__DELETE:
             
-            if(!action.data.account_id || !action.data.amount)
-                return state;
-
             const oldBalance = state.getIn([
                 'entities', action.data.account_id, 'balance'
             ])
@@ -70,8 +67,18 @@ export default (state = initialState, action) => {
                     entities.setIn([action.data.account_id, 'balance'], newBalance)
                 )
 
-        case transactionsTypes.TRANSACTIONS__UPDATE:
+        case transactionsTypes.TRANSACTIONS__UPDATE: {
+            const oldBalance = state.getIn([
+                'entities', action.data.account_id, 'balance'
+            ])
+
+            const newBalance = oldBalance - action.data.prev_amount + action.data.amount;
+            
             return state
+                .update('entities', entities => 
+                    entities.setIn([action.data.account_id, 'balance'], newBalance)
+                )
+        }
 
         default:
             return state;

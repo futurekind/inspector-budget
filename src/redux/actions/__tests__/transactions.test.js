@@ -4,6 +4,14 @@ describe('Transactions actions', () => {
     
     describe('createTransaction()', () => {
 
+        it('throws error when amount or account_id are not present', () => {
+            expect(() => {
+                actions.createTransaction({
+                    foo: 'bar'
+                })
+            }).toThrow()
+        })
+
         it('returns action', () => {
             const action = actions.createTransaction({
                 foo: 'bar'
@@ -33,9 +41,12 @@ describe('Transactions actions', () => {
 
     describe('deleteTransaction()', () => {
         it('returns action', () => {
-            expect(actions.deleteTransaction('abc')).toEqual({
+            expect(actions.deleteTransaction('abc', {
+                foo: 'bar'
+            })).toEqual({
                 type: actions.types.TRANSACTIONS__DELETE,
-                id: 'abc'
+                id: 'abc',
+                data: {foo: 'bar'}
             })
         })
     })

@@ -29,6 +29,8 @@ export const getAccountById = createSelector(
     }
 )
 
+export const getAccountsEntities = state => entities(state).toJS()
+
 export const getCreateDialogIsOpen = state => state.accounts.get('createDialogIsOpen');
 export const getEditDialogIsOpen = state => state.accounts.get('editDialogIsOpen');
 

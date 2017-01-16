@@ -7,20 +7,24 @@ export const types = {
     TRANSACTIONS__DELETE: 'TRANSACTIONS__DELETE', 
 }
 
-export const createTransaction = data => ({
-    type: types.TRANSACTIONS__CREATE,
-    data: assign({}, data, {
-        id: uuid.v4(),
-        createdAt: new Date().toISOString()
-    })
-})
+export const createTransaction = data => {
+    if(!data.amount || !data.account__id) throw new Error('Please provide `account_id` and `amount` the payload object');
+
+    return {
+        type: types.TRANSACTIONS__CREATE,
+        data: assign({}, data, {
+            id: uuid.v4(),
+            createdAt: new Date().toISOString()
+        })
+    }
+}
 
 export const updateTransaction = (id, data) => ({
     type: types.TRANSACTIONS__UPDATE,
     id, data
 })
 
-export const deleteTransaction = id => ({
+export const deleteTransaction = (id, data) => ({
     type: types.TRANSACTIONS__DELETE,
-    id
+    id, data
 })

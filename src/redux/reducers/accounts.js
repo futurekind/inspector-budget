@@ -1,5 +1,6 @@
 import { Map, List, fromJS } from 'immutable';
 import { types } from '../actions/accounts';
+import { types as transactionsTypes } from '../actions/transactions';
 import { types as apiActionTypes } from '../actions/api';
 import { handle } from 'redux-pack';
 
@@ -49,6 +50,28 @@ export default (state = initialState, action) => {
 
         case types.ACCOUNT__SET_TAB_INDEX:
             return state.set('tabIndex', action.index)
+
+        case transactionsTypes.TRANSACTIONS__CREATE:
+        case transactionsTypes.TRANSACTIONS__DELETE:
+            
+            if(!action.data.account_id || !action.data.amount)
+                return state;
+
+            const oldBalance = state.getIn([
+                'entities', action.data.account_id, 'balance'
+            ])
+
+            const newBalance = action.type === transactionsTypes.TRANSACTIONS__DELETE ? 
+                oldBalance - action.data.amount :
+                oldBalance + action.data.amount
+
+            return state
+                .update('entities', entities => 
+                    entities.setIn([action.data.account_id, 'balance'], newBalance)
+                )
+
+        case transactionsTypes.TRANSACTIONS__UPDATE:
+            return state
 
         default:
             return state;

@@ -16,4 +16,15 @@ export const getTransactions = createSelector(
     }).toJS()
 )
 
+export const getTransactionsByAccount = createSelector(
+    getTransactions,
+    entitiesSelector,
+    (state, props) => props,
+
+    (transactions, entities, accountId) => transactions.filter( t => {
+        const ta = entities.get(t);
+        return ta.get('account_id') === accountId
+    } )
+)
+
 export const getTransactionsEntities = state => entitiesSelector(state).toJS()

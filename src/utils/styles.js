@@ -32,3 +32,9 @@ export const rgba = (hex, alpha = 1) => {
     }
     throw new Error('Bad Hex');
 }
+
+export const getColorForValue = value => {
+    return parseInt(value, 10) > 0
+        ? colors.highlight
+        : 'red'
+}

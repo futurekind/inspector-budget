@@ -8,7 +8,7 @@ export const types = {
 }
 
 export const createTransaction = data => {
-    if(!data.amount || !data.account__id) throw new Error('Please provide `account_id` and `amount` the payload object');
+    if(!data.amount || !data.account_id) throw new Error('Please provide `account_id` and `amount` in the payload object');
 
     return {
         type: types.TRANSACTIONS__CREATE,

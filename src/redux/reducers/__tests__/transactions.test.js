@@ -110,4 +110,19 @@ describe('Transactions reducer', () => {
 
     })
 
+    describe(`handles ${actions.types.TRANSACTIONS__TOGGLE_DIALOG}`, () => {
+        let state = initialState;
+
+        it('sets to true', () => {
+            state = reducer(undefined, actions.toggleDialog());
+            expect(state.get('dialogOpen')).toBe(true)
+        })
+
+        it('sets to false', () => {
+            state = reducer(state, actions.toggleDialog());
+            expect(state.get('dialogOpen')).toBe(false)
+        })
+
+    })
+
 })

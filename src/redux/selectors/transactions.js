@@ -3,6 +3,7 @@ import * as accountsSelectors from './accounts';
 
 const resultsSelector = state => state.transactions.get('results')
 const entitiesSelector = state => state.transactions.get('entities')
+const dialogOpenSelector = state => state.transactions.get('dialogOpen')
 
 export const getTransactions = createSelector(
     resultsSelector,
@@ -31,3 +32,4 @@ export const getTransactionsByAccount = createSelector(
 )
 
 export const getTransactionsEntities = state => entitiesSelector(state).toJS()
+export const getDialogOpen = state => dialogOpenSelector(state)

@@ -25,7 +25,8 @@ describe('Transactions Selectors', () => {
                     createdAt: '2017-01-16T18:45:26.504Z',
                     account_id: 'acc1'
                 })
-            })
+            }),
+            dialogOpen: false
         }),
         accounts: Map({
             results: List(['acc1', 'acc2']),
@@ -62,6 +63,13 @@ describe('Transactions Selectors', () => {
         it('returns results array', () => {
             expect(selectors.getTransactionsByAccount(state))
                 .toEqual(['t02', 't03'])
+        })
+    })
+
+    describe('getDialogOpen()', () => {
+        it('returns correct toggle state', () => {
+            expect(selectors.getDialogOpen(state))
+                .toBe(false)
         })
     })
 

@@ -4,6 +4,7 @@ import { createPageHandler } from '../common/Page';
 import styled from 'styled-components';
 import assign from 'lodash.assign';
 import { numeral } from '../../utils/numeral';
+import { getColorForValue } from '../../utils/styles';
 
 import PageHeading from '../common/PageHeading';
 import Divider from '../common/Divider';
@@ -17,6 +18,7 @@ import Table from '../common/Datatable';
 
 import { toggleCreateDialog, createAccount, setTabIndex, toggleEditDialog, updateAccount, deleteAccount } from '../../redux/actions/accounts';
 import { getCreateDialogIsOpen, getAccounts, getTabIndex, getEditDialogIsOpen, getAccountsEntities } from '../../redux/selectors/accounts'
+import * as transactionsSelectors from '../../redux/selectors/transactions';
 
 const View = styled.section`
     width: 100%;
@@ -109,6 +111,7 @@ class AccountsPage extends Component {
                 { this.renderTabs() }
                 { this.renderActions() }
                 { this.renderDatatable() }
+                { this.renderTransactionsActions() }
 
                 { this.renderNoAccounts() }
 
@@ -265,41 +268,46 @@ class AccountsPage extends Component {
     }
 
     renderDatatable() {
-        const { accounts } = this.props;
-
+        const { accounts, transactions, transactionsEntities, accountsEntities } = this.props;
+        
         if(accounts.length === 0) return null;
 
         return (
             <Table
                 headerRow={[
                     { key: 'id', label: 'ID', size: 200 },
+                    { key: 'account', label: 'Account' },
                     { key: 'payee', label: 'Payee' },
                     { key: 'cat', label: 'Category' },
                     { key: 'amount', label: 'Amount', size: 120, align: 'right' },
-                    { key: 'actions', label: 'Actions', align: 'right' },
                 ]}
-                data={[
-                    { id: '12lökjsdf', payee: 'Strom', amount: -123 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                    { id: '09324ihg', payee: 'Auto', amount: -800 },
-                ]}
+                data={ transactions.map(id => {
+                    const ta = transactionsEntities[id];
+
+                    return assign({}, transactionsEntities[id], {
+                        account: accountsEntities[ta.account_id].name,
+                        amount: <span style={{ color: getColorForValue(ta.amount)}}>{ numeral(ta.amount).format()}</span>
+                    })
+                }) }
                 onClickRow={(index) => console.log(index)}
             />
+        )
+    }
+
+    renderTransactionsActions() {
+        const { accounts } = this.props;
+
+        if(accounts.length === 0) return null;
+
+        return (
+            <Section spacer={{
+                type: 'top',
+                value: 1
+            }} textAlign="right">
+                <Button
+                    icon="add_circle"
+                >Create Transaction</Button>
+            </Section>
         )
     }
 
@@ -391,7 +399,9 @@ const mapState = state => {
         editDialogOpen: getEditDialogIsOpen(state),
         accounts: getAccounts(state),
         accountsEntities: getAccountsEntities(state),
-        tabIndex: getTabIndex(state)
+        tabIndex: getTabIndex(state),
+        transactions: transactionsSelectors.getTransactionsByAccount(state),
+        transactionsEntities: transactionsSelectors.getTransactionsEntities(state)
     }
 }
 

@@ -62,10 +62,11 @@ const Table = ({
                 { rows.map(header => {
                     return (
                         <Column 
+                            testKey="headerColumn"
                             key={ header.label }
                             style={ getHeaderStyle(header) }
                         >
-                            <CellRenderer renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
+                            <CellRenderer testKey="headerCell" renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
 
                         </Column>
                     )

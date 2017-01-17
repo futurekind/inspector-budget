@@ -58,7 +58,6 @@ class AccountsPage extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleTabClick = this.handleTabClick.bind(this)
         this.handleDeleteAccount = this.handleDeleteAccount.bind(this)
-        this.handleCreateTransactionClick = this.handleCreateTransactionClick.bind(this)
         this.handleCreateTransaction = this.handleCreateTransaction.bind(this)
     }
 
@@ -310,71 +309,10 @@ class AccountsPage extends Component {
                 value: 1
             }} textAlign="right">
                 <Button
-                    onClick={ this.handleCreateTransactionClick }
+                    onClick={ this.handleCreateTransaction }
                     icon="add_circle"
                 >Create Transaction</Button>
             </Section>
-        )
-    }
-
-    renderTransactionDialog() {
-        const { transactionsDialogOpen } = this.props;
-
-        return (
-            <Dialog 
-                open={ transactionsDialogOpen }
-                modal
-                onRequestClose={ this.handleCreateTransactionClick  }
-                title="Transaction"
-            >
-                <Grid>
-                    <GridCol>
-                        <Input
-                            name="date"
-                            label="Date"
-                            onBlur={ e => this.handleInputChange('transactionForm', e) }
-                        />
-                    </GridCol>
-                    <GridCol>
-                        <Input
-                            name="payee"
-                            label="Payee"
-                            onBlur={  e => this.handleInputChange('transactionForm', e)  }
-                        />
-                    </GridCol>
-                </Grid>
-                <Grid>
-                    <GridCol>
-                        <Input
-                            name="category"
-                            label="Category"
-                            onBlur={  e => this.handleInputChange('transactionForm', e)  }
-                        />
-                    </GridCol>
-                    <GridCol>
-                        <Input
-                            name="amount"
-                            label="Amount"
-                            onBlur={  e => this.handleInputChange('transactionForm', e)  }
-                        />
-                    </GridCol>
-                </Grid>
-                
-                <Section
-                    textAlign="right"
-                    spacer={{
-                        type: 'top',
-                        value: 2
-                    }}
-                >
-                    <Button type="plain" onClick={ this.handleCreateTransactionClick }>Cancel</Button>
-                    <Button 
-                        type="primary" 
-                        onClick={ this.handleCreateTransaction }
-                        disabled={ false }
-                    >Create Transaction</Button>
-                </Section>
-            </Dialog>
         )
     }
 
@@ -459,23 +397,16 @@ class AccountsPage extends Component {
         dispatch(setTabIndex(index));
     }
 
-    handleCreateTransactionClick() {
-        const { dispatch } = this.props;
-        dispatch(transactionsActions.toggleDialog())
-    }
-
     handleCreateTransaction() {
-        const { transactionForm } = this.state;
         const { accounts, accountsEntities, tabIndex, dispatch } = this.props;
         const account_id = accountsEntities[accounts[tabIndex]].id;
 
-        const data = assign({}, transactionForm, {
-            amount: numeral(transactionForm.amount).value(),
+        const data = {
+            amount: 0.01,
             account_id
-        })
+        }
 
         dispatch(transactionsActions.createTransaction(data))
-        dispatch(transactionsActions.toggleDialog())
 
         this.setState({
             transactionForm: {}
@@ -492,7 +423,6 @@ const mapState = state => {
         tabIndex: getTabIndex(state),
         transactions: transactionsSelectors.getTransactionsByAccount(state),
         transactionsEntities: transactionsSelectors.getTransactionsEntities(state),
-        transactionsDialogOpen: transactionsSelectors.getDialogOpen(state)
     }
 }
 

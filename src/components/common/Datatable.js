@@ -3,10 +3,19 @@ import styled from 'styled-components';
 
 import { colors, rgba } from '../../utils/styles';
 
-const View = styled.section`
+const View = styled.div`
     display: flex;
-    flex: 1;
-    overflow: auto;
+    flex-direction: column;
+`
+
+const Row = styled.div`
+    display: flex;
+    overflow-y: auto;
+`
+
+const HeaderRow = styled(Row)`
+    overflow-x: visible;
+    flex: 1 0 auto;
 `
 
 const Column = styled.div`
@@ -27,6 +36,8 @@ const Cell = styled.div`
 
 const HeaderCell = styled(Cell)`
     font-weight: bold;
+    border-bottom-width: 2px;
+    border-bottom-color: ${colors.light};
 `
 
 const getHeaderStyle = props => {
@@ -55,27 +66,41 @@ const Table = ({
 }) => {
     return (
         <View>
-            { headerRow.map(header => {
-                return (
-                    <Column 
-                        key={ header.label }
-                        style={ getHeaderStyle(header) }
-                    >
-                        <HeaderCell>{ header.label }</HeaderCell>
+            <HeaderRow>
+                { headerRow.map(header => {
+                    return (
+                        <Column 
+                            key={ header.label }
+                            style={ getHeaderStyle(header) }
+                        >
+                            <HeaderCell>{ header.label }</HeaderCell>
 
-                        { data.map((item, i) => {
-                            return (
-                                <Cell key={i} onClick={ onClickRow ? () => onClickRow(i) : null }>{ 
-                                    item[header.key]
-                                    ? item[header.key] 
-                                    : '-'
-                                }</Cell>
-                            )
-                        }) }
+                        </Column>
+                    )
+                }) }
+            </HeaderRow>
+            <Row>
+                { headerRow.map(header => {
+                    return (
+                        <Column 
+                            key={ header.label }
+                            style={ getHeaderStyle(header) }
+                        >
 
-                    </Column>
-                )
-            }) }
+                            { data.map((item, i) => {
+                                return (
+                                    <Cell key={i} onClick={ onClickRow ? () => onClickRow(i) : null }>{ 
+                                        item[header.key]
+                                        ? item[header.key] 
+                                        : '-'
+                                    }</Cell>
+                                )
+                            }) }
+
+                        </Column>
+                    )
+                }) }
+            </Row>
         </View>
     )
 }

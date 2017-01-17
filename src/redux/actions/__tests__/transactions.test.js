@@ -81,4 +81,12 @@ describe('Transactions actions', () => {
             })
         })
     })
+
+    describe('toggleDialog()', () => {
+        const action = actions.toggleDialog();
+
+        it('returns type', () => {
+            expect(action.type).toBe(actions.types.TRANSACTIONS__TOGGLE_DIALOG)
+        })
+    })
 })

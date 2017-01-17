@@ -3,7 +3,8 @@ import { types } from '../actions/transactions';
 
 export const initialState = Map({
     results: List(),
-    entities: Map()
+    entities: Map(),
+    dialogOpen: false
 })
 
 export default (state = initialState, action) => {
@@ -23,6 +24,9 @@ export default (state = initialState, action) => {
             return state
                 .deleteIn(['results', index])
                 .deleteIn(['entities', action.id])
+
+        case types.TRANSACTIONS__TOGGLE_DIALOG:
+            return state.set('dialogOpen', !state.get('dialogOpen'))
 
         default:
             return state;

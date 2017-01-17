@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components';
 
-import { colors } from '../../utils/styles';
-
 const View = styled.div`
     display: flex;
     flex-direction: column;
@@ -53,7 +51,7 @@ const CellRenderer = ({
 }
 
 const Table = ({
-    headerRow,
+    rows,
     data,
     cellRenderer,
     headerCellRenderer
@@ -61,7 +59,7 @@ const Table = ({
     return (
         <View>
             <HeaderRow>
-                { headerRow.map(header => {
+                { rows.map(header => {
                     return (
                         <Column 
                             key={ header.label }
@@ -74,7 +72,7 @@ const Table = ({
                 }) }
             </HeaderRow>
             <Row>
-                { headerRow.map(header => {
+                { rows.map(header => {
                     return (
                         <Column 
                             key={ header.label }
@@ -100,7 +98,7 @@ const Table = ({
 }
 
 Table.propTypes = {
-    headerRow: PropTypes.arrayOf(
+    rows: PropTypes.arrayOf(
         PropTypes.shape({
             key: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,

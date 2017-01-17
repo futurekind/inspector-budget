@@ -27,28 +27,34 @@ const HeaderCell = styled(Cell)`
     border-bottom-color: ${colors.light};
 `
 
+const rows = [
+    { key: 'date', label: 'Date' },
+    { key: 'account', label: 'Account' },
+    { key: 'payee', label: 'Payee' },
+    { key: 'cat', label: 'Category' },
+    { key: 'amount', label: 'Amount', size: 120, align: 'right' },
+]
+
+const mapData = ({
+    transactions,
+    transactionsEntities,
+    accountsEntities
+}) => transactions.map(id => {
+    const ta = transactionsEntities[id];
+
+    return assign({}, transactionsEntities[id], {
+        account: accountsEntities[ta.account_id].name,
+        amount: <span style={{ color: getColorForValue(ta.amount)}}>{ numeral(ta.amount).format()}</span>
+    })
+})
+
 class AccountsDatatable extends Component {
     render () {
-        
-        const { accountsEntities, transactions, transactionsEntities } = this.props;
 
         return (
             <Table
-                headerRow={[
-                    { key: 'date', label: 'Date' },
-                    { key: 'account', label: 'Account' },
-                    { key: 'payee', label: 'Payee' },
-                    { key: 'cat', label: 'Category' },
-                    { key: 'amount', label: 'Amount', size: 120, align: 'right' },
-                ]}
-                data={ transactions.map(id => {
-                    const ta = transactionsEntities[id];
-
-                    return assign({}, transactionsEntities[id], {
-                        account: accountsEntities[ta.account_id].name,
-                        amount: <span style={{ color: getColorForValue(ta.amount)}}>{ numeral(ta.amount).format()}</span>
-                    })
-                }) }
+                rows={ rows }
+                data={ mapData(this.props) }
                 cellRenderer={ Cell }
                 headerCellRenderer={ HeaderCell }
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components';
 
-import { colors, rgba } from '../../utils/styles';
+import { colors } from '../../utils/styles';
 
 const View = styled.div`
     display: flex;
@@ -20,24 +20,6 @@ const HeaderRow = styled(Row)`
 
 const Column = styled.div`
     flex: 1;
-`
-
-const Cell = styled.div`
-    padding: .6em .3em;
-    border-bottom: 1px solid ${colors.highlight__quite};
-    font-size: 14px;
-
-    &:nth-child(even) {
-        background: ${rgba(colors.highlight__quite, .1)};
-    }
-
-    cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
-`
-
-const HeaderCell = styled(Cell)`
-    font-weight: bold;
-    border-bottom-width: 2px;
-    border-bottom-color: ${colors.light};
 `
 
 const getHeaderStyle = props => {
@@ -59,10 +41,22 @@ const getHeaderStyle = props => {
     return {}
 }
 
+const CellRenderer = ({
+    renderer,
+    children
+}) => {
+    const RendererComponent = renderer;
+
+    if(!renderer) return <div>{ children }</div>
+
+    return <RendererComponent {...renderer.props}>{ children }</RendererComponent>
+}
+
 const Table = ({
     headerRow,
     data,
-    onClickRow
+    cellRenderer,
+    headerCellRenderer
 }) => {
     return (
         <View>
@@ -73,7 +67,7 @@ const Table = ({
                             key={ header.label }
                             style={ getHeaderStyle(header) }
                         >
-                            <HeaderCell>{ header.label }</HeaderCell>
+                            <CellRenderer renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
 
                         </Column>
                     )
@@ -89,11 +83,11 @@ const Table = ({
 
                             { data.map((item, i) => {
                                 return (
-                                    <Cell key={i} onClick={ onClickRow ? () => onClickRow(i) : null }>{ 
+                                    <CellRenderer key={ i } renderer={ cellRenderer }>{
                                         item[header.key]
-                                        ? item[header.key] 
-                                        : '-'
-                                    }</Cell>
+                                            ? item[header.key] 
+                                            : '-' 
+                                    }</CellRenderer>
                                 )
                             }) }
 
@@ -117,7 +111,8 @@ Table.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.object
     ),
-    onClickRow: PropTypes.func,
+    cellRenderer: PropTypes.func,
+    headerCellRenderer: PropTypes.func,
 }
 
 export default Table

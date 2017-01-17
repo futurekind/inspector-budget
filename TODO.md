@@ -1,6 +1,6 @@
 # Components
 [x] DataGrid / Data/Table
-[ ] Fixed Header Datatable
+[x] Fixed Header Datatable
 [ ] CRUD Transactions
 [ ] Sortierbare Datatable
 [ ] Mobile Ansicht

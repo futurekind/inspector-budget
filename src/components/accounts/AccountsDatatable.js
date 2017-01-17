@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import assign from 'lodash.assign';
+import styled from 'styled-components';
 
 import Table from '../common/Datatable';
-import { getColorForValue } from '../../utils/styles';
+import { getColorForValue, colors, rgba } from '../../utils/styles';
 import { numeral } from '../../utils/numeral';
 import * as accountSelectors from '../../redux/selectors/accounts'
 import * as transactionSelectors from '../../redux/selectors/transactions'
+
+const Cell = styled.div`
+    padding: .6em .3em;
+    border-bottom: 1px solid ${colors.highlight__quite};
+    font-size: 14px;
+
+    &:nth-child(even) {
+        background: ${rgba(colors.highlight__quite, .1)};
+    }
+
+    cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
+`
+
+const HeaderCell = styled(Cell)`
+    font-weight: bold;
+    border-bottom-width: 2px;
+    border-bottom-color: ${colors.light};
+`
 
 class AccountsDatatable extends Component {
     render () {
@@ -30,7 +49,9 @@ class AccountsDatatable extends Component {
                         amount: <span style={{ color: getColorForValue(ta.amount)}}>{ numeral(ta.amount).format()}</span>
                     })
                 }) }
-                onClickRow={(index) => console.log(index)}
+                cellRenderer={ Cell }
+                headerCellRenderer={ HeaderCell }
+
             />
         )
     }

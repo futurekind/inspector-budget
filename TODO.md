@@ -3,6 +3,7 @@
 [ ] Fixed Header Datatable
 [ ] CRUD Transactions
 [ ] Sortierbare Datatable
+[ ] Mobile Ansicht
 
 # Redux
 [x] Transactions selectors

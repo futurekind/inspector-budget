@@ -69,6 +69,17 @@ const DisplayValueRenderer = ({
     return <RendererComponent>{ value }</RendererComponent>;
 }
 
+const EditValueRenderer = ({
+    renderer,
+    value
+}) => {
+    const RendererComponent = renderer;
+    
+    if(!renderer) return <input type="text" value={ value } />
+    
+    return <RendererComponent value={ value } />
+}
+
 const Table = ({
     rows,
     data,
@@ -76,7 +87,8 @@ const Table = ({
     headerCellRenderer,
     sortBy,
     onSort,
-    onCell
+    onCell,
+    selected,
 }) => {
     return (
         <View>
@@ -113,6 +125,22 @@ const Table = ({
                         >
 
                             { data.map((item, cellIndex) => {
+                                const { row, cell } = selected || {};
+                                const dvr = <DisplayValueRenderer
+                                                renderer={ header.displayValueRenderer }
+                                                value={ item[header.key] }
+                                                foo="DisplayValueRenderer"
+                                            />
+                                const evr = <EditValueRenderer
+                                                renderer={ header.editValueRenderer }
+                                                value={ item[header.key] }
+                                                foo="EditValueRenderer"
+                                            />
+
+                                const renderer = rowIndex === cell && cellIndex === row
+                                    ? evr
+                                    : dvr
+                                
                                 return (
                                     <CellRenderer 
                                         testKey="dataCell" 
@@ -123,11 +151,7 @@ const Table = ({
                                             cell: cellIndex
                                         })}
                                     >
-                                        <DisplayValueRenderer
-                                            renderer={ header.displayValueRenderer }
-                                            value={ item[header.key] }
-                                        />
-                                        
+                                        { renderer }
                                     </CellRenderer>
                                 )
                             }) }
@@ -154,6 +178,10 @@ Table.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.object
     ),
+    selected: PropTypes.shape({
+        row: PropTypes.number.isRequired,
+        cell: PropTypes.number.isRequired,
+    }),
     cellRenderer: PropTypes.func,
     headerCellRenderer: PropTypes.func,
     sortBy: PropTypes.shape({

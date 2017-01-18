@@ -191,6 +191,45 @@ describe('Datatable', () => {
 
     })
 
+    describe('editValueRenderer', () => {
+
+        const Evr = ({
+            value
+        }) => <input type="text" id="evr" defaultValue={value} />
+
+        const wrapper = mount(
+            <Datatable
+                rows={[
+                    { key: 'foo', label: 'Foo', editValueRenderer: Evr },
+                    { key: 'bar', label: 'Bar'},
+                ]}
+                data={[
+                    { foo: 'Some Foo' },
+                    { foo: 'Some Foo2', bar: 'Some Bar2' },
+                    { foo: 'Some Foo2' },
+                ]}
+            />
+        )
+
+        it('renders default value', () => {
+            const evrs = wrapper.find({id: 'evr'});
+            expect(evrs.length).toBe(0)
+        })
+
+        it('renders edit value when selected prop is set', () => {
+            wrapper.setProps({
+                selected: {
+                    row: 1,
+                    cell: 0
+                }
+            })
+
+            const evrs = wrapper.find({id: 'evr'});
+            expect(evrs.length).toBe(1)
+        })
+
+    })
+
     describe('delegates cell click to onCell prop', () => {
         const spy = jest.fn();
 

@@ -43,7 +43,8 @@ const CellRenderer = ({
     renderer,
     children,
     sortBy,
-    name
+    name,
+    onClick
 }) => {
     const RendererComponent = renderer;
     
@@ -51,7 +52,9 @@ const CellRenderer = ({
 
     return <RendererComponent 
                 name={ name } 
-                sortBy={ sortBy } {...renderer.props}
+                onClick={ onClick }
+                sortBy={ sortBy } 
+                {...renderer.props}
             >{ children }</RendererComponent>
 }
 
@@ -60,7 +63,8 @@ const Table = ({
     data,
     cellRenderer,
     headerCellRenderer,
-    sortBy
+    sortBy,
+    onSort
 }) => {
     return (
         <View>
@@ -77,6 +81,10 @@ const Table = ({
                                 renderer={ headerCellRenderer }
                                 sortBy={ sortBy }
                                 name={ header.key }
+                                onClick={ onSort 
+                                    ? () => onSort(header.key) 
+                                    : null
+                                }
                             >{ header.label }</CellRenderer>
 
                         </Column>
@@ -130,6 +138,7 @@ Table.propTypes = {
         key: PropTypes.string.isRequired,
         order: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
     }),
+    onSort: PropTypes.func,
 }
 
 export default Table

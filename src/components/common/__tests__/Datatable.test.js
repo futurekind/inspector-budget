@@ -124,12 +124,13 @@ describe('Datatable', () => {
     })
 
     describe('sorting', () => {
-        const CustomEl = ({children}) => <div>{children}</div>;
+        const CustomEl = ({children, onClick}) => <div onClick={onClick}>{children}</div>;
         const renderer = ({
             sortBy,
             name,
-            children
-        }) => <CustomEl testKey="renderer" name={ name } sortBy={ sortBy }>{children}</CustomEl>
+            children,
+            onClick
+        }) => <CustomEl testKey="renderer" name={ name } sortBy={ sortBy } onClick={ onClick }>{children}</CustomEl>
 
         const wrapper = mount(
             <Datatable rows={[
@@ -156,6 +157,18 @@ describe('Datatable', () => {
             expect(Cell.get(0).props.sortBy).toEqual({
                  key: 'id', order: 'ASC' 
             })
+        })
+
+        it('delegates click to onSort prop', () => {
+            const clickSpy = jest.fn();
+
+            wrapper.setProps({
+                onSort: clickSpy
+            })
+            
+            wrapper.find('CellRenderer').at(1).simulate('click')
+            
+            expect(clickSpy).toBeCalledWith('name')
         })
 
     })

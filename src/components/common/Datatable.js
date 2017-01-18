@@ -41,20 +41,30 @@ const getHeaderStyle = props => {
 
 const CellRenderer = ({
     renderer,
-    children
+    children,
+    sortBy,
+    name,
+    onClick
 }) => {
     const RendererComponent = renderer;
-
+    
     if(!renderer) return <div>{ children }</div>
 
-    return <RendererComponent {...renderer.props}>{ children }</RendererComponent>
+    return <RendererComponent 
+                name={ name } 
+                onClick={ onClick }
+                sortBy={ sortBy } 
+                {...renderer.props}
+            >{ children }</RendererComponent>
 }
 
 const Table = ({
     rows,
     data,
     cellRenderer,
-    headerCellRenderer
+    headerCellRenderer,
+    sortBy,
+    onSort
 }) => {
     return (
         <View>
@@ -63,10 +73,19 @@ const Table = ({
                     return (
                         <Column 
                             testKey="headerColumn"
-                            key={ header.label }
+                            key={ header.key }
                             style={ getHeaderStyle(header) }
                         >
-                            <CellRenderer testKey="headerCell" renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
+                            <CellRenderer 
+                                testKey="headerCell" 
+                                renderer={ headerCellRenderer }
+                                sortBy={ sortBy }
+                                name={ header.key }
+                                onClick={ onSort 
+                                    ? () => onSort(header.key) 
+                                    : null
+                                }
+                            >{ header.label }</CellRenderer>
 
                         </Column>
                     )
@@ -76,13 +95,14 @@ const Table = ({
                 { rows.map(header => {
                     return (
                         <Column 
+                            testKey="dataColumn"
                             key={ header.label }
                             style={ getHeaderStyle(header) }
                         >
 
                             { data.map((item, i) => {
                                 return (
-                                    <CellRenderer key={ i } renderer={ cellRenderer }>{
+                                    <CellRenderer testKey="dataCell" key={ i } renderer={ cellRenderer }>{
                                         item[header.key]
                                             ? item[header.key] 
                                             : '-' 
@@ -105,6 +125,8 @@ Table.propTypes = {
             label: PropTypes.string.isRequired,
             size: PropTypes.number,
             align: PropTypes.string,
+            displayValueRenderer: PropTypes.func,
+            editValueRenderer: PropTypes.func,
         }),
     ).isRequired,
     data: PropTypes.arrayOf(
@@ -112,6 +134,11 @@ Table.propTypes = {
     ),
     cellRenderer: PropTypes.func,
     headerCellRenderer: PropTypes.func,
+    sortBy: PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        order: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+    }),
+    onSort: PropTypes.func,
 }
 
 export default Table

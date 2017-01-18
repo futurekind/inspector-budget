@@ -57,7 +57,6 @@ class AccountsDatatable extends Component {
                 data={ mapData(this.props) }
                 cellRenderer={ Cell }
                 headerCellRenderer={ HeaderCell }
-
             />
         )
     }

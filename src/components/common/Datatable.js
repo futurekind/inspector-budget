@@ -75,7 +75,8 @@ const Table = ({
     cellRenderer,
     headerCellRenderer,
     sortBy,
-    onSort
+    onSort,
+    onCell
 }) => {
     return (
         <View>
@@ -103,7 +104,7 @@ const Table = ({
                 }) }
             </HeaderRow>
             <Row>
-                { rows.map(header => {
+                { rows.map((header, rowIndex) => {
                     return (
                         <Column 
                             testKey="dataColumn"
@@ -111,16 +112,20 @@ const Table = ({
                             style={ getHeaderStyle(header) }
                         >
 
-                            { data.map((item, i) => {
+                            { data.map((item, cellIndex) => {
                                 return (
                                     <CellRenderer 
                                         testKey="dataCell" 
-                                        key={ i } 
+                                        key={ cellIndex } 
                                         renderer={ cellRenderer }
+                                        onClick={ () => onCell({
+                                            row: rowIndex,
+                                            cell: cellIndex
+                                        })}
                                     >
                                         <DisplayValueRenderer
                                             renderer={ header.displayValueRenderer }
-                                            value={item[header.key]}
+                                            value={ item[header.key] }
                                         />
                                         
                                     </CellRenderer>
@@ -155,6 +160,7 @@ Table.propTypes = {
         key: PropTypes.string.isRequired,
         order: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
     }),
+    onCell: PropTypes.func,
     onSort: PropTypes.func,
 }
 

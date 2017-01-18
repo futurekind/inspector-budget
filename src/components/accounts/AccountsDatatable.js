@@ -11,6 +11,7 @@ import * as transactionSelectors from '../../redux/selectors/transactions'
 
 const Cell = styled.div`
     padding: .6em .3em;
+    position: relative;
     border-bottom: 1px solid ${colors.highlight__quite};
     font-size: 14px;
 
@@ -31,10 +32,15 @@ const Amount = styled.span`
     font-style: italic
 `
 
+const EditField = styled.input`
+    width: 100%;
+    font-size: 14px;
+`
+
 const rows = [
     { key: 'date', label: 'Date' },
     { key: 'account', label: 'Account' },
-    { key: 'payee', label: 'Payee' },
+    { key: 'payee', label: 'Payee', editValueRenderer: EditField },
     { key: 'cat', label: 'Category' },
     { key: 'amount', label: 'Amount', size: 120, align: 'right', displayValueRenderer: Amount },
 ]

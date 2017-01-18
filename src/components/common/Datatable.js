@@ -74,7 +74,6 @@ const EditValueRenderer = ({
     value
 }) => {
     const RendererComponent = renderer;
-    
     if(!renderer) return <input type="text" value={ value } />
     
     return <RendererComponent value={ value } />
@@ -90,6 +89,7 @@ const Table = ({
     onCell,
     selected,
 }) => {
+    
     return (
         <View>
             <HeaderRow>
@@ -147,8 +147,8 @@ const Table = ({
                                         key={ cellIndex } 
                                         renderer={ cellRenderer }
                                         onClick={ () => onCell({
-                                            row: rowIndex,
-                                            cell: cellIndex
+                                            cell: rowIndex,
+                                            row: cellIndex
                                         })}
                                     >
                                         { renderer }
@@ -162,6 +162,10 @@ const Table = ({
             </Row>
         </View>
     )
+}
+
+Table.defaultProps = {
+    onCell: () => {}
 }
 
 Table.propTypes = {

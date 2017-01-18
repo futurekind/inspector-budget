@@ -231,8 +231,7 @@ describe('Datatable', () => {
     })
 
     describe('delegates cell click to onCell prop', () => {
-        const spy = jest.fn();
-
+        
         const wrapper = shallow(
             <Datatable
                 rows={[
@@ -243,38 +242,48 @@ describe('Datatable', () => {
                     { foo: 'Some Foo', bar: 'Some Bar' },
                     { foo: 'Some Foo2', bar: 'Some Bar2' },
                 ]}
-                onCell={ spy }
             />
         )
         
-        const cells = wrapper.find({testKey: 'dataCell'})
 
         it('delegates rowIndex and cellIndex of cell[0,0]', () => {
-            cells.at(0).simulate('click');
+            const spy = jest.fn();
+
+            wrapper.setProps({onCell: spy})
+            wrapper.find({testKey: 'dataCell'}).at(0).simulate('click');
             
             expect(spy).toBeCalledWith({
                 row: 0, cell: 0
             })
         })
 
-        it('delegates rowIndex and cellIndex of cell[0,1]', () => {
-            cells.at(1).simulate('click');
-            
-            expect(spy).toBeCalledWith({
-                row: 0, cell: 1
-            })
-        })
-
         it('delegates rowIndex and cellIndex of cell[1,0]', () => {
-            cells.at(2).simulate('click');
+            const spy = jest.fn();
+
+            wrapper.setProps({onCell: spy})
+            wrapper.find({testKey: 'dataCell'}).at(1).simulate('click');
             
             expect(spy).toBeCalledWith({
                 row: 1, cell: 0
             })
         })
 
+        it('delegates rowIndex and cellIndex of cell[0,1]', () => {
+            const spy = jest.fn();
+
+            wrapper.setProps({onCell: spy})
+            wrapper.find({testKey: 'dataCell'}).at(2).simulate('click');
+            
+            expect(spy).toBeCalledWith({
+                row: 0, cell: 1
+            })
+        })
+
         it('delegates rowIndex and cellIndex of cell[1,1]', () => {
-            cells.at(3).simulate('click');
+            const spy = jest.fn();
+
+            wrapper.setProps({onCell: spy})
+            wrapper.find({testKey: 'dataCell'}).at(3).simulate('click');
             
             expect(spy).toBeCalledWith({
                 row: 1, cell: 1

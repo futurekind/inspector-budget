@@ -52,16 +52,38 @@ const mapData = ({
 })
 
 class AccountsDatatable extends Component {
-    render () {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            selected: {
+                row: -1,
+                cell: -1
+            }
+        }
+
+        this.handleCellClick = this.handleCellClick.bind(this)
+    }
+    
+    render () {
+        const { selected } = this.state;
+        
         return (
             <Table
                 rows={ rows }
                 data={ mapData(this.props) }
                 cellRenderer={ Cell }
                 headerCellRenderer={ HeaderCell }
+                onCell={ this.handleCellClick }
+                selected={ selected }
             />
         )
+    }
+
+    handleCellClick(selected) {
+        this.setState({
+            selected
+        })
     }
 }
 

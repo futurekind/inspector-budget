@@ -75,4 +75,52 @@ describe('Datatable', () => {
         })
     })
 
+    describe('data columns', () => {
+        const wrapper = shallow(
+            <Datatable rows={[
+                    { key: 'foo', label: 'Foo' },
+                    { key: 'bar', label: 'Bar' },
+                    { key: 'baz', label: 'Bat' },
+                ]} data={[
+                    { foo: 'Foo 1', bar: 'Bar 1' },
+                    { foo: 'Foo 2', baz: 'Baz 2' },
+                ]} />
+        )
+
+        it('renders correct amount of columns', () => {
+            const cols = wrapper.find({testKey: 'dataColumn'})
+            expect(cols.length).toBe(3)
+        })
+
+        it('renders cells', () => {
+            const cells = wrapper.find({testKey: 'dataCell'})
+            
+            expect(cells.get(0).props.children).toBe('Foo 1')
+            expect(cells.get(1).props.children).toBe('Foo 2')
+            expect(cells.get(2).props.children).toBe('Bar 1')
+            expect(cells.get(3).props.children).toBe('-')
+            expect(cells.get(4).props.children).toBe('-')
+            expect(cells.get(5).props.children).toBe('Baz 2')
+        })
+
+        it('applies custom cell renderer', () => {
+            const wrapper = mount(
+            <Datatable rows={[
+                    { key: 'foo', label: 'Foo' },
+                    { key: 'bar', label: 'Bar' },
+                    { key: 'baz', label: 'Bat' },
+                ]} data={[
+                    { foo: 'Foo 1', bar: 'Bar 1' },
+                    { foo: 'Foo 2', baz: 'Baz 2' },
+                ]}
+                cellRenderer={ CustomRenderer }
+            />
+        )
+
+            const customRenderers = wrapper.find({id: 'customRenderer'})
+            expect(customRenderers.length).toBe(6)
+        })
+
+    })
+
 })

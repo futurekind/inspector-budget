@@ -76,13 +76,14 @@ const Table = ({
                 { rows.map(header => {
                     return (
                         <Column 
+                            testKey="dataColumn"
                             key={ header.label }
                             style={ getHeaderStyle(header) }
                         >
 
                             { data.map((item, i) => {
                                 return (
-                                    <CellRenderer key={ i } renderer={ cellRenderer }>{
+                                    <CellRenderer testKey="dataCell" key={ i } renderer={ cellRenderer }>{
                                         item[header.key]
                                             ? item[header.key] 
                                             : '-' 

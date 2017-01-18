@@ -27,12 +27,16 @@ const HeaderCell = styled(Cell)`
     border-bottom-color: ${colors.light};
 `
 
+const Amount = styled.span`
+    font-style: italic
+`
+
 const rows = [
     { key: 'date', label: 'Date' },
     { key: 'account', label: 'Account' },
     { key: 'payee', label: 'Payee' },
     { key: 'cat', label: 'Category' },
-    { key: 'amount', label: 'Amount', size: 120, align: 'right' },
+    { key: 'amount', label: 'Amount', size: 120, align: 'right', displayValueRenderer: Amount },
 ]
 
 const mapData = ({
@@ -43,8 +47,7 @@ const mapData = ({
     const ta = transactionsEntities[id];
 
     return assign({}, transactionsEntities[id], {
-        account: accountsEntities[ta.account_id].name,
-        amount: <span style={{ color: getColorForValue(ta.amount)}}>{ numeral(ta.amount).format()}</span>
+        account: accountsEntities[ta.account_id].name
     })
 })
 

@@ -92,17 +92,6 @@ describe('Datatable', () => {
             expect(cols.length).toBe(3)
         })
 
-        it('renders cells', () => {
-            const cells = wrapper.find({testKey: 'dataCell'})
-            
-            expect(cells.at(0).contains('Foo 1')).toBe(true)
-            expect(cells.at(1).contains('Foo 2')).toBe(true)
-            expect(cells.at(2).contains('Bar 1')).toBe(true)
-            expect(cells.at(3).contains('-')).toBe(true)
-            expect(cells.at(4).contains('-')).toBe(true)
-            expect(cells.at(5).contains('Baz 2')).toBe(true)
-        })
-
         it('applies custom cell renderer', () => {
             const wrapper = mount(
             <Datatable rows={[

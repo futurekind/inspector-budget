@@ -60,13 +60,13 @@ const CellRenderer = ({
 
 const DisplayValueRenderer = ({
     renderer,
-    children
+    value
 }) => {
     const RendererComponent = renderer;
     
-    if(!renderer) return <span>{ children }</span>
+    if(!renderer) return <span>{ value || '-' }</span>
     
-    return <RendererComponent>{ children }</RendererComponent>;
+    return <RendererComponent>{ value }</RendererComponent>;
 }
 
 const Table = ({
@@ -120,11 +120,8 @@ const Table = ({
                                     >
                                         <DisplayValueRenderer
                                             renderer={ header.displayValueRenderer }
-                                        >{
-                                            item[header.key]
-                                                ? item[header.key] 
-                                                : '-' 
-                                        }</DisplayValueRenderer>
+                                            value={item[header.key]}
+                                        />
                                         
                                     </CellRenderer>
                                 )

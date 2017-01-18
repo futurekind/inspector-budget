@@ -1,32 +1,23 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components';
 
-import { colors, rgba } from '../../utils/styles';
-
-const View = styled.section`
+const View = styled.div`
     display: flex;
-    flex: 1;
-    overflow: auto;
+    flex-direction: column;
+`
+
+const Row = styled.div`
+    display: flex;
+    overflow-y: auto;
+`
+
+const HeaderRow = styled(Row)`
+    overflow-x: visible;
+    flex: 1 0 auto;
 `
 
 const Column = styled.div`
     flex: 1;
-`
-
-const Cell = styled.div`
-    padding: .6em .3em;
-    border-bottom: 1px solid ${colors.highlight__quite};
-    font-size: 14px;
-
-    &:nth-child(even) {
-        background: ${rgba(colors.highlight__quite, .1)};
-    }
-
-    cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
-`
-
-const HeaderCell = styled(Cell)`
-    font-weight: bold;
 `
 
 const getHeaderStyle = props => {
@@ -48,40 +39,67 @@ const getHeaderStyle = props => {
     return {}
 }
 
+const CellRenderer = ({
+    renderer,
+    children
+}) => {
+    const RendererComponent = renderer;
+
+    if(!renderer) return <div>{ children }</div>
+
+    return <RendererComponent {...renderer.props}>{ children }</RendererComponent>
+}
+
 const Table = ({
-    headerRow,
+    rows,
     data,
-    onClickRow
+    cellRenderer,
+    headerCellRenderer
 }) => {
     return (
         <View>
-            { headerRow.map(header => {
-                return (
-                    <Column 
-                        key={ header.label }
-                        style={ getHeaderStyle(header) }
-                    >
-                        <HeaderCell>{ header.label }</HeaderCell>
+            <HeaderRow>
+                { rows.map(header => {
+                    return (
+                        <Column 
+                            testKey="headerColumn"
+                            key={ header.label }
+                            style={ getHeaderStyle(header) }
+                        >
+                            <CellRenderer testKey="headerCell" renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
 
-                        { data.map((item, i) => {
-                            return (
-                                <Cell key={i} onClick={ onClickRow ? () => onClickRow(i) : null }>{ 
-                                    item[header.key]
-                                    ? item[header.key] 
-                                    : '-'
-                                }</Cell>
-                            )
-                        }) }
+                        </Column>
+                    )
+                }) }
+            </HeaderRow>
+            <Row>
+                { rows.map(header => {
+                    return (
+                        <Column 
+                            key={ header.label }
+                            style={ getHeaderStyle(header) }
+                        >
 
-                    </Column>
-                )
-            }) }
+                            { data.map((item, i) => {
+                                return (
+                                    <CellRenderer key={ i } renderer={ cellRenderer }>{
+                                        item[header.key]
+                                            ? item[header.key] 
+                                            : '-' 
+                                    }</CellRenderer>
+                                )
+                            }) }
+
+                        </Column>
+                    )
+                }) }
+            </Row>
         </View>
     )
 }
 
 Table.propTypes = {
-    headerRow: PropTypes.arrayOf(
+    rows: PropTypes.arrayOf(
         PropTypes.shape({
             key: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,
@@ -92,7 +110,8 @@ Table.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.object
     ),
-    onClickRow: PropTypes.func,
+    cellRenderer: PropTypes.func,
+    headerCellRenderer: PropTypes.func,
 }
 
 export default Table

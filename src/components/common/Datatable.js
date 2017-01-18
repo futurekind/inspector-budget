@@ -41,20 +41,26 @@ const getHeaderStyle = props => {
 
 const CellRenderer = ({
     renderer,
-    children
+    children,
+    sortBy,
+    name
 }) => {
     const RendererComponent = renderer;
-
+    
     if(!renderer) return <div>{ children }</div>
 
-    return <RendererComponent {...renderer.props}>{ children }</RendererComponent>
+    return <RendererComponent 
+                name={ name } 
+                sortBy={ sortBy } {...renderer.props}
+            >{ children }</RendererComponent>
 }
 
 const Table = ({
     rows,
     data,
     cellRenderer,
-    headerCellRenderer
+    headerCellRenderer,
+    sortBy
 }) => {
     return (
         <View>
@@ -63,10 +69,15 @@ const Table = ({
                     return (
                         <Column 
                             testKey="headerColumn"
-                            key={ header.label }
+                            key={ header.key }
                             style={ getHeaderStyle(header) }
                         >
-                            <CellRenderer testKey="headerCell" renderer={ headerCellRenderer }>{ header.label }</CellRenderer>
+                            <CellRenderer 
+                                testKey="headerCell" 
+                                renderer={ headerCellRenderer }
+                                sortBy={ sortBy }
+                                name={ header.key }
+                            >{ header.label }</CellRenderer>
 
                         </Column>
                     )
@@ -106,6 +117,8 @@ Table.propTypes = {
             label: PropTypes.string.isRequired,
             size: PropTypes.number,
             align: PropTypes.string,
+            displayValueRenderer: PropTypes.func,
+            editValueRenderer: PropTypes.func,
         }),
     ).isRequired,
     data: PropTypes.arrayOf(
@@ -113,6 +126,10 @@ Table.propTypes = {
     ),
     cellRenderer: PropTypes.func,
     headerCellRenderer: PropTypes.func,
+    sortBy: PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        order: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+    }),
 }
 
 export default Table

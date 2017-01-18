@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, render } from 'enzyme';
 import Datatable from '../Datatable';
 
 const rows = [
@@ -119,6 +119,43 @@ describe('Datatable', () => {
 
             const customRenderers = wrapper.find({id: 'customRenderer'})
             expect(customRenderers.length).toBe(6)
+        })
+
+    })
+
+    describe('sorting', () => {
+        const CustomEl = ({children}) => <div>{children}</div>;
+        const renderer = ({
+            sortBy,
+            name,
+            children
+        }) => <CustomEl testKey="renderer" name={ name } sortBy={ sortBy }>{children}</CustomEl>
+
+        const wrapper = mount(
+            <Datatable rows={[
+                { key: 'id', label: 'Id' },
+                { key: 'name', label: 'Name' },
+            ]} data={[
+                { id: '2', name: 'a Name'},
+                { id: '1', name: 'z Name'},
+            ]} headerCellRenderer={ renderer } />
+        )
+
+        const Cell = wrapper.find(CustomEl)
+
+        it('passes name prop to custom renderer', () => {
+            expect(Cell.get(0).props.name).toBe('id')
+            expect(Cell.get(1).props.name).toBe('name')
+        })
+
+        it('passes sorting props to custom renderer', () => {
+            wrapper.setProps({
+                sortBy: { key: 'id', order: 'ASC' }
+            })
+
+            expect(Cell.get(0).props.sortBy).toEqual({
+                 key: 'id', order: 'ASC' 
+            })
         })
 
     })

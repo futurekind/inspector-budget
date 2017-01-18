@@ -58,6 +58,17 @@ const CellRenderer = ({
             >{ children }</RendererComponent>
 }
 
+const DisplayValueRenderer = ({
+    renderer,
+    children
+}) => {
+    const RendererComponent = renderer;
+    
+    if(!renderer) return <span>{ children }</span>
+    
+    return <RendererComponent>{ children }</RendererComponent>;
+}
+
 const Table = ({
     rows,
     data,
@@ -102,11 +113,20 @@ const Table = ({
 
                             { data.map((item, i) => {
                                 return (
-                                    <CellRenderer testKey="dataCell" key={ i } renderer={ cellRenderer }>{
-                                        item[header.key]
-                                            ? item[header.key] 
-                                            : '-' 
-                                    }</CellRenderer>
+                                    <CellRenderer 
+                                        testKey="dataCell" 
+                                        key={ i } 
+                                        renderer={ cellRenderer }
+                                    >
+                                        <DisplayValueRenderer
+                                            renderer={ header.displayValueRenderer }
+                                        >{
+                                            item[header.key]
+                                                ? item[header.key] 
+                                                : '-' 
+                                        }</DisplayValueRenderer>
+                                        
+                                    </CellRenderer>
                                 )
                             }) }
 

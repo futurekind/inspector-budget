@@ -95,12 +95,12 @@ describe('Datatable', () => {
         it('renders cells', () => {
             const cells = wrapper.find({testKey: 'dataCell'})
             
-            expect(cells.get(0).props.children).toBe('Foo 1')
-            expect(cells.get(1).props.children).toBe('Foo 2')
-            expect(cells.get(2).props.children).toBe('Bar 1')
-            expect(cells.get(3).props.children).toBe('-')
-            expect(cells.get(4).props.children).toBe('-')
-            expect(cells.get(5).props.children).toBe('Baz 2')
+            expect(cells.at(0).contains('Foo 1')).toBe(true)
+            expect(cells.at(1).contains('Foo 2')).toBe(true)
+            expect(cells.at(2).contains('Bar 1')).toBe(true)
+            expect(cells.at(3).contains('-')).toBe(true)
+            expect(cells.at(4).contains('-')).toBe(true)
+            expect(cells.at(5).contains('Baz 2')).toBe(true)
         })
 
         it('applies custom cell renderer', () => {
@@ -165,10 +165,40 @@ describe('Datatable', () => {
             wrapper.setProps({
                 onSort: clickSpy
             })
+
+            const el = wrapper.findWhere(n => {
+                return n.props().testKey === 'headerCell';
+            })
             
-            wrapper.find('CellRenderer').at(1).simulate('click')
+            el.at(1).simulate('click')
             
             expect(clickSpy).toBeCalledWith('name')
+        })
+
+    })
+
+    describe('displayValueRenderer', () => {
+
+        const Dvr = ({
+            children
+        }) => <b id="dvr">{ children }</b>
+
+        const wrapper = mount(
+            <Datatable
+                rows={[
+                    { key: 'foo', label: 'Foo', displayValueRenderer: Dvr }
+                ]}
+                data={[
+                    { foo: 'Some Foo' }
+                ]}
+            />
+        )
+
+        it('renders', () => {
+            console.log(wrapper.debug());
+            const dvrs = wrapper.find({id: 'dvr'});
+            
+            expect(dvrs.length).toBe(1)
         })
 
     })

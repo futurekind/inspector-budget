@@ -23,15 +23,10 @@ describe('Datatable', () => {
     )
 
     describe('header rows', () => {
-        const HeaderCells = wrapper.find({testKey: 'headerCell'})
+        const HeaderCells = wrapper.find('tbody').first().find('th');
         
         it('has the expected length', () => {
             expect(HeaderCells.length).toBe(2)
-        })
-
-        it('renders its children', () => {
-            expect(HeaderCells.get(0).props.children).toBe('ID')
-            expect(HeaderCells.get(1).props.children).toBe('Name')
         })
 
         it('applies the headerCellRenderer', () => {
@@ -50,27 +45,19 @@ describe('Datatable', () => {
                     { sizeAndAlign: 'Foo', size: 'Foo' },
                     { sizeAndAlign: 'Foo', size: 'Foo' },
                 ] } rows={ [
-                    {key: 'sizeAndAlign', label: 'Size and Align', size: 60, align: 'center'},
+                    {key: 'sizeAndAlign', label: 'Size and Align', size: 60},
                     {key: 'size', label: 'Size', size: 100},
-                    {key: 'align', label: 'Align', align: 'right'},
                 ] }/>
             )
 
-            const HeaderCols = wrapper.find({testKey: 'headerColumn'})
+            const HeaderCols = wrapper.find('tbody').first().find('th');
             
             expect(HeaderCols.get(0).props.style).toEqual({
-                width: 60,
-                flex: 'none',
-                textAlign: 'center'
+                width: 60
             })
 
             expect(HeaderCols.get(1).props.style).toEqual({
                 width: 100,
-                flex: 'none',
-            })
-
-            expect(HeaderCols.get(2).props.style).toEqual({
-                textAlign: 'right',
             })
         })
     })
@@ -88,8 +75,9 @@ describe('Datatable', () => {
         )
 
         it('renders correct amount of columns', () => {
-            const cols = wrapper.find({testKey: 'dataColumn'})
-            expect(cols.length).toBe(3)
+            const cols = wrapper.find('tbody').last().find('td')
+
+            expect(cols.length).toBe(6)
         })
 
         it('applies custom cell renderer', () => {
@@ -155,11 +143,14 @@ describe('Datatable', () => {
                 onSort: clickSpy
             })
 
-            const el = wrapper.findWhere(n => {
-                return n.props().testKey === 'headerCell';
-            })
-            
-            el.at(1).simulate('click')
+            const el = wrapper
+                .find('tbody')
+                .first()
+                .find('th')
+                .children()
+                .at(1);
+
+            el.simulate('click')
             
             expect(clickSpy).toBeCalledWith('name')
         })
@@ -223,7 +214,7 @@ describe('Datatable', () => {
                     cell: 0
                 }
             })
-
+            
             const evrs = wrapper.find({id: 'evr'});
             expect(evrs.length).toBe(1)
         })
@@ -244,46 +235,69 @@ describe('Datatable', () => {
                 ]}
             />
         )
-        
 
         it('delegates rowIndex and cellIndex of cell[0,0]', () => {
             const spy = jest.fn();
-
-            wrapper.setProps({onCell: spy})
-            wrapper.find({testKey: 'dataCell'}).at(0).simulate('click');
+            
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(0)
+                .simulate('click')
             
             expect(spy).toBeCalledWith({
                 row: 0, cell: 0
             })
         })
 
-        it('delegates rowIndex and cellIndex of cell[1,0]', () => {
-            const spy = jest.fn();
-
-            wrapper.setProps({onCell: spy})
-            wrapper.find({testKey: 'dataCell'}).at(1).simulate('click');
-            
-            expect(spy).toBeCalledWith({
-                row: 1, cell: 0
-            })
-        })
-
         it('delegates rowIndex and cellIndex of cell[0,1]', () => {
             const spy = jest.fn();
 
-            wrapper.setProps({onCell: spy})
-            wrapper.find({testKey: 'dataCell'}).at(2).simulate('click');
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(1)
+                .simulate('click')
             
             expect(spy).toBeCalledWith({
                 row: 0, cell: 1
             })
         })
 
+        it('delegates rowIndex and cellIndex of cell[1,0]', () => {
+            const spy = jest.fn();
+
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(2)
+                .simulate('click')
+            
+            expect(spy).toBeCalledWith({
+                row: 1, cell: 0
+            })
+        })
+
         it('delegates rowIndex and cellIndex of cell[1,1]', () => {
             const spy = jest.fn();
 
-            wrapper.setProps({onCell: spy})
-            wrapper.find({testKey: 'dataCell'}).at(3).simulate('click');
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(3)
+                .simulate('click')
             
             expect(spy).toBeCalledWith({
                 row: 1, cell: 1

@@ -16,24 +16,21 @@ const HeaderRow = styled(Row)`
     flex: 1 0 auto;
 `
 
-const Column = styled.div`
-    flex: 1;
+const Table = styled.table`
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th, td {
+        padding: 0;
+    }
 `
 
 const getHeaderStyle = props => {
-    if(props.size && props.align) return {
-        width: props.size,
-        flex: 'none',
-        textAlign: props.align
-    } 
     
     if(props.size) return {
         width: props.size,
-        flex: 'none'
-    }
-
-    if(props.align) return {
-        textAlign: props.align
     }
 
     return {}
@@ -79,7 +76,7 @@ const EditValueRenderer = ({
     return <RendererComponent value={ value } />
 }
 
-const Table = ({
+const Datatable = ({
     rows,
     data,
     cellRenderer,
@@ -91,6 +88,84 @@ const Table = ({
 }) => {
     
     return (
+        <View>
+            <HeaderRow>
+                <Table>
+                    <tbody>
+                        <tr>
+                            { rows.map(header => {
+                                return (
+                                    <th 
+                                        key={ header.key }
+                                        style={ getHeaderStyle(header) }
+                                    >
+                                        <CellRenderer 
+                                            renderer={ headerCellRenderer }
+                                            sortBy={ sortBy }
+                                            name={ header.key }
+                                            onClick={ onSort 
+                                                ? () => onSort(header.key) 
+                                                : null
+                                            }
+                                        >{ header.label }</CellRenderer>
+                                    </th>
+                                )
+                            })}
+                        </tr>
+                    </tbody>
+                </Table>
+            </HeaderRow>
+            <Row>
+                <Table>
+                    <tbody>
+                    { data.map((item, rowIndex) => {
+                        return (
+                            <tr key={ rowIndex }>
+                                { rows.map((header, cellIndex) => {
+                                    const { row, cell } = selected || {};
+                                    const dvr = <DisplayValueRenderer
+                                                    renderer={ header.displayValueRenderer }
+                                                    value={ item[header.key] }
+                                                    foo="DisplayValueRenderer"
+                                                />
+                                    const evr = <EditValueRenderer
+                                                    renderer={ header.editValueRenderer }
+                                                    value={ item[header.key] }
+                                                    foo="EditValueRenderer"
+                                                />
+
+                                    const renderer = rowIndex === row && cellIndex === cell
+                                        ? evr
+                                        : dvr
+                                    
+                                    return (
+                                        <td
+                                            key={ header.label }
+                                            style={ getHeaderStyle(header) }
+                                        >
+                                            <CellRenderer 
+                                                key={ cellIndex } 
+                                                renderer={ cellRenderer }
+                                                onClick={ () => onCell({
+                                                    cell: cellIndex,
+                                                    row: rowIndex
+                                                })}
+                                            >
+                                                { renderer }
+                                            </CellRenderer>
+                                        </td>
+                                    )
+                                }) }
+                            </tr>
+                        )
+                    }) }
+                    </tbody>
+                </Table>
+            </Row>
+        </View>
+    )
+    
+    /*return (
         <View>
             <HeaderRow>
                 { rows.map(header => {
@@ -161,20 +236,19 @@ const Table = ({
                 }) }
             </Row>
         </View>
-    )
+    )*/
 }
 
-Table.defaultProps = {
+Datatable.defaultProps = {
     onCell: () => {}
 }
 
-Table.propTypes = {
+Datatable.propTypes = {
     rows: PropTypes.arrayOf(
         PropTypes.shape({
             key: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,
             size: PropTypes.number,
-            align: PropTypes.string,
             displayValueRenderer: PropTypes.func,
             editValueRenderer: PropTypes.func,
         }),
@@ -196,4 +270,4 @@ Table.propTypes = {
     onSort: PropTypes.func,
 }
 
-export default Table
+export default Datatable

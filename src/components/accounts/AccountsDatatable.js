@@ -26,6 +26,7 @@ const HeaderCell = styled(Cell)`
     font-weight: bold;
     border-bottom-width: 2px;
     border-bottom-color: ${colors.light};
+    text-align: left;
 `
 
 const Amount = styled.span`

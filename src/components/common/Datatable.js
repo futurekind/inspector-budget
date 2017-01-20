@@ -76,6 +76,18 @@ const EditValueRenderer = ({
     return <RendererComponent value={ value } />
 }
 
+const handleKeyDown = (handler, e) => {
+    if(e.keyCode === 9) {
+        e.preventDefault();
+        
+        if(e.shiftKey) {
+            handler(true)
+        } else {
+            handler(false)
+        }
+    }
+}
+
 const Datatable = ({
     rows,
     data,
@@ -84,11 +96,12 @@ const Datatable = ({
     sortBy,
     onSort,
     onCell,
+    onTab,
     selected,
 }) => {
     
     return (
-        <View>
+        <View onKeyDown={ e => handleKeyDown(onTab, e) }>
             <HeaderRow>
                 <Table>
                     <tbody>
@@ -164,83 +177,11 @@ const Datatable = ({
             </Row>
         </View>
     )
-    
-    /*return (
-        <View>
-            <HeaderRow>
-                { rows.map(header => {
-                    return (
-                        <Column 
-                            testKey="headerColumn"
-                            key={ header.key }
-                            style={ getHeaderStyle(header) }
-                        >
-                            <CellRenderer 
-                                testKey="headerCell" 
-                                renderer={ headerCellRenderer }
-                                sortBy={ sortBy }
-                                name={ header.key }
-                                onClick={ onSort 
-                                    ? () => onSort(header.key) 
-                                    : null
-                                }
-                            >{ header.label }</CellRenderer>
-
-                        </Column>
-                    )
-                }) }
-            </HeaderRow>
-            <Row>
-                { rows.map((header, rowIndex) => {
-                    return (
-                        <Column 
-                            testKey="dataColumn"
-                            key={ header.label }
-                            style={ getHeaderStyle(header) }
-                        >
-
-                            { data.map((item, cellIndex) => {
-                                const { row, cell } = selected || {};
-                                const dvr = <DisplayValueRenderer
-                                                renderer={ header.displayValueRenderer }
-                                                value={ item[header.key] }
-                                                foo="DisplayValueRenderer"
-                                            />
-                                const evr = <EditValueRenderer
-                                                renderer={ header.editValueRenderer }
-                                                value={ item[header.key] }
-                                                foo="EditValueRenderer"
-                                            />
-
-                                const renderer = rowIndex === cell && cellIndex === row
-                                    ? evr
-                                    : dvr
-                                
-                                return (
-                                    <CellRenderer 
-                                        testKey="dataCell" 
-                                        key={ cellIndex } 
-                                        renderer={ cellRenderer }
-                                        onClick={ () => onCell({
-                                            cell: rowIndex,
-                                            row: cellIndex
-                                        })}
-                                    >
-                                        { renderer }
-                                    </CellRenderer>
-                                )
-                            }) }
-
-                        </Column>
-                    )
-                }) }
-            </Row>
-        </View>
-    )*/
 }
 
 Datatable.defaultProps = {
-    onCell: () => {}
+    onCell: () => {},
+    onTab: () => {}
 }
 
 Datatable.propTypes = {
@@ -268,6 +209,7 @@ Datatable.propTypes = {
     }),
     onCell: PropTypes.func,
     onSort: PropTypes.func,
+    onTab: PropTypes.func,
 }
 
 export default Datatable

@@ -305,4 +305,30 @@ describe('Datatable', () => {
         })
     })
 
+    describe('onTab', () => {
+        const spy = jest.fn();
+
+        const wrapper = shallow(
+            <Datatable rows={[]} data={[]} onTab={ spy } />
+        )
+
+        it('calls the callback when <Tab> key is pressed', () => {
+            wrapper.simulate('keydown', {
+                keyCode: 9,
+                preventDefault: () => {}
+            })
+            expect(spy).toBeCalledWith(false);
+        })
+
+        it('handles <backtab>', () => {
+            wrapper.simulate('keydown', {
+                keyCode: 9,
+                shiftKey: true,
+                preventDefault: () => {}
+            })
+            
+            expect(spy).toBeCalledWith(true);
+        })
+    })
+
 })

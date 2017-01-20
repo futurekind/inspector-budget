@@ -4,8 +4,7 @@ import assign from 'lodash.assign';
 import styled from 'styled-components';
 
 import Table from '../common/Datatable';
-import { getColorForValue, colors, rgba } from '../../utils/styles';
-import { numeral } from '../../utils/numeral';
+import { colors, rgba } from '../../utils/styles';
 import * as accountSelectors from '../../redux/selectors/accounts'
 import * as transactionSelectors from '../../redux/selectors/transactions'
 

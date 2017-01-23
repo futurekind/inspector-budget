@@ -17,8 +17,11 @@ export default (state = initialState, action) => {
         case types.APP__SET_DIRTY:
             if(state.get('dirty') ===  true)
                 return state;
-                
+
             return state.set('dirty', true)
+
+        case types.APP__SET_LAST_SAVE:
+            return state.set('lastSave', action.date)
 
         default:
             return state;

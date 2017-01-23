@@ -27,4 +27,15 @@ describe('Application Reducer', () => {
         expect(state.get('dirty')).toBe(true)
     })
 
+    it('handles APP__SET_LAST_SAVE', () => {
+        state = reducer(undefined, fromActions.setLastSave())
+        
+        const lastSave = state.get('lastSave');
+        const lastSaveDate = Date.parse(lastSave);
+        const isValidDate = !isNaN(lastSaveDate)
+
+        expect(lastSave).not.toBe('')
+        expect(isValidDate).toBe(true)
+    })
+
 })

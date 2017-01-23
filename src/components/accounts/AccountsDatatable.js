@@ -71,6 +71,7 @@ class AccountsDatatable extends Component {
         }
 
         this.handleCellActivation = this.handleCellActivation.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
     }
     
     render () {
@@ -85,6 +86,7 @@ class AccountsDatatable extends Component {
                 onCell={ this.handleCellActivation }
                 selected={ selected }
                 onTabAndArrow={ this.handleCellActivation }
+                onBlur={ this.handleBlur }
             />
         )
     }
@@ -92,6 +94,15 @@ class AccountsDatatable extends Component {
     handleCellActivation(selected) {
         this.setState({
             selected
+        })
+    }
+
+    handleBlur() {
+        this.setState({
+            selected: {
+                row: -1,
+                cell: -1
+            }
         })
     }
 }

@@ -5,10 +5,10 @@
 [x] Action, Reducer und Selector für TransactionsCRU Dialog
 [x] numeral.js
 [x] Sortierbare Datatable
+[x] Datatable onBlur / Esc Key
+[x] Datatable Arrow-Keys
 
 [ ] CRUD Transactions
-[ ] Datatable onBlur / Esc Key
-[ ] Datatable Arrow-Keys
 [ ] Mobile Ansicht
 [ ] ggf. Batch-Updates zu Dropbox
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

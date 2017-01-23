@@ -178,10 +178,14 @@ const Datatable = ({
     onCell,
     onTabAndArrow,
     selected,
+    onBlur
 }) => {
     
     return (
-        <View onKeyDown={ e => handleKeyDown(onTabAndArrow, selected, data, e) }>
+        <View 
+            onKeyDown={ e => handleKeyDown(onTabAndArrow, selected, data, e) }
+            onBlur={ onBlur }
+        >
             <HeaderRow>
                 <Table>
                     <tbody>
@@ -262,6 +266,7 @@ const Datatable = ({
 Datatable.defaultProps = {
     onCell: () => {},
     onTabAndArrow: () => {},
+    onBlur: () => {}
 }
 
 Datatable.propTypes = {
@@ -290,6 +295,7 @@ Datatable.propTypes = {
     onCell: PropTypes.func,
     onSort: PropTypes.func,
     onTabAndArrow: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 export default Datatable

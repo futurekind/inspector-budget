@@ -84,6 +84,7 @@ const calculateNextSelected = (selected, payload) => {
     
     switch(type) {
         case 'TAB':
+        case 'RIGHT':
             return assign({}, selected, {
                 cell: cell + 1 < rowLength
                     ? cell + 1
@@ -91,6 +92,7 @@ const calculateNextSelected = (selected, payload) => {
             })
 
         case 'BACKTAB':
+        case 'LEFT':
             return assign({}, selected, {
                 cell: cell - 1 > -1  
                     ? cell - 1

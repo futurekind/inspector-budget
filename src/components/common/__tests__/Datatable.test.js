@@ -477,6 +477,86 @@ describe('Datatable', () => {
                 });
             })
         })
+
+        describe('<RIGHT>-Key', () => {
+            it('returns the nextSelected', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 1,
+                        cell: 1
+                    }
+                })
+
+                wrapper.simulate('keydown', {
+                    keyCode: 39,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 1,
+                    cell: 2
+                });
+            })
+
+            it('returns current row index at the end', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 1,
+                        cell: 2
+                    }
+                })
+
+                wrapper.simulate('keydown', {
+                    keyCode: 39,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 1,
+                    cell: 0
+                });
+            })
+        })
+
+        describe('<LEFT>-Key', () => {
+            it('returns the nextSelected', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 1,
+                        cell: 1
+                    }
+                })
+
+                wrapper.simulate('keydown', {
+                    keyCode: 37,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 1,
+                    cell: 0
+                });
+            })
+
+            it('returns current row index at the end', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 1,
+                        cell: 0
+                    }
+                })
+
+                wrapper.simulate('keydown', {
+                    keyCode: 37,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 1,
+                    cell: 2
+                });
+            })
+        })
     })
 
 })

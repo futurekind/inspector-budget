@@ -23,15 +23,10 @@ describe('Datatable', () => {
     )
 
     describe('header rows', () => {
-        const HeaderCells = wrapper.find({testKey: 'headerCell'})
+        const HeaderCells = wrapper.find('tbody').first().find('th');
         
         it('has the expected length', () => {
             expect(HeaderCells.length).toBe(2)
-        })
-
-        it('renders its children', () => {
-            expect(HeaderCells.get(0).props.children).toBe('ID')
-            expect(HeaderCells.get(1).props.children).toBe('Name')
         })
 
         it('applies the headerCellRenderer', () => {
@@ -50,27 +45,19 @@ describe('Datatable', () => {
                     { sizeAndAlign: 'Foo', size: 'Foo' },
                     { sizeAndAlign: 'Foo', size: 'Foo' },
                 ] } rows={ [
-                    {key: 'sizeAndAlign', label: 'Size and Align', size: 60, align: 'center'},
+                    {key: 'sizeAndAlign', label: 'Size and Align', size: 60},
                     {key: 'size', label: 'Size', size: 100},
-                    {key: 'align', label: 'Align', align: 'right'},
                 ] }/>
             )
 
-            const HeaderCols = wrapper.find({testKey: 'headerColumn'})
+            const HeaderCols = wrapper.find('tbody').first().find('th');
             
             expect(HeaderCols.get(0).props.style).toEqual({
-                width: 60,
-                flex: 'none',
-                textAlign: 'center'
+                width: 60
             })
 
             expect(HeaderCols.get(1).props.style).toEqual({
                 width: 100,
-                flex: 'none',
-            })
-
-            expect(HeaderCols.get(2).props.style).toEqual({
-                textAlign: 'right',
             })
         })
     })
@@ -88,19 +75,9 @@ describe('Datatable', () => {
         )
 
         it('renders correct amount of columns', () => {
-            const cols = wrapper.find({testKey: 'dataColumn'})
-            expect(cols.length).toBe(3)
-        })
+            const cols = wrapper.find('tbody').last().find('td')
 
-        it('renders cells', () => {
-            const cells = wrapper.find({testKey: 'dataCell'})
-            
-            expect(cells.get(0).props.children).toBe('Foo 1')
-            expect(cells.get(1).props.children).toBe('Foo 2')
-            expect(cells.get(2).props.children).toBe('Bar 1')
-            expect(cells.get(3).props.children).toBe('-')
-            expect(cells.get(4).props.children).toBe('-')
-            expect(cells.get(5).props.children).toBe('Baz 2')
+            expect(cols.length).toBe(6)
         })
 
         it('applies custom cell renderer', () => {
@@ -165,12 +142,193 @@ describe('Datatable', () => {
             wrapper.setProps({
                 onSort: clickSpy
             })
-            
-            wrapper.find('CellRenderer').at(1).simulate('click')
+
+            const el = wrapper
+                .find('tbody')
+                .first()
+                .find('th')
+                .children()
+                .at(1);
+
+            el.simulate('click')
             
             expect(clickSpy).toBeCalledWith('name')
         })
 
+    })
+
+    describe('displayValueRenderer', () => {
+
+        const Dvr = ({
+            children
+        }) => <b id="dvr">{ children }</b>
+
+        const wrapper = mount(
+            <Datatable
+                rows={[
+                    { key: 'foo', label: 'Foo', displayValueRenderer: Dvr }
+                ]}
+                data={[
+                    { foo: 'Some Foo' }
+                ]}
+            />
+        )
+
+        it('renders', () => {
+            const dvrs = wrapper.find({id: 'dvr'});
+            
+            expect(dvrs.length).toBe(1)
+        })
+
+    })
+
+    describe('editValueRenderer', () => {
+
+        const Evr = ({
+            value
+        }) => <input type="text" id="evr" defaultValue={value} />
+
+        const wrapper = mount(
+            <Datatable
+                rows={[
+                    { key: 'foo', label: 'Foo', editValueRenderer: Evr },
+                    { key: 'bar', label: 'Bar'},
+                ]}
+                data={[
+                    { foo: 'Some Foo' },
+                    { foo: 'Some Foo2', bar: 'Some Bar2' },
+                    { foo: 'Some Foo2' },
+                ]}
+            />
+        )
+
+        it('renders default value', () => {
+            const evrs = wrapper.find({id: 'evr'});
+            expect(evrs.length).toBe(0)
+        })
+
+        it('renders edit value when selected prop is set', () => {
+            wrapper.setProps({
+                selected: {
+                    row: 1,
+                    cell: 0
+                }
+            })
+            
+            const evrs = wrapper.find({id: 'evr'});
+            expect(evrs.length).toBe(1)
+        })
+
+    })
+
+    describe('delegates cell click to onCell prop', () => {
+        
+        const wrapper = shallow(
+            <Datatable
+                rows={[
+                    { key: 'foo', label: 'Foo'},
+                    { key: 'bar', label: 'Bar' },
+                ]}
+                data={[
+                    { foo: 'Some Foo', bar: 'Some Bar' },
+                    { foo: 'Some Foo2', bar: 'Some Bar2' },
+                ]}
+            />
+        )
+
+        it('delegates rowIndex and cellIndex of cell[0,0]', () => {
+            const spy = jest.fn();
+            
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(0)
+                .simulate('click')
+            
+            expect(spy).toBeCalledWith({
+                row: 0, cell: 0
+            })
+        })
+
+        it('delegates rowIndex and cellIndex of cell[0,1]', () => {
+            const spy = jest.fn();
+
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(1)
+                .simulate('click')
+            
+            expect(spy).toBeCalledWith({
+                row: 0, cell: 1
+            })
+        })
+
+        it('delegates rowIndex and cellIndex of cell[1,0]', () => {
+            const spy = jest.fn();
+
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(2)
+                .simulate('click')
+            
+            expect(spy).toBeCalledWith({
+                row: 1, cell: 0
+            })
+        })
+
+        it('delegates rowIndex and cellIndex of cell[1,1]', () => {
+            const spy = jest.fn();
+
+            wrapper
+                .setProps({onCell: spy})
+                .find('tbody')
+                .last()
+                .find('td')
+                .children()
+                .at(3)
+                .simulate('click')
+            
+            expect(spy).toBeCalledWith({
+                row: 1, cell: 1
+            })
+        })
+    })
+
+    describe('onTab', () => {
+        const spy = jest.fn();
+
+        const wrapper = shallow(
+            <Datatable rows={[]} data={[]} onTab={ spy } />
+        )
+
+        it('calls the callback when <Tab> key is pressed', () => {
+            wrapper.simulate('keydown', {
+                keyCode: 9,
+                preventDefault: () => {}
+            })
+            expect(spy).toBeCalledWith(false);
+        })
+
+        it('handles <backtab>', () => {
+            wrapper.simulate('keydown', {
+                keyCode: 9,
+                shiftKey: true,
+                preventDefault: () => {}
+            })
+            
+            expect(spy).toBeCalledWith(true);
+        })
     })
 
 })

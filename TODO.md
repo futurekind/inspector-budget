@@ -4,9 +4,9 @@
 [x] Bei allen Transaktionen Actions => Accounts Reducer muss balance updaten
 [x] Action, Reducer und Selector für TransactionsCRU Dialog
 [x] numeral.js
+[x] Sortierbare Datatable
 
 [ ] CRUD Transactions
-[ ] Sortierbare Datatable
 [ ] Mobile Ansicht
 [ ] ggf. Batch-Updates zu Dropbox
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

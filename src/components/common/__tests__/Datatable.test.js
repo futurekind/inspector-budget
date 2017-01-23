@@ -557,6 +557,27 @@ describe('Datatable', () => {
                 });
             })
         })
+
+        describe('<ESC>-Key', () => {
+            it('returns cell: -1, row: -1 as nextSelected', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 1,
+                        cell: 1
+                    }
+                })
+
+                wrapper.simulate('keydown', {
+                    keyCode: 27,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: -1,
+                    cell: -1
+                });
+            })
+        })
     })
 
 })

@@ -112,6 +112,12 @@ const calculateNextSelected = (selected, payload) => {
                     ? row + 1
                     : row
             })
+        
+        case 'ESC':
+            return assign({}, selected, {
+                row: -1,
+                cell: -1
+            })
 
         default: 
             return selected
@@ -149,6 +155,11 @@ const handleKeyDown = (handler, selected, data, e) => {
     if(e.keyCode === 40) {
         e.preventDefault();
         type = 'DOWN'
+    }
+
+    if(e.keyCode === 27) {
+        e.preventDefault();
+        type = 'ESC'
     }
 
     handler(calculateNextSelected(selected, {

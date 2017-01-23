@@ -7,7 +7,7 @@
 [x] Sortierbare Datatable
 
 [ ] CRUD Transactions
-[ ] Datatable onBlur
+[ ] Datatable onBlur / Esc Key
 [ ] Datatable Arrow-Keys
 [ ] Mobile Ansicht
 [ ] ggf. Batch-Updates zu Dropbox

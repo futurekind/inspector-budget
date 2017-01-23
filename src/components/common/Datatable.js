@@ -96,6 +96,21 @@ const calculateNextSelected = (selected, payload) => {
                     ? cell - 1
                     : rowLength - 1
             })
+
+        case 'UP':
+            return assign({}, selected, {
+                row: row - 1 > -1
+                    ? row - 1
+                    : row
+            })
+
+        case 'DOWN':
+            return assign({}, selected, {
+                row: row + 1 < data.length
+                    ? row + 1
+                    : row
+            })
+
         default: 
             return selected
     }

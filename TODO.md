@@ -10,5 +10,8 @@
 
 [ ] CRUD Transactions
 [ ] Mobile Ansicht
-[ ] ggf. Batch-Updates zu Dropbox
+[ ] App state dirty, lastSave
+[ ] App dirty state in middleware setzen
+[ ] Cmd + S
+[ ] App-Footer mit lastSave and dirty
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

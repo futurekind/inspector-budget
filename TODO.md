@@ -7,6 +7,8 @@
 [x] Sortierbare Datatable
 
 [ ] CRUD Transactions
+[ ] Datatable onBlur
+[ ] Datatable Arrow-Keys
 [ ] Mobile Ansicht
 [ ] ggf. Batch-Updates zu Dropbox
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

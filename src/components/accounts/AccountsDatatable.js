@@ -4,7 +4,7 @@ import assign from 'lodash.assign';
 import styled from 'styled-components';
 
 import Table from '../common/Datatable';
-import { colors, rgba } from '../../utils/styles';
+import { colors } from '../../utils/styles';
 import * as accountSelectors from '../../redux/selectors/accounts'
 import * as transactionSelectors from '../../redux/selectors/transactions'
 
@@ -13,11 +13,6 @@ const Cell = styled.div`
     position: relative;
     border-bottom: 1px solid ${colors.highlight__quite};
     font-size: 14px;
-
-    &:nth-child(even) {
-        background: ${rgba(colors.highlight__quite, .1)};
-    }
-
     cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
 `
 
@@ -34,10 +29,15 @@ const Amount = styled.span`
 
 const Input = styled.input`
     width: 100%;
+    margin: -.6em -.3em;
+    padding: .6em .3em;
+    border: none;
     font-size: 14px;
 `
 
-const EditField = (props) => <Input autoFocus {...props} onFocus={ e => e.target.select() } />
+const EditField = (props) => {
+    return <Input autoFocus {...props} onFocus={ e => e.target.select() } />
+}
 
 const rows = [
     { key: 'date', label: 'Date', editValueRenderer: EditField },

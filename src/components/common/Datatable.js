@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components';
+import assign from 'lodash.assign';
 
 const View = styled.div`
     display: flex;
@@ -76,16 +77,67 @@ const EditValueRenderer = ({
     return <RendererComponent value={ value } />
 }
 
-const handleKeyDown = (handler, e) => {
+const calculateNextSelected = (selected, payload) => {
+    const { type, data } = payload;
+    const { cell, row } = selected;
+    const rowLength = Object.keys(data[0]).length;
+    
+    switch(type) {
+        case 'TAB':
+            return assign({}, selected, {
+                cell: cell + 1 < rowLength
+                    ? cell + 1
+                    : 0
+            })
+
+        case 'BACKTAB':
+            return assign({}, selected, {
+                cell: cell - 1 > -1  
+                    ? cell - 1
+                    : rowLength - 1
+            })
+        default: 
+            return selected
+    }
+}
+
+const handleKeyDown = (handler, selected, data, e) => {
+    let type = ''
+    
     if(e.keyCode === 9) {
         e.preventDefault();
         
         if(e.shiftKey) {
-            handler(true)
+            type = 'BACKTAB'
         } else {
-            handler(false)
+            type = 'TAB'
         }
     }
+
+    if(e.keyCode === 37) {
+        e.preventDefault();
+        type = 'LEFT'
+    }
+
+    if(e.keyCode === 38) {
+        e.preventDefault();
+        type = 'UP'
+    }
+
+    if(e.keyCode === 39) {
+        e.preventDefault();
+        type = 'RIGHT'
+    }
+
+    if(e.keyCode === 40) {
+        e.preventDefault();
+        type = 'DOWN'
+    }
+
+    handler(calculateNextSelected(selected, {
+        type,
+        data
+    }))
 }
 
 const Datatable = ({
@@ -96,12 +148,12 @@ const Datatable = ({
     sortBy,
     onSort,
     onCell,
-    onTab,
+    onTabAndArrow,
     selected,
 }) => {
     
     return (
-        <View onKeyDown={ e => handleKeyDown(onTab, e) }>
+        <View onKeyDown={ e => handleKeyDown(onTabAndArrow, selected, data, e) }>
             <HeaderRow>
                 <Table>
                     <tbody>
@@ -181,7 +233,7 @@ const Datatable = ({
 
 Datatable.defaultProps = {
     onCell: () => {},
-    onTab: () => {}
+    onTabAndArrow: () => {},
 }
 
 Datatable.propTypes = {
@@ -209,7 +261,7 @@ Datatable.propTypes = {
     }),
     onCell: PropTypes.func,
     onSort: PropTypes.func,
-    onTab: PropTypes.func,
+    onTabAndArrow: PropTypes.func,
 }
 
 export default Datatable

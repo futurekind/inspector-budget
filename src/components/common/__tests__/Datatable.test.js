@@ -305,29 +305,97 @@ describe('Datatable', () => {
         })
     })
 
-    describe('onTab', () => {
+    describe('onTabAndArrow', () => {
         const spy = jest.fn();
 
         const wrapper = shallow(
-            <Datatable rows={[]} data={[]} onTab={ spy } />
+            <Datatable rows={[
+                { key: 'id', label: 'ID' },
+                { key: 'date', label: 'Date' },
+                { key: 'name', label: 'Name' },
+            ]} data={[
+                { id: 1, date: 'date 1', name: 'Name 1' },
+                { id: 2, date: 'date 2', name: 'Name 2' },
+                { id: 3, date: 'date 3', name: 'Name 3' },
+            ]} onTabAndArrow={ spy } selected={{
+                row: 0,
+                cell: 0
+            }}/>
         )
 
-        it('calls the callback when <Tab> key is pressed', () => {
-            wrapper.simulate('keydown', {
-                keyCode: 9,
-                preventDefault: () => {}
+        describe('<Tab>-Key', () => {
+            it('returns the nextSelected', () => {
+                wrapper.simulate('keydown', {
+                    keyCode: 9,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 0,
+                    cell: 1
+                });
             })
-            expect(spy).toBeCalledWith(false);
+
+            it('returns the 0 for the next cell', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 0,
+                        cell: 2
+                    }
+                })
+                
+                wrapper.simulate('keydown', {
+                    keyCode: 9,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 0,
+                    cell: 0
+                });
+            })
         })
 
-        it('handles <backtab>', () => {
-            wrapper.simulate('keydown', {
-                keyCode: 9,
-                shiftKey: true,
-                preventDefault: () => {}
+        describe('<Backtab>-Key', () => {
+            it('returns the nextSelected', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 0,
+                        cell: 2
+                    }
+                })
+                
+                wrapper.simulate('keydown', {
+                    keyCode: 9,
+                    shiftKey: true,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 0,
+                    cell: 1
+                });
             })
-            
-            expect(spy).toBeCalledWith(true);
+
+            it('returns 2 for next cell', () => {
+                wrapper.setProps({
+                    selected: {
+                        row: 0,
+                        cell: 0
+                    }
+                })
+                
+                wrapper.simulate('keydown', {
+                    keyCode: 9,
+                    shiftKey: true,
+                    preventDefault: () => {}
+                })
+
+                expect(spy).toHaveBeenLastCalledWith({
+                    row: 0,
+                    cell: 2
+                });
+            })
         })
     })
 

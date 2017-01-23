@@ -70,8 +70,7 @@ class AccountsDatatable extends Component {
             }
         }
 
-        this.handleCellClick = this.handleCellClick.bind(this)
-        this.handleTab = this.handleTab.bind(this)
+        this.handleCellActivation = this.handleCellActivation.bind(this)
     }
     
     render () {
@@ -83,38 +82,16 @@ class AccountsDatatable extends Component {
                 data={ mapData(this.props) }
                 cellRenderer={ Cell }
                 headerCellRenderer={ HeaderCell }
-                onCell={ this.handleCellClick }
+                onCell={ this.handleCellActivation }
                 selected={ selected }
-                onTab={ this.handleTab }
+                onTabAndArrow={ this.handleCellActivation }
             />
         )
     }
 
-    handleCellClick(selected) {
+    handleCellActivation(selected) {
         this.setState({
             selected
-        })
-    }
-
-    handleTab(isBackTab) {
-        const { row, cell } = this.state.selected;
-        let nextCell;
-
-        if(isBackTab) {
-            nextCell = cell - 1 > -1 
-                ? cell - 1
-                : rows.length - 1
-        } else {
-            nextCell = cell + 1 < rows.length 
-                ? cell + 1
-                : 0
-        }
-
-        this.setState({
-            selected: {
-                row,
-                cell: nextCell
-            }
         })
     }
 }

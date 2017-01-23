@@ -11,7 +11,7 @@
 [ ] CRUD Transactions
 [ ] Mobile Ansicht
 [ ] App state dirty, lastSave
-[ ] App dirty state in middleware setzen
+[ ] App dirty und lastSave state in middleware setzen!!
 [ ] Cmd + S
 [ ] App-Footer mit lastSave and dirty
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

@@ -7,11 +7,11 @@
 [x] Sortierbare Datatable
 [x] Datatable onBlur / Esc Key
 [x] Datatable Arrow-Keys
+[x] Cmd + S
+[x] App state dirty, lastSave
+[x] App dirty und lastSave state in middleware setzen!!
 
 [ ] CRUD Transactions
 [ ] Mobile Ansicht
-[ ] App state dirty, lastSave
-[ ] App dirty und lastSave state in middleware setzen!!
-[ ] Cmd + S
 [ ] App-Footer mit lastSave and dirty
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

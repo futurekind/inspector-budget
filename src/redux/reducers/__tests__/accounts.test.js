@@ -5,10 +5,14 @@ import * as transactionsActions from '../../actions/transactions';
 describe('Accounts Reducer', () => {
 
     let state, acc1, acc2;
+    
+    const d = jest.fn();
 
-    const stateForTransactions = reducer(undefined, actions.createAccount({
+    actions.createAccount({
         name: 'Testaccount', balance: 300.47
-    }))
+    })(d)
+
+    const stateForTransactions = reducer(undefined, d.mock.calls[0][0])
 
     it('returns a funtcion', () => {
         expect(typeof reducer).toBe('function');
@@ -22,15 +26,20 @@ describe('Accounts Reducer', () => {
 
     it('creates a new account', () => {
         const { createAccount } = actions;
-        state = reducer(undefined, createAccount({
+        const dispatch = jest.fn();
+
+        createAccount({
             name: 'Some new account',
             balance: 0.00,
-        }))
+        })(dispatch)
 
-        state = reducer(state, createAccount({
+        createAccount({
             name: 'Anther new account',
             balance: 987.65,
-        }))
+        })(dispatch)
+
+        state = reducer(undefined, dispatch.mock.calls[0][0])
+        state = reducer(state, dispatch.mock.calls[2][0])
 
         acc1 = state.getIn(['entities', 
             state.getIn(['results', 0]),
@@ -56,11 +65,14 @@ describe('Accounts Reducer', () => {
 
     it('updates an account', () => {
         const { updateAccount } = actions;
-        
-        state = reducer(state, updateAccount(acc1.get('id'), {
+        const dispatch = jest.fn();
+
+        updateAccount(acc1.get('id'), {
             name: 'another name',
             foo: 'bar'
-        }))
+        })(dispatch)
+        
+        state = reducer(state, dispatch.mock.calls[0][0])
 
         const account = state.getIn(['entities', acc1.get('id')]).toJS();
 
@@ -73,7 +85,11 @@ describe('Accounts Reducer', () => {
 
     it('deletes an account', () => {
         const { deleteAccount } = actions;
-        state = reducer(state, deleteAccount(acc1.get('id')))
+        const dispatch = jest.fn();
+
+        deleteAccount(acc1.get('id'))(dispatch);
+
+        state = reducer(state, dispatch.mock.calls[0][0])
 
         expect(state.get('results').toJS()).not.toContain(acc1.get('id'));
         expect(state.get('entities').get(acc1.get('id'))).not.toBeDefined();

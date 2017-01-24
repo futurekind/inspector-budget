@@ -3,7 +3,7 @@ import { types } from '../actions/application';
 
 export const initialState = Map({
     selectedNavIndex: -1,
-    dirty: false,
+    dirty: 0,
     lastSave: ''
 })
 
@@ -15,13 +15,12 @@ export default (state = initialState, action) => {
             return state.set('selectedNavIndex', action.index);
 
         case types.APP__SET_DIRTY:
-            if(state.get('dirty') ===  true)
-                return state;
-
-            return state.set('dirty', true)
+            return state.set('dirty', state.get('dirty') + 1)
 
         case types.APP__SET_LAST_SAVE:
-            return state.set('lastSave', action.date)
+            return state
+                .set('lastSave', action.date)
+                .set('dirty', 0)
 
         default:
             return state;

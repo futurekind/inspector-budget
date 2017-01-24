@@ -42,4 +42,12 @@ describe('Application Actions', () => {
 
     })
 
+    describe('saveStateToServer()', () => {
+        const action = actions.saveStateToServer();
+
+        it('returns type', () => {
+            expect(action.type).toBe(actions.types.APP__SAVE_STATE_TO_SERVER)
+        })
+    })
+
 })

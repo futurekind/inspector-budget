@@ -112,6 +112,12 @@ const calculateNextSelected = (selected, payload) => {
                     ? row + 1
                     : row
             })
+        
+        case 'ESC':
+            return assign({}, selected, {
+                row: -1,
+                cell: -1
+            })
 
         default: 
             return selected
@@ -151,6 +157,11 @@ const handleKeyDown = (handler, selected, data, e) => {
         type = 'DOWN'
     }
 
+    if(e.keyCode === 27) {
+        e.preventDefault();
+        type = 'ESC'
+    }
+
     handler(calculateNextSelected(selected, {
         type,
         data
@@ -167,10 +178,14 @@ const Datatable = ({
     onCell,
     onTabAndArrow,
     selected,
+    onBlur
 }) => {
     
     return (
-        <View onKeyDown={ e => handleKeyDown(onTabAndArrow, selected, data, e) }>
+        <View 
+            onKeyDown={ e => handleKeyDown(onTabAndArrow, selected, data, e) }
+            onBlur={ onBlur }
+        >
             <HeaderRow>
                 <Table>
                     <tbody>
@@ -251,6 +266,7 @@ const Datatable = ({
 Datatable.defaultProps = {
     onCell: () => {},
     onTabAndArrow: () => {},
+    onBlur: () => {}
 }
 
 Datatable.propTypes = {
@@ -279,6 +295,7 @@ Datatable.propTypes = {
     onCell: PropTypes.func,
     onSort: PropTypes.func,
     onTabAndArrow: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 export default Datatable

@@ -5,10 +5,13 @@
 [x] Action, Reducer und Selector für TransactionsCRU Dialog
 [x] numeral.js
 [x] Sortierbare Datatable
+[x] Datatable onBlur / Esc Key
+[x] Datatable Arrow-Keys
 
 [ ] CRUD Transactions
-[ ] Datatable onBlur
-[ ] Datatable Arrow-Keys
 [ ] Mobile Ansicht
-[ ] ggf. Batch-Updates zu Dropbox
+[ ] App state dirty, lastSave
+[ ] App dirty und lastSave state in middleware setzen!!
+[ ] Cmd + S
+[ ] App-Footer mit lastSave and dirty
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus

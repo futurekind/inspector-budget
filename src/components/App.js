@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import * as applicationSelectors from '../redux/selectors/application';
+import { saveStateToServer } from '../redux/actions/application'
 import 'normalize.css/normalize.css';
 import Navigation from './common/Navigation';
 import NavigationBtn from './common/NavigationBtn';
@@ -36,6 +37,15 @@ export class App extends Component {
         super(props);
 
         this.handleNavigationItemClick = this.handleNavigationItemClick.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+    }
+
+    componentDidMount () {
+        document.addEventListener('keydown', this.handleSave)
+    }
+    
+    componentWillUnmount () {
+        document.removeEventListener('keydown', this.handleSave)
     }
     
     render () {
@@ -79,6 +89,16 @@ export class App extends Component {
         const { router } = this.props;
 
         router.push(to);
+    }
+
+    handleSave(e) {
+        const { metaKey, keyCode } = e;
+        const { dispatch } = this.props;
+
+        if(metaKey && keyCode === 83) {
+            e.preventDefault();
+            dispatch(saveStateToServer())
+        }
     }
 
 }

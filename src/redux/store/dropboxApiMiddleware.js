@@ -1,22 +1,17 @@
-import { types as accountActionTypes } from '../actions/accounts';
+import * as appActions from '../actions/application';
 import { getAccessToken } from '../../utils/dropbox';
 import fetch from 'isomorphic-fetch';
 
 const API_URL = 'https://content.dropboxapi.com/1/files_put/auto';
 
 const serializeState = state => {
-    let stateToSerialize = {
-        accounts: {
-            results: state.accounts.get('results').toJS(),
-            entities: state.accounts.get('entities').toJS()
-        }
-    }
+    let stateToSerialize = state;
 
     return JSON.stringify(stateToSerialize);
 }
 
 const saveToDropbox = data => {
-    fetch(`${API_URL}/data.json`, {
+    return fetch(`${API_URL}/data.json`, {
         method: 'PUT',
         body: data,
         headers: {
@@ -29,10 +24,11 @@ export default store => next => action => {
     const result = next(action);
     
     switch(action.type) {
-        case accountActionTypes.ACCOUNT__CREATE:
-        case accountActionTypes.ACCOUNT__UPDATE:
-        case accountActionTypes.ACCOUNT__DELETE:
-            saveToDropbox(serializeState(store.getState()));
+        case appActions.types.APP__SAVE_STATE_TO_SERVER:
+            saveToDropbox(serializeState(store.getState()))
+                .then(() => {
+                    store.dispatch(appActions.setLastSave())
+                })
             break;
         default:
     }

@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../reducers';
 import { middleware as packMiddleware } from 'redux-pack';
 import dropboxMiddleware from './dropboxApiMiddleware';
@@ -14,6 +15,7 @@ const composeEnhancers =
 const enhancer = composeEnhancers(
     applyMiddleware(
         packMiddleware,
+        thunkMiddleware,
         dropboxMiddleware
     ),
 );

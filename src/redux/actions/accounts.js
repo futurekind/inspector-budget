@@ -1,5 +1,6 @@
 import assign from 'lodash.assign';
 import uuid from 'uuid';
+import * as fromApplication from './application';
 
 export const types = {
     ACCOUNT__CREATE: 'ACCOUNT__CREATE',
@@ -10,24 +11,36 @@ export const types = {
     ACCOUNT__SET_TAB_INDEX: 'ACCOUNT__SET_TAB_INDEX'
 }
 
-export const createAccount = (data) => ({
-    type: types.ACCOUNT__CREATE,
-    data: assign({}, data, {
-        id: uuid.v4(),
-        createdAt: new Date().toISOString()
+export const createAccount = (data) => dispatch => {
+    dispatch({
+        type: types.ACCOUNT__CREATE,
+        data: assign({}, data, {
+            id: uuid.v4(),
+            createdAt: new Date().toISOString()
+        })
     })
-})
 
-export const updateAccount = (id = '', data = {}) => ({
-    type: types.ACCOUNT__UPDATE,
-    id,
-    data
-})
+    dispatch(fromApplication.setDirty())
+}
 
-export const deleteAccount = id => ({
-    type: types.ACCOUNT__DELETE,
-    id
-})
+export const updateAccount = (id = '', data = {}) => dispatch => {
+    dispatch({
+        type: types.ACCOUNT__UPDATE,
+        id,
+        data
+    })
+
+    dispatch(fromApplication.setDirty())
+}
+
+export const deleteAccount = id => dispatch => {
+    dispatch({
+        type: types.ACCOUNT__DELETE,
+        id
+    })
+
+    dispatch(fromApplication.setDirty())
+}
 
 export const toggleCreateDialog = () => ({
     type: types.ACCOUNT__CREATE_DIALOG_OPEN

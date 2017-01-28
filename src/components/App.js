@@ -9,11 +9,13 @@ import { saveStateToServer } from '../redux/actions/application'
 import 'normalize.css/normalize.css';
 import Navigation from './common/Navigation';
 import NavigationBtn from './common/NavigationBtn';
+import Footer from './common/Footer';
 
 const View = styled.div`
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 20px);
     display: flex;
+    flex-wrap: wrap;
 `
 
 const Aside = styled.aside`
@@ -22,7 +24,7 @@ const Aside = styled.aside`
 `
 
 const Main = styled.main`
-    height: 100%;
+    height: 100%
     display: flex;
     flex: 1;
 `
@@ -79,7 +81,9 @@ export class App extends Component {
                     >
                         { React.cloneElement(children, { key: location.pathname }) }
                     </ReactCSSTransitionGroup>
+                    
                 </Main>
+                <Footer></Footer>
             </View>
         )
     }

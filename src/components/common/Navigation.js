@@ -7,7 +7,6 @@ const activeIndicatorFactor = sizes.navigationWidth / 2;
 
 const View = styled.nav`
     height: 100%;
-    border-radius: 3px;
     position: relative;
     background-color: ${colors.dark};
     ${noise()}

@@ -17,3 +17,4 @@
 [ ] wenn die Datatable größer wird, schiebt es Inhalte nach oben raus
 [ ] Categories
 [ ] Payees
+[ ] Fancy Select

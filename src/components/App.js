@@ -85,7 +85,9 @@ export class App extends Component {
                 </Main>
                 <Footer
                     items={[
-                        `Last save: ${lastSave || '-'}`,
+                        lastSave !== ''
+                            ? `Last save: ${lastSave}`
+                            : '',
                         dirty > 0 
                             ? `${dirty} Updates`
                             : 'up to date'

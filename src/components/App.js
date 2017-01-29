@@ -51,7 +51,7 @@ export class App extends Component {
     }
     
     render () {
-        const { activeNavigationIndex, children, location } = this.props;
+        const { activeNavigationIndex, children, location, dirty, lastSave } = this.props;
         
         return (
             <View>
@@ -83,7 +83,14 @@ export class App extends Component {
                     </ReactCSSTransitionGroup>
                     
                 </Main>
-                <Footer></Footer>
+                <Footer
+                    items={[
+                        `Last save: ${lastSave || '-'}`,
+                        dirty > 0 
+                            ? `${dirty} Updates`
+                            : 'up to date'
+                    ]}
+                />
             </View>
         )
     }
@@ -109,7 +116,9 @@ export class App extends Component {
 
 const mapState = state => {
     return {
-        activeNavigationIndex: applicationSelectors.getNavIndex(state)
+        activeNavigationIndex: applicationSelectors.getNavIndex(state),
+        dirty: applicationSelectors.getDirty(state),
+        lastSave: applicationSelectors.getLastSave(state)
     }
 }
 

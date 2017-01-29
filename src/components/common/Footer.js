@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
 import { colors, noise } from '../../utils/styles';
@@ -16,12 +16,29 @@ const View = styled.footer`
     ${noise()}
 `
 
-const Footer = () => {
+const Item = styled.div`
+    padding: 0 10px;
+    display: inline-block;
+`
+
+const Footer = ({
+    items
+}) => {
     return (
         <View>
-            Last saved: 3748-23993-3203 | Saving...
+            { items.map((item, i) => {
+                return <Item key={ i }>{ item }</Item>
+            }) }
         </View>
     )
+}
+
+Footer.defaultProps = {
+    items: []
+}
+
+Footer.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.string)
 }
 
 export default Footer

@@ -23,8 +23,12 @@ describe('Redux Store', () => {
         expect(state.accounts).toBeDefined();
     })
 
-    it('exposes an `transactions` field', () => {
+    it('exposes a `transactions` field', () => {
         expect(store.getState().transactions).toBeDefined()
+    })
+
+    it('exposes a `categories` field', () => {
+        expect(store.getState().categories).toBeDefined()
     })
     
     describe('Edge-Case: account balance calculation', () => {
